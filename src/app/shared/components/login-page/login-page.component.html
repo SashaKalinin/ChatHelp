@@ -1,0 +1,32 @@
+<mat-card>
+  <mat-card-title>Login</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <p>
+        <mat-form-field>
+          <input type="text" matInput placeholder="Email..." formControlName="email">
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field>
+          <input type="password" matInput placeholder="Password" formControlName="password">
+        </mat-form-field>
+      </p>
+
+      <p *ngIf="error" class="error">
+        {{ error }}
+      </p>
+
+    <div class="icon-social">
+      <a href="#" class="fa fa-facebook-official" ></a>
+      <a href="#" class="fa fa-google"></a>
+    </div>
+
+      <div class="button">
+        <button class="123" type="submit" mat-button >Login</button>
+      </div>
+
+    </form>
+  </mat-card-content>
+</mat-card>
