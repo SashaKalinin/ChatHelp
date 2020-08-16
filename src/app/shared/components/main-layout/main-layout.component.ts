@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-main-layout',
@@ -8,7 +9,11 @@ import {Router} from '@angular/router';
 })
 export class MainLayoutComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private auth: AuthService
+  ) {
+}
 
   ngOnInit(): void {
   }
@@ -16,6 +21,7 @@ export class MainLayoutComponent implements OnInit {
   // tslint:disable-next-line:typedef
   Logout(event: Event) {
     event.preventDefault();
+    this.auth.logout();
     this.router.navigate(['login']);
   }
 }

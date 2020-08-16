@@ -1,10 +1,20 @@
+@mainColor: #c2185b;
 .example-spacer {
   flex: 1 1 auto;
 }
-.btn-log {
-  margin-right: 20px;
-}
+
 .btn-log1 {
   width: 80px;
   height: 40px;
+  margin-right: 20px;
+}
+mat-toolbar {
+  a {
+    text-decoration: none;
+    color: #fff;
+    transition: 0.3s ese-in-out;
+  }
+  a:hover {
+    color: @mainColor ;
+  }
 }

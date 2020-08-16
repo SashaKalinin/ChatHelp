@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {User} from "../../interfaces";
 
 @Component({
   selector: 'app-sign-up-page',
@@ -7,13 +8,29 @@ import {FormControl, FormGroup} from "@angular/forms";
   styleUrls: ['./sign-up-page.component.less']
 })
 export class SignUpPageComponent implements OnInit {
-  form: FormGroup = new FormGroup({
-    email: new FormControl(''),
-    password: new FormControl(''),
-  });
+  form: FormGroup;
   constructor() { }
 
   ngOnInit(): void {
+    this.form = new FormGroup( {
+      email: new FormControl(null, [
+        Validators.required,
+        Validators.email
+      ]),
+      password: new FormControl(null, [
+        Validators.required,
+        Validators.minLength(6)
+      ])
+    });
   }
 
+  submit(): any {
+    if (this.form.invalid) {
+      return;
+    }
+    const user: User = {
+      email: this.form.value.email,
+      password: this.form.value.password
+    };
+  }
 }

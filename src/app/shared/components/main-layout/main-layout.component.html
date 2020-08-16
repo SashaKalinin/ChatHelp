@@ -4,12 +4,12 @@
       <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
         <mat-icon>menu</mat-icon>
       </button>
-      <span>ChatHelp</span>
+      <a routerLink="/" ><span>ChatHelp</span></a>
       <span class="example-spacer"></span>
       <div class="logIn-logOut-btn">
         <button routerLink="login" class="btn-log btn-log1" mat-raised-button color="primary" >Login</button>
         <button routerLink="sign-up" class="btn-log1"mat-raised-button color="primary">Sign Up</button>
-<!--        <button (click)="Logout($event)" class="btn-log1"mat-raised-button color="primary">Logout</button>-->
+        <button (click)="Logout($event)" class="btn-log1"mat-raised-button color="primary">Logout</button>
       </div>
     </mat-toolbar>
   </div>

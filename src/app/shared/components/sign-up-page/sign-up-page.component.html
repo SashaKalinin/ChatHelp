@@ -4,19 +4,42 @@
     <form [formGroup]="form" (ngSubmit)="submit()">
       <p>
         <mat-form-field>
-          <input type="text" matInput placeholder="Email..." formControlName="email">
+          <input type="email" matInput placeholder="Email..." formControlName="email">
         </mat-form-field>
       </p>
+      <div
+        *ngIf="form.get('email').touched && form.get('email').invalid"
+        class="validation"
+      >
+        <small
+          *ngIf="form.get('email').errors.required"
+        >* Enter email</small>
+        <small
+          *ngIf="form.get('email').errors.email"
+        >* The email field must be correct!</small>
+      </div>
 
       <p>
         <mat-form-field>
           <input type="password" matInput placeholder="Password" formControlName="password">
         </mat-form-field>
       </p>
-
-      <p *ngIf="error" class="error">
-        {{ error }}
-      </p>
+      <div
+        *ngIf="form.get('password').touched && form.get('password').invalid"
+        class="validation"
+      >
+        <small
+          *ngIf="form.get('password').errors.required"
+        >
+          * Enter password
+        </small>
+        <small
+          *ngIf="form.get('password').errors.minlength"
+        >
+          * Password must be at least {{form.get('password').errors.minlength.requiredLength}}
+          characters long, now long is {{form.get('password').errors.minlength.actualLength}} !
+        </small>
+      </div>
 
       <div class="icon-social">
         <a href="#" class="fa fa-facebook-official" ></a>
@@ -24,7 +47,10 @@
       </div>
 
       <div class="button">
-        <button class="123" type="submit" mat-button >Sign Up</button>
+        <button type="submit"
+                mat-button
+                [disabled]="form.invalid"
+        >Sign Up</button>
       </div>
 
     </form>
