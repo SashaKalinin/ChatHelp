@@ -21,6 +21,9 @@ import {AuthService} from './shared/services/auth.service';
 import {SharedModule} from './shared/shared.module';
 import {AuthGuard} from './shared/services/auth.guard';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {environment} from '../environments/environment';
+// tslint:disable-next-line:import-spacing
+import  {AngularFireModule} from '@angular/fire';
 
 
 @NgModule({
@@ -46,7 +49,8 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
     MatInputModule,
     FormsModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebase)
   ],
   providers: [AuthService, AuthGuard],
   bootstrap: [AppComponent]

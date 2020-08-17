@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {FbAuthResponse, User} from '../interfaces';
-import {Observable, Subject} from 'rxjs';
+import {Observable, Subject, throwError} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {catchError, tap} from 'rxjs/operators';
 
@@ -9,7 +9,6 @@ import {catchError, tap} from 'rxjs/operators';
 export class AuthService {
   public  error$: Subject<string> = new Subject<string>();
   constructor(private http: HttpClient) {
-
   }
 
   get token(): string {
@@ -27,7 +26,7 @@ export class AuthService {
 
   login(user: { password: any; email: any; returnSecureToken?: boolean }): Observable<any> {
     user.returnSecureToken = true;
-    return this.http.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`, user)
+    return this.http.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.firebase.apiKey}`, user)
       .pipe(
         tap(this.setToken),
         catchError(this.handleError.bind(this))
@@ -36,16 +35,21 @@ export class AuthService {
   logout(): any  {
     this.setToken(null);
   }
+  signUp(user: { password: any; email: any; returnSecureToken?: boolean }): Observable<any> {
+    user.returnSecureToken = true;
+    return this.http.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.firebase.apiKey}`, user)
+      .pipe(
+        tap(this.setToken),
+        catchError(this.handleError.bind(this))
+      );
+  }
 
   isAuth(): boolean {
     return !!this.token;
   }
-  register() {
-
-  }
 
   // tslint:disable-next-line:typedef
-  private handleError(error: HttpErrorResponse) {
+  private handleError(error: HttpErrorResponse): Observable<any> {
     const {message} = error.error.error;
     switch (message) {
       case 'INVALID_EMAIL':
@@ -58,6 +62,7 @@ export class AuthService {
         this.error$.next('Email not found');
         break;
     }
+    return throwError(error);
   }
   // tslint:disable-next-line:typedef
   private  setToken(response: FbAuthResponse | null) {

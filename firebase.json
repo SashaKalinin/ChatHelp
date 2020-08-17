@@ -1,0 +1,19 @@
+{
+  "hosting": [
+    {
+      "target": "ChatHelp",
+      "public": "dist/ChatHelp",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}

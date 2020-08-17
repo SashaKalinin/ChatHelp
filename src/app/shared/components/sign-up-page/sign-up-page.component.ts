@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {User} from "../../interfaces";
-import {Router} from "@angular/router";
-import {AuthService} from "../../services/auth.service";
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { auth } from 'firebase/app';
 
 @Component({
   selector: 'app-sign-up-page',
@@ -11,9 +11,10 @@ import {AuthService} from "../../services/auth.service";
 })
 export class SignUpPageComponent implements OnInit {
   form: FormGroup;
+  submitted = false;
   constructor(
     private router: Router,
-    private auth: AuthService
+    private  authentication: AngularFireAuth
   ) { }
 
   ngOnInit(): void {
@@ -29,17 +30,12 @@ export class SignUpPageComponent implements OnInit {
     });
   }
 
-  submit(): any {
-    if (this.form.invalid) {
-      return;
-    }
-    const user: User = {
-      email: this.form.value.email,
-      password: this.form.value.password
-    };
-  }
 
-  register() {
-
+  register(): any {
+    const { email, password } = this.form.value;
+    this.authentication.createUserWithEmailAndPassword(email, password).then((user) => {
+      console.log(user);
+      this.router.navigate(['post']);
+    });
   }
 }

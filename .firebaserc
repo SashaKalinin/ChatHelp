@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "chathelp-990b0": {
+      "hosting": {
+        "ChatHelp": [
+          "chathelp-990b0"
+        ]
+      }
+    }
+  }
+}

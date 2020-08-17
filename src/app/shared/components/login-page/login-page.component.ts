@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {User} from '../../interfaces';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-login-page',
@@ -12,6 +13,8 @@ import {Router} from '@angular/router';
 export class LoginPageComponent implements OnInit {
   form: FormGroup;
   submitted = false;
+   provider = new firebase.auth.FacebookAuthProvider();
+  private user: firebase.User;
   constructor(
     public auth: AuthService,
     private router: Router,
@@ -20,6 +23,7 @@ export class LoginPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.form = new FormGroup({
       email: new FormControl(null, [
         Validators.required,
@@ -48,11 +52,11 @@ export class LoginPageComponent implements OnInit {
       this.router.navigate(['post']);
       this.submitted = false;
     }, () => {
-      this.submitted = false;     // Спросить!!!
+      this.submitted = false;
     });
   }
 
-  loginS(fb: string) {
+  facebookLogIn() {
 
   }
 }
