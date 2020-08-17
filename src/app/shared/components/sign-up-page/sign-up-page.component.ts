@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {User} from "../../interfaces";
+import {Router} from "@angular/router";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-sign-up-page',
@@ -9,7 +11,10 @@ import {User} from "../../interfaces";
 })
 export class SignUpPageComponent implements OnInit {
   form: FormGroup;
-  constructor() { }
+  constructor(
+    private router: Router,
+    private auth: AuthService
+  ) { }
 
   ngOnInit(): void {
     this.form = new FormGroup( {
@@ -32,5 +37,9 @@ export class SignUpPageComponent implements OnInit {
       email: this.form.value.email,
       password: this.form.value.password
     };
+  }
+
+  register() {
+
   }
 }

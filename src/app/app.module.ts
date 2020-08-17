@@ -19,6 +19,9 @@ import { LoginPageComponent } from './shared/components/login-page/login-page.co
 import { SignUpPageComponent } from './shared/components/sign-up-page/sign-up-page.component';
 import {AuthService} from './shared/services/auth.service';
 import {SharedModule} from './shared/shared.module';
+import {AuthGuard} from './shared/services/auth.guard';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -42,9 +45,10 @@ import {SharedModule} from './shared/shared.module';
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    SharedModule
+    SharedModule,
+    HttpClientModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

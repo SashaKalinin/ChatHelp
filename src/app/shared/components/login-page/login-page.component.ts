@@ -14,7 +14,7 @@ export class LoginPageComponent implements OnInit {
   submitted = false;
   constructor(
     public auth: AuthService,
-    private router: Router
+    private router: Router,
   ) {
 
   }
@@ -38,9 +38,10 @@ export class LoginPageComponent implements OnInit {
     }
     this.submitted = true;
 
-    const user: { password: any; email: any } = {
+    const user: { password: any; email: any; returnSecureToken: boolean } = {
       email: this.form.value.email,
-      password: this.form.value.password
+      password: this.form.value.password,
+      returnSecureToken: false
     };
     this.auth.login(user).subscribe(() => {
       this.form.reset();
@@ -51,4 +52,7 @@ export class LoginPageComponent implements OnInit {
     });
   }
 
+  loginS(fb: string) {
+
+  }
 }

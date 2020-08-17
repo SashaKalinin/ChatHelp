@@ -25,7 +25,7 @@ export class AuthService {
 
   }
 
-  login(user: { password: any; email: any }): Observable<any> {
+  login(user: { password: any; email: any; returnSecureToken?: boolean }): Observable<any> {
     user.returnSecureToken = true;
     return this.http.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`, user)
       .pipe(
@@ -39,6 +39,9 @@ export class AuthService {
 
   isAuth(): boolean {
     return !!this.token;
+  }
+  register() {
+
   }
 
   // tslint:disable-next-line:typedef
