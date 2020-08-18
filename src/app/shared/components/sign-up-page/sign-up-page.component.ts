@@ -33,8 +33,7 @@ export class SignUpPageComponent implements OnInit {
 
   register(): any {
     const { email, password } = this.form.value;
-    this.authentication.createUserWithEmailAndPassword(email, password).then((user) => {
-      console.log(user);
+    this.authentication.createUserWithEmailAndPassword(email, password).then(() => {
       this.router.navigate(['post']);
     });
   }

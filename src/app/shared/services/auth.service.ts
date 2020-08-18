@@ -35,14 +35,7 @@ export class AuthService {
   logout(): any  {
     this.setToken(null);
   }
-  signUp(user: { password: any; email: any; returnSecureToken?: boolean }): Observable<any> {
-    user.returnSecureToken = true;
-    return this.http.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.firebase.apiKey}`, user)
-      .pipe(
-        tap(this.setToken),
-        catchError(this.handleError.bind(this))
-      );
-  }
+
 
   isAuth(): boolean {
     return !!this.token;

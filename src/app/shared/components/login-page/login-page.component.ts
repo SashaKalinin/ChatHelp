@@ -4,6 +4,8 @@ import {User} from '../../interfaces';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import * as firebase from 'firebase';
+import {AngularFireAuth} from '@angular/fire/auth';
+import { auth } from 'firebase/app';
 
 @Component({
   selector: 'app-login-page',
@@ -13,11 +15,13 @@ import * as firebase from 'firebase';
 export class LoginPageComponent implements OnInit {
   form: FormGroup;
   submitted = false;
-   provider = new firebase.auth.FacebookAuthProvider();
+  provider = new firebase.auth.FacebookAuthProvider();
   private user: firebase.User;
+
   constructor(
-    public auth: AuthService,
+    public authh: AuthService,
     private router: Router,
+    public af: AngularFireAuth
   ) {
 
   }
@@ -47,7 +51,7 @@ export class LoginPageComponent implements OnInit {
       password: this.form.value.password,
       returnSecureToken: false
     };
-    this.auth.login(user).subscribe(() => {
+    this.authh.login(user).subscribe(() => {
       this.form.reset();
       this.router.navigate(['post']);
       this.submitted = false;
@@ -56,7 +60,16 @@ export class LoginPageComponent implements OnInit {
     });
   }
 
-  facebookLogIn() {
+  facebookLogIn(): any {
+    this.af.signInWithPopup(new auth.FacebookAuthProvider()).then(() => {
+      this.router.navigate(['post']);
+    });
+  }
 
+  googleLogIn(): any {
+    this.af.signInWithPopup(new auth.GoogleAuthProvider()).then(() => {
+      this.router.navigate(['post']);
+    });
   }
 }
+
