@@ -15,7 +15,6 @@ import { auth } from 'firebase/app';
 export class LoginPageComponent implements OnInit {
   form: FormGroup;
   submitted = false;
-  provider = new firebase.auth.FacebookAuthProvider();
   private user: firebase.User;
 
   constructor(
@@ -61,7 +60,7 @@ export class LoginPageComponent implements OnInit {
   }
 
   facebookLogIn(): any {
-    this.af.signInWithPopup(new auth.FacebookAuthProvider()).then(() => {
+    this.af.signInWithPopup(new auth.FacebookAuthProvider()).then((response) => {
       this.router.navigate(['post']);
     });
   }

@@ -20,10 +20,6 @@ export class AuthService {
     return localStorage.getItem('fb-token');
   }
 
-  SignUp(user: User): any {
-
-  }
-
   login(user: { password: any; email: any; returnSecureToken?: boolean }): Observable<any> {
     user.returnSecureToken = true;
     return this.http.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.firebase.apiKey}`, user)
@@ -32,6 +28,7 @@ export class AuthService {
         catchError(this.handleError.bind(this))
       );
   }
+
   logout(): any  {
     this.setToken(null);
   }

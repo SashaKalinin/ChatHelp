@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase/app';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-sign-up-page',
@@ -14,7 +15,7 @@ export class SignUpPageComponent implements OnInit {
   submitted = false;
   constructor(
     private router: Router,
-    private  authentication: AngularFireAuth
+    private  af: AngularFireAuth
   ) { }
 
   ngOnInit(): void {
@@ -33,7 +34,16 @@ export class SignUpPageComponent implements OnInit {
 
   register(): any {
     const { email, password } = this.form.value;
-    this.authentication.createUserWithEmailAndPassword(email, password).then(() => {
+    this.af.createUserWithEmailAndPassword(email, password);
+  }
+  facebookLogIn(): any {
+    this.af.signInWithPopup(new auth.FacebookAuthProvider()).then(() => {
+      this.router.navigate(['post']);
+    });
+  }
+
+  googleLogIn(): any {
+    this.af.signInWithPopup(new auth.GoogleAuthProvider()).then(() => {
       this.router.navigate(['post']);
     });
   }
