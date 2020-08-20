@@ -7,7 +7,10 @@
       <a routerLink="post" ><span>ChatHelp</span></a>
       <span class="example-spacer"></span>
       <div class="logIn-logOut-btn">
-        <button *ngIf="auth.isAuth(); else log" (click)="Logout($event)" class="btn-log1"mat-raised-button color="primary">Logout</button>
+        <div class="authBtn" *ngIf="auth.isAuth(); else log">
+          <button  class="btn-log1"mat-raised-button color="primary">My Card</button>
+          <button (click)="Logout($event)" class="btn-log1"mat-raised-button color="primary">Logout</button>
+        </div>
         <ng-template #log>
           <button routerLink="login" class="btn-log btn-log1" mat-raised-button color="primary" >Login</button>
           <button routerLink="sign-up" class="btn-log1"mat-raised-button color="primary">Sign Up</button>
