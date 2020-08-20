@@ -32,19 +32,27 @@ export class SignUpPageComponent implements OnInit {
   }
 
 
-  register(): any {
+  async register(): Promise<any> {
     const { email, password } = this.form.value;
-    this.af.createUserWithEmailAndPassword(email, password);
-  }
-  facebookLogIn(): any {
-    this.af.signInWithPopup(new auth.FacebookAuthProvider()).then(() => {
+    this.af.createUserWithEmailAndPassword(email, password)
+      .then(async (response) => {
+      localStorage.setItem('fb-token', await response.user.getIdToken());
       this.router.navigate(['post']);
     });
+  }
+  async facebookLogIn(): Promise<any> {
+    this.af.signInWithPopup(new auth.FacebookAuthProvider())
+      .then(async (response) => {
+        localStorage.setItem('fb-token', await response.user.getIdToken());
+        this.router.navigate(['post']);
+      });
   }
 
-  googleLogIn(): any {
-    this.af.signInWithPopup(new auth.GoogleAuthProvider()).then(() => {
-      this.router.navigate(['post']);
-    });
+  async googleLogIn(): Promise<any> {
+    this.af.signInWithPopup(new auth.GoogleAuthProvider())
+      .then(async (response) => {
+        localStorage.setItem('fb-token', await response.user.getIdToken());
+        this.router.navigate(['post']);
+      });
   }
 }

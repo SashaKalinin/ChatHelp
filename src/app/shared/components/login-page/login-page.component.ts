@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {User} from '../../interfaces';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import * as firebase from 'firebase';
 import {AngularFireAuth} from '@angular/fire/auth';
-import { auth } from 'firebase/app';
+import {auth} from 'firebase/app';
 
 @Component({
   selector: 'app-login-page',
@@ -59,15 +58,19 @@ export class LoginPageComponent implements OnInit {
     });
   }
 
-  facebookLogIn(): any {
-    this.af.signInWithPopup(new auth.FacebookAuthProvider()).then((response) => {
-      this.router.navigate(['post']);
-    });
+  async facebookLogIn(): Promise<any> {
+    this.af.signInWithPopup(new auth.FacebookAuthProvider())
+      .then(async (response) => {
+        localStorage.setItem('fb-token', await response.user.getIdToken());
+        this.router.navigate(['post']);
+      });
   }
 
-  googleLogIn(): any {
-    this.af.signInWithPopup(new auth.GoogleAuthProvider()).then(() => {
-      this.router.navigate(['post']);
+ async googleLogIn(): Promise<any> {
+    this.af.signInWithPopup(new auth.GoogleAuthProvider())
+      .then(async (response) => {
+        localStorage.setItem('fb-token', await response.user.getIdToken());
+        this.router.navigate(['post']);
     });
   }
 }
