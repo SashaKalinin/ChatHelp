@@ -1,39 +1,80 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {FbAuthResponse, User} from '../interfaces';
 import {Observable, Subject, throwError} from 'rxjs';
-import {environment} from '../../../environments/environment';
-import {catchError, tap} from 'rxjs/operators';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {auth} from 'firebase';
+import {FormGroup} from '@angular/forms';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 
 @Injectable()
 export class AuthService {
   public  error$: Subject<string> = new Subject<string>();
-  constructor(private http: HttpClient) {
+  form: FormGroup;
+  constructor(
+    public af: AngularFireAuth
+    ) {
   }
 
   get token(): string {
+    const expDate = new Date(localStorage.getItem('fb-token-exp'));
+    if (new Date() > expDate) {
+      this.logout();
+      return null;
+    }
     return localStorage.getItem('fb-token');
   }
 
-  login(user: { password: any; email: any; returnSecureToken?: boolean }): Observable<any> {
-    user.returnSecureToken = true;
-    return this.http.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.firebase.apiKey}`, user)
-      .pipe(
-        tap(this.setToken),
-        catchError(this.handleError.bind(this))
-      );
+  onSignUp(email: string, password: string): Promise<any> {
+    return this.af.createUserWithEmailAndPassword(email, password)
+      .then((response) => {
+        response.user.getIdToken()
+          .then((resp: string) => {
+            this.setToken(resp);
+          });
+      });
+  }
+
+  onLogin(email: string, password: string): Promise<any> {
+    return this.af.signInWithEmailAndPassword(email, password)
+      .then((response) => {
+      response.user.getIdToken()
+        .then((resp: string) => {
+          this.setToken(resp);
+        }).catch((err) => {
+        console.log(err);
+      });
+    });
+  }
+
+  logInWIthFacebook(): Promise<any> {
+   return this.af.signInWithPopup(new auth.FacebookAuthProvider())
+     .then( (response) => {
+      response.user.getIdToken()
+        .then((resp: string) => {
+        this.setToken(resp);
+      });
+     });
+  }
+
+  logInWIthGoogle(): Promise<any> {
+    return this.af.signInWithPopup(new auth.GoogleAuthProvider())
+      // tslint:disable-next-line:no-shadowed-variable
+      .then( (response) => {
+        // tslint:disable-next-line:no-shadowed-variable
+        response.user.getIdToken().then((response: string) => {
+          this.setToken(response);
+        });
+      });
   }
 
   logout(): any  {
     this.setToken(null);
   }
 
-
   isAuth(): boolean {
     return !!this.token;
   }
 
-  // tslint:disable-next-line:typedef
+
   private handleError(error: HttpErrorResponse): Observable<any> {
     const {message} = error.error.error;
     switch (message) {
@@ -49,10 +90,13 @@ export class AuthService {
     }
     return throwError(error);
   }
-  // tslint:disable-next-line:typedef
-  private  setToken(response: FbAuthResponse | null) {
-    if (response) {
-      localStorage.setItem('fb-token', response.idToken);
+
+
+ private setToken(idToken): void {
+    if (idToken) {
+      const expDate = new Date(new Date().getTime() + 6 * 1000);
+      localStorage.setItem('fb-token', idToken);
+      localStorage.setItem('fb-token-exp', expDate.toString());
     } else {
       localStorage.clear();
     }

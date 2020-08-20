@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { auth } from 'firebase/app';
-import * as firebase from 'firebase';
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-sign-up-page',
@@ -15,7 +14,8 @@ export class SignUpPageComponent implements OnInit {
   submitted = false;
   constructor(
     private router: Router,
-    private  af: AngularFireAuth
+    private  af: AngularFireAuth,
+    public Auth: AuthService,
   ) { }
 
   ngOnInit(): void {
@@ -31,27 +31,24 @@ export class SignUpPageComponent implements OnInit {
     });
   }
 
-
-  async register(): Promise<any> {
+   register(): any {
     const { email, password } = this.form.value;
-    this.af.createUserWithEmailAndPassword(email, password)
-      .then(async (response) => {
-      localStorage.setItem('fb-token', await response.user.getIdToken());
-      this.router.navigate(['post']);
-    });
-  }
-  async facebookLogIn(): Promise<any> {
-    this.af.signInWithPopup(new auth.FacebookAuthProvider())
-      .then(async (response) => {
-        localStorage.setItem('fb-token', await response.user.getIdToken());
+    this.Auth.onSignUp(email, password)
+      .then(() => {
         this.router.navigate(['post']);
       });
   }
 
-  async googleLogIn(): Promise<any> {
-    this.af.signInWithPopup(new auth.GoogleAuthProvider())
-      .then(async (response) => {
-        localStorage.setItem('fb-token', await response.user.getIdToken());
+  facebookLogIn(): any{
+    this.Auth.logInWIthFacebook()
+      .then(() => {
+        this.router.navigate(['post']);
+      });
+  }
+
+  googleLogIn(): any {
+    this.Auth.logInWIthGoogle()
+      .then(() => {
         this.router.navigate(['post']);
       });
   }

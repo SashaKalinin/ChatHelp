@@ -3,8 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import {MainLayoutComponent} from './shared/components/main-layout/main-layout.component';
 import {HomePageComponent} from './home-page/home-page.component';
 import {PostPageComponent} from './post-page/post-page.component';
-import {LoginPageComponent} from './shared/components/login-page/login-page.component';
-import {SignUpPageComponent} from './shared/components/sign-up-page/sign-up-page.component';
+import {LoginPageComponent} from './shared/Auth/login-page/login-page.component';
+import {SignUpPageComponent} from './shared/Auth/sign-up-page/sign-up-page.component';
 import {AuthGuard} from './shared/services/auth.guard';
 
 const routes: Routes = [
