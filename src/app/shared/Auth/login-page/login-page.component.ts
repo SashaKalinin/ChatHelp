@@ -4,8 +4,7 @@ import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import * as firebase from 'firebase';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {auth} from 'firebase/app';
-
+import {HomePageComponent} from '../../../home-page/home-page.component';
 
 @Component({
   selector: 'app-login-page',
@@ -18,9 +17,9 @@ export class LoginPageComponent implements OnInit {
   private user: firebase.User;
 
   constructor(
-    public Auth: AuthService,
+    public authSeervice: AuthService,
     private router: Router,
-    public af: AngularFireAuth,
+    public af: AngularFireAuth
   ) {
 
   }
@@ -40,23 +39,23 @@ export class LoginPageComponent implements OnInit {
 
   submit(): void {
     const {email, password} = this.form.value;
-    this.Auth.onLogin(email, password)
+    this.authSeervice.onLogin(email, password)
       .then(() => {
-        this.router.navigate(['post']);
+        this.router.navigate(['']);
       });
   }
 
    facebookLogIn(): void{
-    this.Auth.logInWIthFacebook()
+    this.authSeervice.logInWIthFacebook()
           .then(() => {
-            this.router.navigate(['post']);
+            this.router.navigate(['']);
           });
   }
 
    googleLogIn(): void {
-     this.Auth.logInWIthGoogle()
+     this.authSeervice.logInWIthGoogle()
        .then(() => {
-         this.router.navigate(['post']);
+         this.router.navigate(['']);
        });
   }
 }

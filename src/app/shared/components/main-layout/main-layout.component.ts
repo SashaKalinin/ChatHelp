@@ -11,22 +11,22 @@ export class MainLayoutComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private auth: AuthService
+    private authSeervice: AuthService
   ) {
-}
+
+  }
 
   ngOnInit(): void {
   }
 
-  // tslint:disable-next-line:typedef
-  Logout(event: Event) {
+  logout(event: Event): void {
     event.preventDefault();
-    this.auth.logout();
+    this.authSeervice.logout();
     this.router.navigate(['login']);
   }
 
   isAuthUser(): boolean {
-    return this.auth.isAuth();
+    return this.authSeervice.isAuth();
   }
 
 }

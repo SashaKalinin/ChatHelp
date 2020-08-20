@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import { AngularFireAuth } from '@angular/fire/auth';
 import {AuthService} from '../../services/auth.service';
 
 @Component({
@@ -9,13 +8,12 @@ import {AuthService} from '../../services/auth.service';
   templateUrl: './sign-up-page.component.html',
   styleUrls: ['./sign-up-page.component.less']
 })
+
 export class SignUpPageComponent implements OnInit {
   form: FormGroup;
-  submitted = false;
   constructor(
     private router: Router,
-    private  af: AngularFireAuth,
-    public Auth: AuthService,
+    public authSeervice: AuthService,
   ) { }
 
   ngOnInit(): void {
@@ -33,23 +31,23 @@ export class SignUpPageComponent implements OnInit {
 
    register(): any {
     const { email, password } = this.form.value;
-    this.Auth.onSignUp(email, password)
+    this.authSeervice.onSignUp(email, password)
       .then(() => {
-        this.router.navigate(['post']);
+        this.router.navigate(['']);
       });
   }
 
-  facebookLogIn(): any{
-    this.Auth.logInWIthFacebook()
+  facebookLogIn(): any {
+    this.authSeervice.logInWIthFacebook()
       .then(() => {
-        this.router.navigate(['post']);
+        this.router.navigate(['']);
       });
   }
 
   googleLogIn(): any {
-    this.Auth.logInWIthGoogle()
+    this.authSeervice.logInWIthGoogle()
       .then(() => {
-        this.router.navigate(['post']);
+        this.router.navigate(['']);
       });
     }
 

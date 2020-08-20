@@ -20,10 +20,8 @@ import { SignUpPageComponent } from './shared/Auth/sign-up-page/sign-up-page.com
 import {AuthService} from './shared/services/auth.service';
 import {SharedModule} from './shared/shared.module';
 import {AuthGuard} from './shared/services/auth.guard';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {environment} from '../environments/environment';
-// tslint:disable-next-line:import-spacing
-import  {AngularFireModule} from '@angular/fire';
+import {AngularFireModule} from '@angular/fire';
 
 
 @NgModule({
@@ -49,7 +47,6 @@ import  {AngularFireModule} from '@angular/fire';
     MatInputModule,
     FormsModule,
     SharedModule,
-    HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase)
   ],
   providers: [AuthService, AuthGuard],

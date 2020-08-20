@@ -9,7 +9,7 @@
       <div class="logIn-logOut-btn">
         <div class="authBtn" *ngIf="isAuthUser(); else log">
           <button  class="btn-log1"mat-raised-button color="primary">My Card</button>
-          <button (click)="Logout($event)" class="btn-log1"mat-raised-button color="primary">Logout</button>
+          <button (click)="logout($event)" class="btn-log1" mat-raised-button color="primary">Logout</button>
         </div>
         <ng-template #log>
           <button routerLink="login" class="btn-log btn-log1" mat-raised-button color="primary" >Login</button>
