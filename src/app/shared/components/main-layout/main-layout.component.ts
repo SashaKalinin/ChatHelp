@@ -24,4 +24,9 @@ export class MainLayoutComponent implements OnInit {
     this.auth.logout();
     this.router.navigate(['login']);
   }
+
+  isAuthUser(): boolean {
+    return this.auth.isAuth();
+  }
+
 }

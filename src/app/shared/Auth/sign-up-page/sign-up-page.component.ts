@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
-import {AuthService} from "../../services/auth.service";
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-sign-up-page',
@@ -51,5 +51,8 @@ export class SignUpPageComponent implements OnInit {
       .then(() => {
         this.router.navigate(['post']);
       });
+    }
+
   }
-}
+
+
