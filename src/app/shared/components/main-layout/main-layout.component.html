@@ -1,14 +1,12 @@
 <div class="wrapper">
   <div class="container">
     <mat-toolbar>
-      <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-        <mat-icon>menu</mat-icon>
-      </button>
       <a routerLink="post" ><span>ChatHelp</span></a>
       <span class="example-spacer"></span>
       <div class="logIn-logOut-btn">
         <div class="authBtn" *ngIf="isAuthUser(); else log">
-          <button  class="btn-log1"mat-raised-button color="primary">My Card</button>
+          <button  class="btn-log2"mat-raised-button color="accent">Add qestion</button>
+          <button  class="btn-log1"mat-raised-button color="primary">{{authSeervice.email}}</button>
           <button (click)="logout($event)" class="btn-log1" mat-raised-button color="primary">Logout</button>
         </div>
         <ng-template #log>

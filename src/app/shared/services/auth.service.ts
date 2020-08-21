@@ -30,6 +30,9 @@ export class AuthService {
           .then((resp: string) => {
             this.setToken(resp);
           });
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
 
@@ -56,6 +59,9 @@ export class AuthService {
         .then((resp: string) => {
         this.setToken(resp);
       });
+     })
+     .catch((err) => {
+       console.log(err);
      });
   }
 
@@ -67,6 +73,9 @@ export class AuthService {
           .then((resp: string) => {
           this.setToken(resp);
         });
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
 

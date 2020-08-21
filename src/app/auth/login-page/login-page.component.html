@@ -40,7 +40,7 @@
           *ngIf="form.get('password').errors.minlength"
         >
           * Password must be at least {{form.get('password').errors.minlength.requiredLength}}
-          characters long, now long is {{form.get('password').errors.minlength.actualLength}}!
+          characters long, now {{form.get('password').errors.minlength.actualLength}}!
         </small>
       </div>
 
@@ -52,7 +52,7 @@
       <div class="button">
         <button type="submit"
                 mat-button
-                [disabled]="form.invalid || submitted"
+                [disabled]="form.invalid"
         >Login</button>
       </div>
 

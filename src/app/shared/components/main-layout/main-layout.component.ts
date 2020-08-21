@@ -22,7 +22,7 @@ export class MainLayoutComponent implements OnInit {
   logout(event: Event): void {
     event.preventDefault();
     this.authSeervice.logout();
-    this.router.navigate(['login']);
+    this.router.navigate(['login']).then(r => this.router.navigate(['login']));
   }
 
   isAuthUser(): boolean {

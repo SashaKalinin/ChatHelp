@@ -1,10 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {AuthService} from '../../services/auth.service';
+import {AuthService} from '../../shared/services/auth.service';
 import {Router} from '@angular/router';
-import * as firebase from 'firebase';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {HomePageComponent} from '../../../home-page/home-page.component';
 
 @Component({
   selector: 'app-login-page',
@@ -13,13 +10,10 @@ import {HomePageComponent} from '../../../home-page/home-page.component';
 })
 export class LoginPageComponent implements OnInit {
   form: FormGroup;
-  submitted = false;
-  private user: firebase.User;
 
   constructor(
     public authSeervice: AuthService,
     private router: Router,
-    public af: AngularFireAuth
   ) {
 
   }
