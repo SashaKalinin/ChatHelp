@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { MainLayoutComponent } from './shared/components/main-layout/main-layout.component';
-import { HomePageComponent } from './home-page/home-page.component';
 import { PostPageComponent } from './post-page/post-page.component';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -22,13 +21,16 @@ import {SharedModule} from './shared/shared.module';
 import {AuthGuard} from './shared/services/auth.guard';
 import {environment} from '../environments/environment';
 import {AngularFireModule} from '@angular/fire';
+import { MatExpansionModule } from '@angular/material/expansion';
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatMenuModule} from "@angular/material/menu";
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
     MainLayoutComponent,
-    HomePageComponent,
     PostPageComponent,
     LoginPageComponent,
     SignUpPageComponent
@@ -44,10 +46,14 @@ import {AngularFireModule} from '@angular/fire';
     ReactiveFormsModule,
     MatCardModule,
     MatFormFieldModule,
+    MatExpansionModule,
     MatInputModule,
     FormsModule,
     SharedModule,
-    AngularFireModule.initializeApp(environment.firebase)
+    AngularFireModule.initializeApp(environment.firebase),
+    MatDatepickerModule,
+    MatMenuModule,
+    MatMenuModule
   ],
   providers: [AuthService, AuthGuard],
   bootstrap: [AppComponent]

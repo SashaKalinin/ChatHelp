@@ -1,1 +1,7 @@
-<p>post-page works!</p>
+<div class="wrapper" *ngIf="isHello == false; else next">
+  <p class="hello">Hello {{authSeervice.email}}!!</p>
+</div>
+
+<ng-template #next>
+  <p>Post page</p>
+</ng-template>

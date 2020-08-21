@@ -35,21 +35,21 @@ export class LoginPageComponent implements OnInit {
     const {email, password} = this.form.value;
     this.authSeervice.onLogin(email, password)
       .then(() => {
-        this.router.navigate(['']);
+        this.router.navigate(['post']);
       });
   }
 
    facebookLogIn(): void{
     this.authSeervice.logInWIthFacebook()
           .then(() => {
-            this.router.navigate(['']);
+            this.router.navigate(['post']);
           });
   }
 
    googleLogIn(): void {
      this.authSeervice.logInWIthGoogle()
        .then(() => {
-         this.router.navigate(['']);
+         this.router.navigate(['post']);
        });
   }
 }
