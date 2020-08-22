@@ -8,7 +8,7 @@ import {FormGroup} from '@angular/forms';
 export class AuthService {
   public  error$: Subject<string> = new Subject<string>();
   form: FormGroup;
-  public email: string;
+  public email = localStorage.getItem('user-email');
   constructor(
     public af: AngularFireAuth,
     ) {
@@ -25,7 +25,8 @@ export class AuthService {
   onSignUp(email: string, password: string): Promise<any> {
     return this.af.createUserWithEmailAndPassword(email, password)
       .then((response) => {
-        this.email = response.user.email;
+        this.setUserEmail(response.user.email);
+        this.email = this.getEmail();
         response.user.getIdToken()
           .then((resp: string) => {
             this.setToken(resp);
@@ -39,7 +40,8 @@ export class AuthService {
   onLogin(email: string, password: string): Promise<any> {
     return this.af.signInWithEmailAndPassword(email, password)
       .then((response) => {
-        this.email = response.user.email;
+        this.setUserEmail(response.user.email);
+        this.email = this.getEmail();
         response.user.getIdToken()
         .then((resp: string) => {
           this.setToken(resp);
@@ -54,7 +56,8 @@ export class AuthService {
   logInWIthFacebook(): Promise<any> {
    return this.af.signInWithPopup(new auth.FacebookAuthProvider())
      .then( (response) => {
-       this.email = response.user.email;
+       this.setUserEmail(response.user.email);
+       this.email = this.getEmail();
        response.user.getIdToken()
         .then((resp: string) => {
         this.setToken(resp);
@@ -68,7 +71,8 @@ export class AuthService {
   logInWIthGoogle(): Promise<any> {
     return this.af.signInWithPopup(new auth.GoogleAuthProvider())
       .then( (response) => {
-        this.email = response.user.email;
+        this.setUserEmail(response.user.email);
+        this.email = this.getEmail();
         response.user.getIdToken()
           .then((resp: string) => {
           this.setToken(resp);
@@ -99,9 +103,21 @@ export class AuthService {
     return throwError(error);
   }
 
+  private setUserEmail(email: string): void {
+    if (email) {
+      localStorage.setItem('user-email', email);
+    }else {
+      localStorage.clear();
+    }
+  }
+
+  private getEmail(): string {
+    return this.email = localStorage.getItem('user-email');
+  }
+
  private setToken(idToken): void {
     if (idToken) {
-      const expDate = new Date(new Date().getTime() + 6 * 1000);
+      const expDate = new Date(new Date().getTime() + 1500 * 1000);
       localStorage.setItem('fb-token', idToken);
       localStorage.setItem('fb-token-exp', expDate.toString());
     } else {

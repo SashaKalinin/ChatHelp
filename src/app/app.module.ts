@@ -24,6 +24,8 @@ import {AngularFireModule} from '@angular/fire';
 import { MatExpansionModule } from '@angular/material/expansion';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatMenuModule} from "@angular/material/menu";
+import { ToolBarComponent } from './tool-bar/tool-bar.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -33,7 +35,8 @@ import {MatMenuModule} from "@angular/material/menu";
     MainLayoutComponent,
     PostPageComponent,
     LoginPageComponent,
-    SignUpPageComponent
+    SignUpPageComponent,
+    ToolBarComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +56,8 @@ import {MatMenuModule} from "@angular/material/menu";
     AngularFireModule.initializeApp(environment.firebase),
     MatDatepickerModule,
     MatMenuModule,
-    MatMenuModule
+    MatMenuModule,
+    NgbModule
   ],
   providers: [AuthService, AuthGuard],
   bootstrap: [AppComponent]

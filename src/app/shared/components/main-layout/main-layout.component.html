@@ -12,7 +12,14 @@
             </div>
             <p class="userName">{{this.authSeervice.email}}</p>
           </a>
-          <button  (click)="logout($event)"  class="btn-log1" mat-raised-button color="primary">Logout</button>
+          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu>
+            <button mat-menu-item>
+              <button (click)="logout($event)" class="btn-log1" mat-raised-button color="primary">Logout</button>
+            </button>
+          </mat-menu>
         </div>
         <ng-template #log>
           <button routerLink="login" class="btn-log btn-log1" mat-raised-button color="primary" >Login</button>
@@ -22,17 +29,5 @@
     </mat-toolbar>
   </div>
 </div>
-<!--<div>
-  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-    <mat-icon>more_vert</mat-icon>
-  </button>
-  <mat-menu #menu>
-    <button mat-menu-item>
-      <button (click)="logout($event)" class="btn-log1" mat-raised-button color="primary">Logout</button>
-    </button>
-    <button mat-menu-item>
-      <button  class="btn-log1"mat-raised-button color="primary">{{authSeervice.email}}</button>
-    </button>
-  </mat-menu>
-</div>-->
+
 <router-outlet></router-outlet>
