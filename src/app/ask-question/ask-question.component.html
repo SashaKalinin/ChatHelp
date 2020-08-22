@@ -1,0 +1,35 @@
+<mat-card>
+  <mat-card-title>
+    New question
+  </mat-card-title>
+  <mat-card-content>
+    <form>
+      <p>
+        <mat-form-field>
+          <mat-label>Tittle</mat-label>
+          <input type="text" matInput placeholder="Enter title..." >
+        </mat-form-field>
+      </p>      <p>
+        <mat-form-field>
+          <mat-label>Text</mat-label>
+          <textarea matInput  placeholder="What you wont to ask?"></textarea>
+        </mat-form-field>
+      </p>
+      <section class="example-section radio-container">
+        <label class="example-margin">Directions:</label>
+        <mat-radio-group class="radio-buttons">
+          <mat-checkbox >{{directions.frontend}}</mat-checkbox>
+          <mat-checkbox >{{directions.salesforce}}</mat-checkbox>
+          <mat-checkbox >{{directions.dotNet}}</mat-checkbox>
+        </mat-radio-group>
+      </section>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <div class="button">
+      <button mat-button routerLink="/post" >Cancel </button>
+      <button mat-button type="submit">Ask</button>
+    </div>
+  </mat-card-actions>
+</mat-card>
+

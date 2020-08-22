@@ -117,7 +117,7 @@ export class AuthService {
 
  private setToken(idToken): void {
     if (idToken) {
-      const expDate = new Date(new Date().getTime() + 1500 * 1000);
+      const expDate = new Date(new Date().getTime() + 3000 * 1000);
       localStorage.setItem('fb-token', idToken);
       localStorage.setItem('fb-token-exp', expDate.toString());
     } else {

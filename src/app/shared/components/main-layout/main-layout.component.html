@@ -1,11 +1,11 @@
 <div class="wrapper">
   <div class="container">
     <mat-toolbar>
-      <a routerLink="post" (click)="$event.stopPropagation()"><span>ChatHelp</span></a>
+      <a routerLink="post" ><span>ChatHelp</span></a>
       <span class="example-spacer"></span>
       <div class="logIn-logOut-btn">
         <div class="authBtn" *ngIf="isAuthUser(); else log">
-          <button  class="btn-log2"mat-raised-button color="accent">Add qestion</button>
+          <button routerLink="ask" class="btn-log2"mat-raised-button color="accent">Add question</button>
           <a routerLink="user" class="user-int-wrapper">
             <div class="user-int-conteiner">
                 <img src="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png">

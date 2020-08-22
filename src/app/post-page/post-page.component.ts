@@ -16,7 +16,7 @@ export class PostPageComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => {
       this.isHello = true;
-    }, 3000);
+    }, 1500);
   }
 
 }
