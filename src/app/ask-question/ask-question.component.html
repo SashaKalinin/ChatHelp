@@ -3,18 +3,35 @@
     New question
   </mat-card-title>
   <mat-card-content>
-    <form>
+    <form [formGroup]="form">
       <p>
         <mat-form-field>
           <mat-label>Tittle</mat-label>
-          <input type="text" matInput placeholder="Enter title..." >
-        </mat-form-field>
-      </p>      <p>
-        <mat-form-field>
-          <mat-label>Text</mat-label>
-          <textarea matInput  placeholder="What you wont to ask?"></textarea>
+          <input type="text" matInput placeholder="Enter title..." formControlName="title">
         </mat-form-field>
       </p>
+      <div
+        *ngIf="form.get('title').touched && form.get('title').invalid"
+        class="validation"
+      >
+        <small
+          *ngIf="form.get('title').errors.required"
+        >* Enter title</small>
+      </div>
+      <p>
+        <mat-form-field>
+          <mat-label>Text</mat-label>
+          <textarea matInput formControlName="text" placeholder="What you wont to ask?"></textarea>
+        </mat-form-field>
+      </p>
+      <div
+        *ngIf="form.get('text').touched && form.get('text').invalid"
+        class="validation"
+      >
+        <small
+          *ngIf="form.get('text').errors.required"
+        >* Enter text</small>
+      </div>
       <mat-form-field appearance="fill">
         <mat-label>Directions:</mat-label>
         <mat-select [formControl]="dir" multiple>

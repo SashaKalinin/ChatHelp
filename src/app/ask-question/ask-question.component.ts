@@ -26,7 +26,7 @@ export class AskQuestionComponent implements OnInit {
       title: new FormControl(null, [
         Validators.required,
       ]),
-      test: new FormControl(null, [
+      text: new FormControl(null, [
         Validators.required,
       ]),
     });
