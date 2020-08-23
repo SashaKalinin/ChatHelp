@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {Directions} from "../../environments/directions";
+import {Directions} from '../../environments/directions';
 
 @Component({
   selector: 'app-ask-question',
@@ -10,6 +10,12 @@ import {Directions} from "../../environments/directions";
 })
 export class AskQuestionComponent implements OnInit {
   form: FormGroup;
+  dir = new FormControl();
+  dirList: string[] = [
+    this.directions.dotNet,
+    this.directions.frontend,
+    this.directions.salesforce
+  ];
   constructor(
     private router: Router,
     public directions: Directions

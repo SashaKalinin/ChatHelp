@@ -22,17 +22,18 @@ import {AuthGuard} from './shared/services/auth.guard';
 import {environment} from '../environments/environment';
 import {AngularFireModule} from '@angular/fire';
 import { MatExpansionModule } from '@angular/material/expansion';
-import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MatMenuModule} from "@angular/material/menu";
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatMenuModule} from '@angular/material/menu';
 import { ToolBarComponent } from './tool-bar/tool-bar.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {MatDialogModule} from "@angular/material/dialog";
+import {MatDialogModule} from '@angular/material/dialog';
 import { AskQuestionComponent } from './ask-question/ask-question.component';
-import {AddPostService} from "./shared/services/add-post.service";
-import {MatRadioModule} from "@angular/material/radio";
-import {MatCheckboxModule} from "@angular/material/checkbox";
-import {MatGridListModule} from "@angular/material/grid-list";
-import {Directions} from "../environments/directions";
+import {AddPostService} from './shared/services/add-post.service';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {Directions} from '../environments/directions';
+import {MatSelectModule} from '@angular/material/select';
 
 
 
@@ -69,7 +70,8 @@ import {Directions} from "../environments/directions";
     MatDialogModule,
     MatRadioModule,
     MatCheckboxModule,
-    MatGridListModule
+    MatGridListModule,
+    MatSelectModule
   ],
   providers: [AuthService, AuthGuard, AddPostService, Directions],
   bootstrap: [AppComponent]
