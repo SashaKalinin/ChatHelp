@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {Directions} from '../../environments/directions';
+import {Post} from '../../environments/interface';
 
 @Component({
   selector: 'app-ask-question',
@@ -32,4 +33,17 @@ export class AskQuestionComponent implements OnInit {
     });
   }
 
+  submit(): void {
+    if (this.form.invalid) {
+      return;
+    }
+
+    const post: Post = {
+      title: this.form.value.title,
+      text: this.form.value.text,
+      date: new Date()
+    };
+    console.log(post);
+    console.log(this.dir.value);
+  }
 }

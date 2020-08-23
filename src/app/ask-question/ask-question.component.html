@@ -3,7 +3,7 @@
     New question
   </mat-card-title>
   <mat-card-content>
-    <form [formGroup]="form">
+    <form [formGroup]="form" (ngSubmit)="submit()">
       <p>
         <mat-form-field>
           <mat-label>Tittle</mat-label>
@@ -38,13 +38,14 @@
           <mat-option *ngFor="let directions of dirList" [value]="directions">{{directions}}</mat-option>
         </mat-select>
       </mat-form-field>
+      <mat-card-actions>
+        <div class="button">
+          <button mat-button routerLink="/post" >Cancel </button>
+          <button mat-button type="submit">Ask</button>
+        </div>
+      </mat-card-actions>
     </form>
   </mat-card-content>
-  <mat-card-actions>
-    <div class="button">
-      <button mat-button routerLink="/post" >Cancel </button>
-      <button mat-button type="submit">Ask</button>
-    </div>
-  </mat-card-actions>
+
 </mat-card>
 

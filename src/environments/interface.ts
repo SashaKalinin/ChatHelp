@@ -8,3 +8,11 @@ export interface QuestionCard {
   date: string;
   directions: string;
 }
+
+export interface Post {
+  id?: any;
+  title: string;
+  text: string;
+  directions?: any[];
+  date: Date;
+}
