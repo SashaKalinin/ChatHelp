@@ -17,3 +17,6 @@ export interface Post {
   direct?: any[];
   date: Date;
 }
+export interface FbCreateResponse {
+  name: string;
+}
