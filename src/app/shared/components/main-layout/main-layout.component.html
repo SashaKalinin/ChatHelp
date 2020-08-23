@@ -1,14 +1,14 @@
-<div class="wrapper">
-  <div class="container">
+
+
     <mat-toolbar>
       <a routerLink="post" ><span>ChatHelp</span></a>
       <span class="example-spacer"></span>
       <div class="logIn-logOut-btn">
         <div class="authBtn" *ngIf="isAuthUser(); else log">
-          <button routerLink="ask" class="btn-log2"mat-raised-button color="accent">Add question</button>
+          <button routerLink="ask" class="btn-log2" mat-raised-button color="accent">Add question</button>
           <a routerLink="user" class="user-int-wrapper">
             <div class="user-int-conteiner">
-                <img src="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png">
+                <img alt="img" src="https://static.thenounproject.com/png/19085-200.png">
             </div>
             <p class="userName">{{this.authSeervice.email}}</p>
           </a>
@@ -23,11 +23,11 @@
         </div>
         <ng-template #log>
           <button routerLink="login" class="btn-log btn-log1" mat-raised-button color="primary" >Login</button>
-          <button routerLink="sign-up" class="btn-log1"mat-raised-button color="primary">Sign Up</button>
+          <button routerLink="sign-up" class="btn-log1" mat-raised-button color="primary">Sign Up</button>
         </ng-template>
       </div>
     </mat-toolbar>
-  </div>
-</div>
+
+
 
 <router-outlet></router-outlet>
