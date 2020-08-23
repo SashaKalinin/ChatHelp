@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {Directions} from '../../environments/directions';
 import {Post} from '../../environments/interface';
+import {AddPostService} from '../shared/services/add-post.service';
 
 @Component({
   selector: 'app-ask-question',
@@ -19,7 +20,8 @@ export class AskQuestionComponent implements OnInit {
   ];
   constructor(
     private router: Router,
-    public directions: Directions
+    public directions: Directions,
+    private postService: AddPostService
   ) { }
 
   ngOnInit(): void {
@@ -44,5 +46,8 @@ export class AskQuestionComponent implements OnInit {
       date: new Date(),
       direct: this.dir.value
     };
+    this.postService.create(post).subscribe(() => {
+      this.form.reset();
+    });
   }
 }

@@ -1,6 +1,7 @@
 export interface Environment {
   firebase: any;
   production: boolean;
+  fbDbUrl: string;
 }
 export interface QuestionCard {
   id: any;

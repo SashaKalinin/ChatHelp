@@ -9,6 +9,7 @@ export const environment: Environment = {
     projectId: 'chathelp-990b0',
     storageBucket: 'chathelp-990b0.appspot.com',
     messagingSenderId: '121797942282',
-  }
+  },
+  fbDbUrl: 'https://chathelp-990b0.firebaseio.com/'
 };
 
