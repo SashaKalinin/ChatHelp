@@ -41,9 +41,8 @@ export class AskQuestionComponent implements OnInit {
     const post: Post = {
       title: this.form.value.title,
       text: this.form.value.text,
-      date: new Date()
+      date: new Date(),
+      direct: this.dir.value
     };
-    console.log(post);
-    console.log(this.dir.value);
   }
 }

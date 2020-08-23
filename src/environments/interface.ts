@@ -13,6 +13,6 @@ export interface Post {
   id?: any;
   title: string;
   text: string;
-  directions?: any[];
+  direct?: any[];
   date: Date;
 }
