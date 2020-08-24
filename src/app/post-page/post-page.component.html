@@ -18,13 +18,16 @@
           <p>{{post.direct}}</p>
         </div>
       </mat-card-content>
-        <mat-card-actions *ngIf="author == post.author; else userButton">
-          <button mat-button class="btn-card">EDIT</button>
-          <button mat-button class="btn-card">COMPLETE</button>
+        <mat-card-actions class="mat-card-btn" *ngIf="author == post.author; else userButton">
+          <div>
+            <button mat-button class="btn-card">EDIT</button>
+            <button mat-button class="btn-card">COMPLETE</button>
+          </div>
+          <mat-icon>grade</mat-icon>
         </mat-card-actions>
         <ng-template #userButton>
           <mat-card-actions>
-            <button mat-button class="btn-card">VIEW</button>
+            <mat-icon>crop_free</mat-icon>
           </mat-card-actions>
         </ng-template>
     </mat-card>

@@ -20,7 +20,6 @@ p {
 .card {
   width: 100%;
   height: 100%;
-
   margin-right: 2px;
   padding: 2px;
   cursor: pointer;
@@ -47,4 +46,21 @@ p {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+mat-icon {
+  color: @mainColor;
+}
+
+.mat-card-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+mat-grid-tile {
+  :hover {
+    transition: 0.4s ease-in-out;
+    background-color: #212121;
+  }
 }
