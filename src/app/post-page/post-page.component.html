@@ -4,28 +4,30 @@
 
 <ng-template #next>
   <app-tool-bar></app-tool-bar>
-  <mat-grid-list cols="3" rowHeight="180px">
-
-    <mat-grid-tile>
-      <mat-card class="card">
+  <mat-grid-list cols="3" rowHeight="180px" >
+    <mat-grid-tile *ngFor="let post of posts">
+      <mat-card id="{{post.id}}" class="card">
       <mat-card-header>
-        <mat-card-title>Title</mat-card-title>
+        <mat-card-title>{{post.title}}</mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <p>
-          date
+          {{post.date | date:'short'}}
         </p>
-        <div class="directions">
-          <p>tog</p>
-          <p>tog</p>
+        <div class="directions" >
+          <p>{{post.direct}}</p>
         </div>
       </mat-card-content>
-      <mat-card-actions>
-        <button mat-button class="btn-card">VIEW</button>
-        <button mat-button class="btn-card">DELETE</button>
-      </mat-card-actions>
+        <mat-card-actions *ngIf="author == post.author; else userButton">
+          <button mat-button class="btn-card">EDIT</button>
+          <button mat-button class="btn-card">COMPLETE</button>
+        </mat-card-actions>
+        <ng-template #userButton>
+          <mat-card-actions>
+            <button mat-button class="btn-card">VIEW</button>
+          </mat-card-actions>
+        </ng-template>
     </mat-card>
     </mat-grid-tile>
-
   </mat-grid-list>
 </ng-template>

@@ -1,22 +1,41 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService} from '../shared/services/auth.service';
+import {AddPostService} from "../shared/services/add-post.service";
+import {Post} from "../../environments/interface";
+import {Subscription} from "rxjs";
+import {CommonModule} from "@angular/common";
 
 @Component({
   selector: 'app-post-page',
   templateUrl: './post-page.component.html',
   styleUrls: ['./post-page.component.less']
 })
-export class PostPageComponent implements OnInit {
+export class PostPageComponent implements OnInit, OnDestroy {
   public isHello = false;
+  posts: Post[];
+  pSub: Subscription;
+  dir: string[];
+  author: string;
 
   constructor(
-    public authSeervice: AuthService
+    public authSeervice: AuthService,
+    private postServise: AddPostService
   ) { }
 
   ngOnInit(): void {
+    this.pSub = this.postServise.getData().subscribe(post => {
+      this.posts = post;
+      this.author = this.authSeervice.email;
+    });
     setTimeout(() => {
       this.isHello = true;
     }, 1500);
+  }
+
+  ngOnDestroy(): void {
+    if (this.pSub) {
+      this.pSub.unsubscribe();
+    }
   }
 
 }

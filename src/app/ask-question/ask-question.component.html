@@ -34,14 +34,17 @@
       </div>
       <mat-form-field appearance="fill">
         <mat-label>Directions:</mat-label>
-        <mat-select [formControl]="dir" multiple>
+        <mat-select [formControl]="dir"  multiple>
           <mat-option *ngFor="let directions of dirList" [value]="directions">{{directions}}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-card-actions>
         <div class="button">
           <button mat-button routerLink="/post" >Cancel </button>
-          <button mat-button type="submit">Ask</button>
+          <button mat-button
+                  type="submit"
+                  [disabled]="this.form.invalid"
+          >Ask</button>
         </div>
       </mat-card-actions>
     </form>

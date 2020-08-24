@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {Directions} from '../../environments/directions';
 import {Post} from '../../environments/interface';
 import {AddPostService} from '../shared/services/add-post.service';
+import {AuthService} from "../shared/services/auth.service";
 
 @Component({
   selector: 'app-ask-question',
@@ -21,7 +22,8 @@ export class AskQuestionComponent implements OnInit {
   constructor(
     private router: Router,
     public directions: Directions,
-    private postService: AddPostService
+    private postService: AddPostService,
+    public aithService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -31,7 +33,7 @@ export class AskQuestionComponent implements OnInit {
       ]),
       text: new FormControl(null, [
         Validators.required,
-      ]),
+      ])
     });
   }
 
@@ -44,7 +46,10 @@ export class AskQuestionComponent implements OnInit {
       title: this.form.value.title,
       text: this.form.value.text,
       date: new Date(),
-      direct: this.dir.value
+      direct: this.dir.value,
+      author: this.aithService.email,
+      complete: false,
+      adminApprove: false
     };
     this.postService.create(post).subscribe(() => {
       this.form.reset();

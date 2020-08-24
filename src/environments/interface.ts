@@ -16,6 +16,9 @@ export interface Post {
   text: string;
   direct?: any[];
   date: Date;
+  author?: string;
+  complete: boolean;
+  adminApprove: boolean;
 }
 export interface FbCreateResponse {
   name: string;
