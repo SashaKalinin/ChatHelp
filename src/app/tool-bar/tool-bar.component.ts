@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AddPostService} from '../shared/services/add-post.service';
+import {PostService} from '../shared/services/post.service';
 import {Post} from '../../environments/interface';
 import {PostPageComponent} from '../post-page/post-page.component';
 
@@ -12,7 +12,7 @@ export class ToolBarComponent implements OnInit {
   posts: Post[];
 
   constructor(
-    private postServise: AddPostService,
+    private postServise: PostService,
     public postPageComponent: PostPageComponent
   ) { }
 

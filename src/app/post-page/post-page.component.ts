@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService} from '../shared/services/auth.service';
-import {AddPostService} from "../shared/services/add-post.service";
+import {PostService} from "../shared/services/post.service";
 import {Post} from "../../environments/interface";
 import {Subscription} from "rxjs";
 import {CommonModule} from "@angular/common";
@@ -19,7 +19,7 @@ export class PostPageComponent implements OnInit, OnDestroy {
 
   constructor(
     public authSeervice: AuthService,
-    private postServise: AddPostService
+    private postServise: PostService
   ) { }
 
   ngOnInit(): void {

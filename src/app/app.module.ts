@@ -28,11 +28,11 @@ import { ToolBarComponent } from './tool-bar/tool-bar.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatDialogModule} from '@angular/material/dialog';
 import { AskQuestionComponent } from './ask-question/ask-question.component';
-import {AddPostService} from './shared/services/add-post.service';
+import {PostService} from './shared/services/post.service';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatGridListModule} from '@angular/material/grid-list';
-import {Directions} from '../environments/directions';
+import {Constants} from '../environments/constants';
 import {MatSelectModule} from '@angular/material/select';
 
 
@@ -73,7 +73,7 @@ import {MatSelectModule} from '@angular/material/select';
     MatGridListModule,
     MatSelectModule
   ],
-  providers: [AuthService, AuthGuard, AddPostService, Directions],
+  providers: [AuthService, AuthGuard, PostService, Constants],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

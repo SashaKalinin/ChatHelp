@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {Directions} from '../../environments/directions';
+import {Constants} from '../../environments/constants';
 import {Post} from '../../environments/interface';
-import {AddPostService} from '../shared/services/add-post.service';
-import {AuthService} from "../shared/services/auth.service";
+import {PostService} from '../shared/services/post.service';
+import {AuthService} from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-ask-question',
@@ -14,15 +14,12 @@ import {AuthService} from "../shared/services/auth.service";
 export class AskQuestionComponent implements OnInit {
   form: FormGroup;
   dir = new FormControl();
-  dirList: string[] = [
-    this.directions.dotNet,
-    this.directions.frontend,
-    this.directions.salesforce
-  ];
+  dirList: string[] = this.constants.dirArr;
+
   constructor(
     private router: Router,
-    public directions: Directions,
-    private postService: AddPostService,
+    public constants: Constants,
+    private postService: PostService,
     public aithService: AuthService
   ) { }
 
@@ -41,7 +38,6 @@ export class AskQuestionComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-
     const post: Post = {
       title: this.form.value.title,
       text: this.form.value.text,

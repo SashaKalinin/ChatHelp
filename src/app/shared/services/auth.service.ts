@@ -3,6 +3,7 @@ import {Observable, Subject, throwError} from 'rxjs';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {auth} from 'firebase';
 import {FormGroup} from '@angular/forms';
+import {Constants} from "../../../environments/constants";
 
 @Injectable()
 export class AuthService {
@@ -11,6 +12,7 @@ export class AuthService {
   public email = localStorage.getItem('user-email');
   constructor(
     public af: AngularFireAuth,
+    private constants: Constants
     ) {
   }
   get token(): string {
@@ -25,8 +27,7 @@ export class AuthService {
   onSignUp(email: string, password: string): Promise<any> {
     return this.af.createUserWithEmailAndPassword(email, password)
       .then((response) => {
-        this.setUserEmail(response.user.email);
-        this.email = this.getEmail();
+        this.email = this.userEmail(response.user.email);
         response.user.getIdToken()
           .then((resp: string) => {
             this.setToken(resp);
@@ -40,8 +41,7 @@ export class AuthService {
   onLogin(email: string, password: string): Promise<any> {
     return this.af.signInWithEmailAndPassword(email, password)
       .then((response) => {
-        this.setUserEmail(response.user.email);
-        this.email = this.getEmail();
+        this.email = this.userEmail(response.user.email);
         response.user.getIdToken()
         .then((resp: string) => {
           this.setToken(resp);
@@ -56,8 +56,7 @@ export class AuthService {
   logInWIthFacebook(): Promise<any> {
    return this.af.signInWithPopup(new auth.FacebookAuthProvider())
      .then( (response) => {
-       this.setUserEmail(response.user.email);
-       this.email = this.getEmail();
+       this.email = this.userEmail(response.user.email);
        response.user.getIdToken()
         .then((resp: string) => {
         this.setToken(resp);
@@ -71,8 +70,7 @@ export class AuthService {
   logInWIthGoogle(): Promise<any> {
     return this.af.signInWithPopup(new auth.GoogleAuthProvider())
       .then( (response) => {
-        this.setUserEmail(response.user.email);
-        this.email = this.getEmail();
+        this.email = this.userEmail(response.user.email);
         response.user.getIdToken()
           .then((resp: string) => {
           this.setToken(resp);
@@ -91,7 +89,7 @@ export class AuthService {
     return !!this.token;
   }
 
-  private handleError(error: string): Observable<string> {
+  private handleError(error: string): any {
     switch (error) {
       case 'auth/wrong-password':
         this.error$.next('Invalid password');
@@ -103,21 +101,20 @@ export class AuthService {
     return throwError(error);
   }
 
-  private setUserEmail(email: string): void {
+  private userEmail(email: string): string {
     if (email) {
       localStorage.setItem('user-email', email);
     }else {
-      localStorage.clear();
+      localStorage.removeItem('user-email');
     }
-  }
-
-  private getEmail(): string {
     return this.email = localStorage.getItem('user-email');
   }
 
+
+
  private setToken(idToken): void {
     if (idToken) {
-      const expDate = new Date(new Date().getTime() + 3000 * 1000);
+      const expDate = this.constants.dateToken;
       localStorage.setItem('fb-token', idToken);
       localStorage.setItem('fb-token-exp', expDate.toString());
     } else {

@@ -9,7 +9,7 @@ import {map} from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class AddPostService {
+export class PostService {
 
   constructor(
     private http: HttpClient

@@ -15,7 +15,7 @@
           {{post.date | date:'short'}}
         </p>
         <div class="directions" >
-          <p>{{post.direct}}</p>
+          <p class="directions-items" *ngFor="let dir of post.direct">{{dir}}</p>
         </div>
       </mat-card-content>
         <mat-card-actions class="mat-card-btn" *ngIf="author == post.author; else userButton">
