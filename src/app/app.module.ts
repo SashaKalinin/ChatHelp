@@ -34,6 +34,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {Constants} from '../environments/constants';
 import {MatSelectModule} from '@angular/material/select';
+import { PostCardComponent } from './post-page/post-card/post-card.component';
 
 
 
@@ -46,6 +47,7 @@ import {MatSelectModule} from '@angular/material/select';
     SignUpPageComponent,
     ToolBarComponent,
     AskQuestionComponent,
+    PostCardComponent,
   ],
   imports: [
     BrowserModule,

@@ -7,12 +7,14 @@ import {LoginPageComponent} from './auth/login-page/login-page.component';
 import {SignUpPageComponent} from './auth/sign-up-page/sign-up-page.component';
 import {AuthGuard} from './shared/services/auth.guard';
 import {AskQuestionComponent} from './ask-question/ask-question.component';
+import {PostCardComponent} from './post-page/post-card/post-card.component';
 
 const routers: Routes = [
   {
     path: '', component: MainLayoutComponent, children: [
       {path: '', redirectTo: 'post', pathMatch: 'full'},
       {path: 'post', component: PostPageComponent, canActivate: [AuthGuard]},
+      {path: 'post-card', component: PostCardComponent},
       {path: 'login', component: LoginPageComponent},
       {path: 'sign-up', component: SignUpPageComponent},
       {path: 'ask', component: AskQuestionComponent}

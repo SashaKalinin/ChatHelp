@@ -3,7 +3,6 @@ import {AuthService} from '../shared/services/auth.service';
 import {PostService} from "../shared/services/post.service";
 import {Post} from "../../environments/interface";
 import {Subscription} from "rxjs";
-import {CommonModule} from "@angular/common";
 
 @Component({
   selector: 'app-post-page',
@@ -16,6 +15,7 @@ export class PostPageComponent implements OnInit, OnDestroy {
   pSub: Subscription;
   dir: string[];
   author: string;
+  postCard: any;
 
   constructor(
     public authSeervice: AuthService,
@@ -30,6 +30,12 @@ export class PostPageComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.isHello = true;
     }, 1500);
+  }
+
+  getId(post: Post[], $event): any {
+    const card = post.find((item) => item.id === $event.target.id);
+    console.log(card);
+    this.postCard = card;
   }
 
   ngOnDestroy(): void {
