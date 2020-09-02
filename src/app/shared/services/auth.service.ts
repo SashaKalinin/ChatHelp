@@ -12,7 +12,6 @@ export class AuthService {
   public email = localStorage.getItem('user-email');
   constructor(
     public af: AngularFireAuth,
-    private constants: Constants
     ) {
   }
   get token(): string {
@@ -107,14 +106,14 @@ export class AuthService {
     }else {
       localStorage.removeItem('user-email');
     }
-    return this.email = localStorage.getItem('user-email');
+    return localStorage.getItem('user-email');
   }
 
 
 
  private setToken(idToken): void {
     if (idToken) {
-      const expDate = this.constants.dateToken;
+      const expDate = Constants.dateToken;
       localStorage.setItem('fb-token', idToken);
       localStorage.setItem('fb-token-exp', expDate.toString());
     } else {

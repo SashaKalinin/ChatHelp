@@ -3,6 +3,7 @@ import {AuthService} from '../shared/services/auth.service';
 import {PostService} from "../shared/services/post.service";
 import {Post} from "../../environments/interface";
 import {Subscription} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-post-page',
@@ -15,11 +16,12 @@ export class PostPageComponent implements OnInit, OnDestroy {
   pSub: Subscription;
   dir: string[];
   author: string;
-  postCard: any;
+  postCard: Post;
 
   constructor(
     public authSeervice: AuthService,
-    private postServise: PostService
+    private postServise: PostService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -32,10 +34,10 @@ export class PostPageComponent implements OnInit, OnDestroy {
     }, 1500);
   }
 
-  getId(post: Post[], $event): any {
-    const card = post.find((item) => item.id === $event.target.id);
-    console.log(card);
+  getId(id: string): void {
+    const card = this.posts.find((item) => item.id === id);
     this.postCard = card;
+    this.router.navigate([this.postCard.id]);
   }
 
   ngOnDestroy(): void {

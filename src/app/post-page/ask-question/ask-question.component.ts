@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {Constants} from '../../environments/constants';
-import {Post} from '../../environments/interface';
-import {PostService} from '../shared/services/post.service';
-import {AuthService} from '../shared/services/auth.service';
+import {Constants} from '../../../environments/constants';
+import {Post} from '../../../environments/interface';
+import {PostService} from '../../shared/services/post.service';
+import {AuthService} from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-ask-question',
@@ -14,11 +14,10 @@ import {AuthService} from '../shared/services/auth.service';
 export class AskQuestionComponent implements OnInit {
   form: FormGroup;
   dir = new FormControl();
-  dirList: string[] = this.constants.dirArr;
+  dirList: string[] = Constants.dirArr;
 
   constructor(
     private router: Router,
-    public constants: Constants,
     private postService: PostService,
     public aithService: AuthService
   ) { }

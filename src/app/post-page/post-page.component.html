@@ -9,7 +9,7 @@
   </div>
   <mat-grid-list cols="3" rowHeight="180px" >
     <mat-grid-tile *ngFor="let post of posts">
-      <mat-card (click)="getId(posts,$event)" id="{{post.id}}" class="card">
+      <mat-card (click)="getId(post.id)" class="card">
       <mat-card-header>
         <mat-card-title>{{post.title}}</mat-card-title>
       </mat-card-header>

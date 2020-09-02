@@ -10,7 +10,7 @@ import {Post} from "../../../environments/interface";
 export class PostCardComponent implements OnInit {
   posts: Post[];
   constructor(
-    private postServise: PostService
+    private postServise: PostService,
   ) { }
 
   ngOnInit(): void {
@@ -19,13 +19,5 @@ export class PostCardComponent implements OnInit {
     });
   }
 
-  public getId(posts: Post[], $event): any {
-    posts.forEach((post) => {
-      if (post.id === $event.target.id) {
-        console.log(post.id);
-        return post.id;
-      }
-    });
-  }
 
 }

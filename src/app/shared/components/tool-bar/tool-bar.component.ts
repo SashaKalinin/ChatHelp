@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {PostService} from '../shared/services/post.service';
-import {Post} from '../../environments/interface';
-import {PostPageComponent} from '../post-page/post-page.component';
+import {PostService} from '../../services/post.service';
+import {Post} from '../../../../environments/interface';
+import {PostPageComponent} from '../../../post-page/post-page.component';
 
 @Component({
   selector: 'app-tool-bar',
