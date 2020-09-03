@@ -49,7 +49,7 @@ export class AskQuestionComponent implements OnInit {
     this.postService.create(post).subscribe(() => {
       this.form.reset();
       this.dir.reset();
-      this.router.navigate(['post']);
+      this.router.navigate(['posts']);
     });
   }
 }

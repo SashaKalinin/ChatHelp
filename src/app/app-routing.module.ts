@@ -12,12 +12,12 @@ import {PostCardComponent} from './post-page/post-card/post-card.component';
 const routers: Routes = [
   {
     path: '', component: MainLayoutComponent, children: [
-      {path: '', redirectTo: 'post', pathMatch: 'full'},
-      {path: 'post', component: PostPageComponent, canActivate: [AuthGuard]},
+      {path: '', redirectTo: 'posts', pathMatch: 'full'},
+      {path: 'posts', component: PostPageComponent, canActivate: [AuthGuard]},
       {path: 'login', component: LoginPageComponent},
       {path: 'sign-up', component: SignUpPageComponent},
       {path: 'ask', component: AskQuestionComponent},
-      {path: ':id', component: PostCardComponent},
+      {path: 'post-card/:id', component: PostCardComponent},
     ]
   }
 ];

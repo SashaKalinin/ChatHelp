@@ -33,21 +33,21 @@ export class SignUpPageComponent implements OnInit {
     const { email, password } = this.form.value;
     this.authSeervice.onSignUp(email, password)
       .then(() => {
-        this.router.navigate(['post']);
+        this.router.navigate(['posts']);
       });
   }
 
   facebookLogIn(): any {
     this.authSeervice.logInWIthFacebook()
       .then(() => {
-        this.router.navigate(['post']);
+        this.router.navigate(['posts']);
       });
   }
 
   googleLogIn(): any {
     this.authSeervice.logInWIthGoogle()
       .then(() => {
-        this.router.navigate(['post']);
+        this.router.navigate(['posts']);
       });
     }
 

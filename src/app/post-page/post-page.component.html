@@ -1,30 +1,36 @@
-<div class="wrapper" *ngIf="isHello == false; else next">
-  <p class="hello">Hello {{authSeervice.email}}!!</p>
-</div>
+<!--<div class="wrapper" *ngIf="isHello == false; else next">-->
+<!--  <p class="hello">Hello {{authService.email}}!!</p>-->
+<!--</div>-->
 
-<ng-template #next>
-  <app-tool-bar></app-tool-bar>
-  <div class='havent_quest' *ngIf="!posts">
-    <p>Ask a question</p>
+<!--<ng-template #next>-->
+  <div class='havent_quest' *ngIf="posts.length === 0; else another">
+      <div class="container">
+        <div class="dash uno"></div>
+        <div class="dash dos"></div>
+        <div class="dash tres"></div>
+        <div class="dash cuatro"></div>
+      </div>
   </div>
+<ng-template #another>
+  <app-tool-bar></app-tool-bar>
   <mat-grid-list cols="3" rowHeight="180px" >
     <mat-grid-tile *ngFor="let post of posts">
       <mat-card (click)="getId(post.id)" class="card">
-      <mat-card-header>
-        <mat-card-title>{{post.title}}</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>
-          {{post.date | date:'short'}}
-        </p>
-        <div class="directions" >
-          <p class="directions-items" *ngFor="let dir of post.direct">{{dir}}</p>
-        </div>
-      </mat-card-content>
+        <mat-card-header>
+          <mat-card-title>{{post.title}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            {{post.date | date:'short'}}
+          </p>
+          <div class="directions" >
+            <p class="directions-items" *ngFor="let dir of post.direct">{{dir}}</p>
+          </div>
+        </mat-card-content>
         <mat-card-actions class="mat-card-btn" *ngIf="author == post.author; else userButton">
           <div>
             <button mat-button class="btn-card">EDIT</button>
-            <button mat-button class="btn-card">COMPLETE</button>
+            <button mat-button class="btn-card" (click)="$event.stopPropagation()" (click)="remove(post.id)" >DELETE</button>
           </div>
           <mat-icon>grade</mat-icon>
         </mat-card-actions>
@@ -38,3 +44,5 @@
   </mat-grid-list>
   <div class="circleAddQuestButton"></div>
 </ng-template>
+
+<!--</ng-template>-->

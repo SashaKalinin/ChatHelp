@@ -10,7 +10,7 @@ import {map} from 'rxjs/operators';
   providedIn: 'root'
 })
 export class PostService {
-
+  questionCard: Post;
   constructor(
     private http: HttpClient
   ) { }
@@ -38,4 +38,9 @@ export class PostService {
           }));
       }));
   }
+
+  remove(id: string): Observable<void> {
+    return this.http.delete<void>(`${environment.fbDbUrl}/posts/${id}.json`);
+  }
 }
+
