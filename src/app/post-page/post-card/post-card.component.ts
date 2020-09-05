@@ -14,18 +14,24 @@ export class PostCardComponent implements OnInit {
   card: any;
   loading = false;
   constructor(
-    public postServise: PostService,
+    public postService: PostService,
     public authService: AuthService,
     public router: Router
   ) { }
 
   ngOnInit(): void {
-    this.postServise.getData().subscribe(post => {
+    this.postService.getData().subscribe(post => {
       this.author = this.authService.email;
     });
-    this.postServise.getQuestCard(this.router.url.slice(1)).subscribe(post => {
+    this.postService.getQuestCard(this.router.url.slice(1)).subscribe(post => {
       this.card = post;
       this.loading = true;
+    });
+  }
+
+  remove(id: string): void {
+  this.postService.remove(id).subscribe(() => {
+      this.router.navigate(['posts']);
     });
   }
 

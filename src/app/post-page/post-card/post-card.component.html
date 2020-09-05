@@ -24,7 +24,7 @@
     </mat-card-content>
     <mat-card-actions>
       <button mat-button>EDIT</button>
-      <button mat-button>DELETE</button>
+      <button mat-button (click)="remove(this.router.url.slice(1))">DELETE</button>
     </mat-card-actions>
   </mat-card>
 </ng-template>
