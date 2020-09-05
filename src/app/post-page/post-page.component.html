@@ -1,16 +1,11 @@
-<!--<div class="wrapper" *ngIf="isHello == false; else next">-->
-<!--  <p class="hello">Hello {{authService.email}}!!</p>-->
-<!--</div>-->
-
-<!--<ng-template #next>-->
-  <div class='havent_quest' *ngIf="posts.length === 0; else another">
-      <div class="container">
-        <div class="dash uno"></div>
-        <div class="dash dos"></div>
-        <div class="dash tres"></div>
-        <div class="dash cuatro"></div>
-      </div>
-  </div>
+<div class='havent_quest' *ngIf="this.loadingFlag; else another">
+    <div class="container">
+      <div class="dash uno"></div>
+      <div class="dash dos"></div>
+      <div class="dash tres"></div>
+      <div class="dash cuatro"></div>
+    </div>
+</div>
 <ng-template #another>
   <app-tool-bar></app-tool-bar>
   <mat-grid-list cols="3" rowHeight="180px" >
@@ -45,4 +40,3 @@
   <div class="circleAddQuestButton"></div>
 </ng-template>
 
-<!--</ng-template>-->

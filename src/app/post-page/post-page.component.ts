@@ -18,6 +18,7 @@ export class PostPageComponent implements OnInit, OnDestroy {
   dir: string[];
   author: string;
   questCard: Post;
+  loadingFlag = true;
 
   constructor(
     public authService: AuthService,
@@ -29,15 +30,13 @@ export class PostPageComponent implements OnInit, OnDestroy {
     this.pSub = this.postService.getData().subscribe(post => {
       this.posts = post;
       this.author = this.authService.email;
+      this.loadingFlag = false;
     });
-    setTimeout(() => {
-      this.isHello = true;
-    }, 1500);
   }
 
   getId(id: string): void {
     this.questCard = this.posts.find((item) => item.id === id);
-    this.router.navigate(['post-card/' + this.questCard.id]);
+    this.router.navigate([this.questCard.id]);
   }
 
   remove(id: string): void {

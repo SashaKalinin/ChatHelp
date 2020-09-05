@@ -4,6 +4,7 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {auth} from 'firebase';
 import {FormGroup} from '@angular/forms';
 import {Constants} from "../../../environments/constants";
+import {Router} from "@angular/router";
 
 @Injectable()
 export class AuthService {
@@ -12,12 +13,14 @@ export class AuthService {
   public email = localStorage.getItem('user-email');
   constructor(
     public af: AngularFireAuth,
+    public router: Router
     ) {
   }
   get token(): string {
     const expDate = new Date(localStorage.getItem('fb-token-exp'));
     if (new Date() > expDate) {
       this.logout();
+      this.router.navigate(['login']);
       return null;
     }
     return localStorage.getItem('fb-token');

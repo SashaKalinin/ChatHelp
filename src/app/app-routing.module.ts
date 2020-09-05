@@ -17,7 +17,7 @@ const routers: Routes = [
       {path: 'login', component: LoginPageComponent},
       {path: 'sign-up', component: SignUpPageComponent},
       {path: 'ask', component: AskQuestionComponent},
-      {path: 'post-card/:id', component: PostCardComponent},
+      {path: ':id', component: PostCardComponent},
     ]
   }
 ];
