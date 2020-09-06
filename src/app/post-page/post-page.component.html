@@ -1,10 +1,10 @@
 <div class='havent_quest' *ngIf="this.loadingFlag; else another">
-  <div class="container">
-    <div class="dash uno"></div>
-    <div class="dash dos"></div>
-    <div class="dash tres"></div>
-    <div class="dash cuatro"></div>
-  </div>
+    <div class="container">
+      <div class="dash uno"></div>
+      <div class="dash dos"></div>
+      <div class="dash tres"></div>
+      <div class="dash cuatro"></div>
+    </div>
 </div>
 <ng-template #another>
   <app-tool-bar></app-tool-bar>
@@ -24,7 +24,7 @@
         </mat-card-content>
         <mat-card-actions class="mat-card-btn" *ngIf="author == post.author; else userButton">
           <div>
-            <button mat-button class="btn-card">EDIT</button>
+            <button mat-button class="btn-card" (click)="$event.stopPropagation()" >EDIT</button>
             <button mat-button class="btn-card" (click)="$event.stopPropagation()" (click)="remove(post.id)" >DELETE</button>
           </div>
           <mat-icon>grade</mat-icon>

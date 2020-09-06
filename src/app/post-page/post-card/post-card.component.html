@@ -10,9 +10,13 @@
 <ng-template #questCard>
   <mat-card class="post-card">
     <mat-card-header class="header">
-      <p class="sub">{{this.author}}</p>
+      <button mat-button class="returnBtn" color="accent" (click)="return()"><mat-icon>reply</mat-icon></button>
+      <div class="header_item">
+        <p class="sub">{{this.card.author}}</p>
+        <p class="sub">{{this.card.date | date:'short'}}</p>
+      </div>
       <p class="title">{{this.card.title}}</p>
-      <p class="sub">{{this.card.date | date:'short'}}</p>
+      <div class="line"></div>
     </mat-card-header>
     <mat-card-content>
       <p class="main_text">
@@ -22,11 +26,12 @@
         <p *ngFor="let dir of this.card.direct">{{dir}}</p>
       </mat-card-subtitle>
     </mat-card-content>
-    <mat-card-actions>
+    <mat-card-actions *ngIf="author === this.card.author">
       <button mat-button>EDIT</button>
       <button mat-button (click)="remove(this.router.url.slice(1))">DELETE</button>
     </mat-card-actions>
   </mat-card>
+  <app-answers></app-answers>
 </ng-template>
 
 

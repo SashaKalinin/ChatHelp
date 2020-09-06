@@ -1,4 +1,4 @@
-
+@mainColor: #c2185b;
 .post-card {
   max-width: 800px;
   margin: 0 auto;
@@ -6,12 +6,32 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 }
 .header {
   height: 100px;
   width: 80%;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  .header_item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+  }
+}
+.line {
+  width: 80%;
+  height: 2px;
+  background-color: @mainColor;
+  opacity: .7;
+}
+.returnBtn {
+  position: absolute;
+  top: 3%;
+  left: 1%;
 }
 p {
   margin: 0;
@@ -35,7 +55,7 @@ mat-card-content {
 .title {
   font-weight: 600;
   font-size: 25px;
-  margin: 0px 10px;
+  margin: 0px 10px 10px 10px;
   letter-spacing: 1px;
 }
 .sub {

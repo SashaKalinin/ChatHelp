@@ -35,6 +35,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {Constants} from '../environments/constants';
 import {MatSelectModule} from '@angular/material/select';
 import { PostCardComponent } from './post-page/post-card/post-card.component';
+import { AnswersComponent } from './post-page/answers/answers.component';
 
 
 
@@ -48,6 +49,7 @@ import { PostCardComponent } from './post-page/post-card/post-card.component';
     ToolBarComponent,
     AskQuestionComponent,
     PostCardComponent,
+    AnswersComponent,
   ],
   imports: [
     BrowserModule,
