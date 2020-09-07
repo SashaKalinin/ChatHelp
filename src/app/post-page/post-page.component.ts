@@ -34,12 +34,13 @@ export class PostPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  getId(id: string): void {
-    this.questCard = this.posts.find((item) => item.id === id);
+  getId(post: Post): void {
+    this.questCard = post;
     this.router.navigate([this.questCard.id]);
   }
 
-  remove(id: string): void {
+  remove(id: string, $event): void {
+    $event.stopPropagation();
     this.dSub = this.postService.remove(id).subscribe(() => {
       this.posts = this.posts.filter(post => post.id !== id);
     });

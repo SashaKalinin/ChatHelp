@@ -40,7 +40,7 @@ export class AskQuestionComponent implements OnInit {
     const post: Post = {
       title: this.form.value.title,
       text: this.form.value.text,
-      date: new Date(),
+      date: new Date().getTime(),   //timestamp
       direct: this.dir.value,
       author: this.aithService.email,
       complete: false,

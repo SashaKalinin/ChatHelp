@@ -3,8 +3,8 @@ import {Subject, throwError} from 'rxjs';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {auth} from 'firebase';
 import {FormGroup} from '@angular/forms';
-import {Constants} from "../../../environments/constants";
-import {Router} from "@angular/router";
+import {Constants} from '../../../environments/constants';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class AuthService {
@@ -20,6 +20,7 @@ export class AuthService {
     const expDate = new Date(localStorage.getItem('fb-token-exp'));
     if (new Date() > expDate) {
       this.logout();
+      // this.router.navigate(['login']);   //переписать в мэйн компонет auth
       return null;
     }
     return localStorage.getItem('fb-token');
@@ -119,7 +120,8 @@ export class AuthService {
       localStorage.setItem('fb-token', idToken);
       localStorage.setItem('fb-token-exp', expDate.toString());
     } else {
-      localStorage.clear();
+      localStorage.removeItem('fb-token');
+      localStorage.removeItem('fb-token-exp');
     }
 
   }

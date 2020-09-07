@@ -1,4 +1,4 @@
-<div class='havent_quest'*ngIf="this.loading === false; else questCard">
+<div class='havent_quest'*ngIf="this.isLoaded === false; else questCard">
   <div class="container">
     <div class="dash uno"></div>
     <div class="dash dos"></div>
@@ -12,23 +12,23 @@
     <mat-card-header class="header">
       <button mat-button class="returnBtn" color="accent" (click)="return()"><mat-icon>reply</mat-icon></button>
       <div class="header_item">
-        <p class="sub">{{this.card.author}}</p>
-        <p class="sub">{{this.card.date | date:'short'}}</p>
+        <p class="sub">{{card.author}}</p>
+        <p class="sub">{{card.date | date:'short'}}</p>
       </div>
-      <p class="title">{{this.card.title}}</p>
+      <p class="title">{{card.title}}</p>
       <div class="line"></div>
     </mat-card-header>
     <mat-card-content>
       <p class="main_text">
-        {{this.card.text}}
+        {{card.text}}
       </p>
       <mat-card-subtitle class="directions">
-        <p *ngFor="let dir of this.card.direct">{{dir}}</p>
+        <p *ngFor="let dir of card.direct">{{dir}}</p>
       </mat-card-subtitle>
     </mat-card-content>
-    <mat-card-actions *ngIf="author === this.card.author">
+    <mat-card-actions *ngIf="author === card.author">
       <button mat-button>EDIT</button>
-      <button mat-button (click)="remove(this.router.url.slice(1))">DELETE</button>
+      <button mat-button (click)="remove()">DELETE</button>
     </mat-card-actions>
   </mat-card>
   <app-answers></app-answers>

@@ -32,7 +32,6 @@ import {PostService} from './shared/services/post.service';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatGridListModule} from '@angular/material/grid-list';
-import {Constants} from '../environments/constants';
 import {MatSelectModule} from '@angular/material/select';
 import { PostCardComponent } from './post-page/post-card/post-card.component';
 import { AnswersComponent } from './post-page/answers/answers.component';
@@ -77,7 +76,7 @@ import { AnswersComponent } from './post-page/answers/answers.component';
     MatGridListModule,
     MatSelectModule
   ],
-  providers: [AuthService, AuthGuard, PostService, Constants],
+  providers: [AuthService, AuthGuard, PostService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -3,6 +3,7 @@ import {PostService} from '../../shared/services/post.service';
 import {AuthService} from '../../shared/services/auth.service';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
+import {Post} from '../../../environments/interface';
 
 @Component({
   selector: 'app-post-card',
@@ -11,42 +12,39 @@ import {Subscription} from 'rxjs';
 })
 export class PostCardComponent implements OnInit, OnDestroy {
   author: string;
-  card: any;
-  loading = false;
-  pSub: Subscription;
-  dSub: Subscription;
+  card: Post;
+  isLoaded = false;
+  postSub: Subscription;
+  deleteSub: Subscription;
   constructor(
-    public postService: PostService,
-    public authService: AuthService,
-    public router: Router
+    private postService: PostService,
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.pSub = this.postService.getData().subscribe(post => {
-      this.author = this.authService.email;
-    });
-    this.postService.getQuestCard(this.router.url.slice(1)).subscribe(post => {
+    this.author = this.authService.email;
+    this.postSub = this.postService.getQuestCard(this.router.url.slice(1)).subscribe(post => {
       this.card = post;
-      this.loading = true;
+      this.isLoaded = true;
     });
   }
   log(card: any): void {
-    console.log(card);
+    console.log(card);    //!!!!!
   }
 
-  remove(id: string): void {
-  this.dSub = this.postService.remove(id).subscribe(() => {
+  remove(): void {
+  this.deleteSub = this.postService.remove(this.router.url.slice(1)).subscribe(() => {
       this.router.navigate(['posts']);
     });
   }
 
   ngOnDestroy(): void {
-    if (this.pSub) {
-      this.pSub.unsubscribe();
+    if (this.deleteSub) {
+      this.deleteSub.unsubscribe();
     }
-
-    if (this.dSub) {
-      this.dSub.unsubscribe();
+    if (this.postSub) {
+      this.postSub.unsubscribe();
     }
   }
 

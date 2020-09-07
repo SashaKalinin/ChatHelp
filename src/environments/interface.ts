@@ -4,18 +4,18 @@ export interface Environment {
   fbDbUrl: string;
 }
 export interface QuestionCard {
-  id: any;
+  id: string;
   title: string;
   date: string;
   directions: string;
 }
 
 export interface Post {
-  id?: any;
+  id?: string;
   title: string;
   text: string;
-  direct?: any[];
-  date: Date;
+  direct?: string[];
+  date: number;
   author?: string;
   complete: boolean;
   adminApprove: boolean;
