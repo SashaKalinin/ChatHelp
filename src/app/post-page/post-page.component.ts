@@ -13,11 +13,12 @@ import {Router} from '@angular/router';
 export class PostPageComponent implements OnInit, OnDestroy {
   public isHello = false;
   posts: Post[] = [];
-  pSub: Subscription;
-  dSub: Subscription;
+  postSub: Subscription;
+  deleteSub: Subscription;
   dir: string[];
   author: string;
   questCard: Post;
+  editCardPost: Post;
   loadingFlag = true;
 
   constructor(
@@ -27,7 +28,7 @@ export class PostPageComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.pSub = this.postService.getData().subscribe(post => {
+    this.postSub = this.postService.getData().subscribe(post => {
       this.posts = post;
       this.author = this.authService.email;
       this.loadingFlag = false;
@@ -39,20 +40,26 @@ export class PostPageComponent implements OnInit, OnDestroy {
     this.router.navigate([this.questCard.id]);
   }
 
+  edit(post: Post, $event: Event): void {
+    $event.stopPropagation();
+    this.editCardPost = post;
+    this.router.navigate(['post', this.editCardPost.id, 'edit']);
+  }
+
   remove(id: string, $event): void {
     $event.stopPropagation();
-    this.dSub = this.postService.remove(id).subscribe(() => {
+    this.deleteSub = this.postService.remove(id).subscribe(() => {
       this.posts = this.posts.filter(post => post.id !== id);
     });
   }
 
   ngOnDestroy(): void {
-    if (this.pSub) {
-      this.pSub.unsubscribe();
+    if (this.postSub) {
+      this.postSub.unsubscribe();
     }
 
-    if (this.dSub) {
-      this.dSub.unsubscribe();
+    if (this.deleteSub) {
+      this.deleteSub.unsubscribe();
     }
   }
 }

@@ -52,4 +52,7 @@ export class AskQuestionComponent implements OnInit {
       this.router.navigate(['posts']);
     });
   }
+  return(): void {
+    this.router.navigate(['posts']);
+  }
 }

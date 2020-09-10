@@ -13,7 +13,7 @@ import {AuthService} from '../../services/auth.service';
 export class MainLayoutComponent implements OnInit {
   constructor(
     private router: Router,
-    private authSeervice: AuthService,
+    private authService: AuthService,
   ) {
 
   }
@@ -23,12 +23,12 @@ export class MainLayoutComponent implements OnInit {
 
   logout(event: Event): void {
     event.preventDefault();
-    this.authSeervice.logout();
+    this.authService.logout();
     this.router.navigate(['login']);
   }
 
   isAuthUser(): boolean {
-    return this.authSeervice.isAuth();
+    return this.authService.isAuth();
   }
 
 }

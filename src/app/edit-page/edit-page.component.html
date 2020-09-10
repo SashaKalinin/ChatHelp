@@ -1,0 +1,62 @@
+<div *ngIf="form; else loading">
+  <mat-card>
+    <button mat-button class="returnBtn" color="accent" (click)="return()"><mat-icon>reply</mat-icon></button>
+    <mat-card-title>
+      Edit question
+    </mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <p>
+          <mat-form-field>
+            <mat-label>Tittle</mat-label>
+            <input type="text" matInput placeholder="Enter title..." formControlName="title">
+          </mat-form-field>
+        </p>
+        <div
+          *ngIf="form.get('title').touched && form.get('title').invalid"
+          class="validation"
+        >
+          <small
+            *ngIf="form.get('title').errors.required"
+          >* Enter title</small>
+        </div>
+        <p>
+          <mat-form-field>
+            <mat-label>Text</mat-label>
+            <textarea matInput formControlName="text" placeholder="What you wont to ask?"></textarea>
+          </mat-form-field>
+        </p>
+        <div
+          *ngIf="form.get('text').touched && form.get('text').invalid"
+          class="validation"
+        >
+          <small
+            *ngIf="form.get('text').errors.required"
+          >* Enter text</small>
+        </div>
+        <mat-form-field appearance="fill">
+          <mat-label>Constants:</mat-label>
+          <mat-select [formControl]="dir"  multiple>
+            <mat-option *ngFor="let directions of dirList" [value]="directions">{{directions}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-card-actions>
+          <div class="button">
+            <button mat-button
+                    type="submit"
+                    [disabled]="this.form.invalid"
+            >Update</button>
+          </div>
+        </mat-card-actions>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+<ng-template #loading class='havent_quest'>
+  <div class="container">
+    <div class="dash uno"></div>
+    <div class="dash dos"></div>
+    <div class="dash tres"></div>
+    <div class="dash cuatro"></div>
+  </div>
+</ng-template>

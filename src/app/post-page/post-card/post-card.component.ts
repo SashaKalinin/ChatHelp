@@ -29,9 +29,6 @@ export class PostCardComponent implements OnInit, OnDestroy {
       this.isLoaded = true;
     });
   }
-  log(card: any): void {
-    console.log(card);    //!!!!!
-  }
 
   remove(): void {
   this.deleteSub = this.postService.remove(this.router.url.slice(1)).subscribe(() => {

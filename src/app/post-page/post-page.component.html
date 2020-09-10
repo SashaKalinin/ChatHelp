@@ -9,7 +9,9 @@
 <ng-template #postData>
   <app-tool-bar></app-tool-bar>
   <mat-grid-list cols="3" rowHeight="180px" >
-    <p *ngIf="!posts.length"> no data</p>
+    <div class="wrapper-empty">
+      <p *ngIf="!posts.length" class="emptyPostsArray" > The list of questions is empty</p>
+    </div>
     <mat-grid-tile *ngFor="let post of posts">
       <mat-card (click)="getId(post)" class="card">
         <mat-card-header>
@@ -25,7 +27,7 @@
         </mat-card-content>
         <mat-card-actions class="mat-card-btn" *ngIf="author === post.author; else userButton">
           <div>
-            <button mat-button class="btn-card" (click)="$event.stopPropagation()" >EDIT</button>
+            <button mat-button  class="btn-card" (click)="edit(post, $event)" >EDIT</button>
             <button mat-button class="btn-card" (click)="remove(post.id, $event)" >DELETE</button>
           </div>
           <mat-icon>grade</mat-icon>
@@ -40,5 +42,6 @@
   </mat-grid-list>
   <div class="circleAddQuestButton"></div>
 </ng-template>
+<button class="circleButtonAsk" color="accent" mat-raised-button routerLink="/ask"><mat-icon>add</mat-icon></button>
 
 

@@ -41,6 +41,16 @@ export class PostService {
     return this.http.delete<void>(`${environment.fbDbUrl}/posts/${id}.json`);
   }
 
+  getById(id: string): Observable<Post> {
+   return  this.http.get<Post>(`${environment.fbDbUrl}/posts/${id}.json`)
+      .pipe(map( (post: Post) => {
+        return {
+          ...post,
+          id
+        };
+      }));
+  }
+
   getQuestCard(id: string): Observable<any> {
     return this.http.get<any>(`${environment.fbDbUrl}/posts/${id}.json`);
   }

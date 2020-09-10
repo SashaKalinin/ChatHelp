@@ -8,6 +8,7 @@ import {SignUpPageComponent} from './auth/sign-up-page/sign-up-page.component';
 import {AuthGuard} from './shared/services/auth.guard';
 import {AskQuestionComponent} from './post-page/ask-question/ask-question.component';
 import {PostCardComponent} from './post-page/post-card/post-card.component';
+import {EditPageComponent} from './edit-page/edit-page.component';
 
 const routers: Routes = [
   {
@@ -17,6 +18,7 @@ const routers: Routes = [
       {path: 'login', component: LoginPageComponent},
       {path: 'sign-up', component: SignUpPageComponent},
       {path: 'ask', component: AskQuestionComponent},
+      {path: 'post/:id/edit', component: EditPageComponent},
       {path: ':id', component: PostCardComponent},
     ]
   }
