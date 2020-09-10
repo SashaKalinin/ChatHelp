@@ -37,6 +37,8 @@ import { PostCardComponent } from './post-page/post-card/post-card.component';
 import { AnswersComponent } from './post-page/answers/answers.component';
 import { EditPageComponent } from './post-page/edit-page/edit-page.component';
 import {AlertService} from './shared/services/alert.service';
+import {SortingPipePipe} from './shared/Pipes/sorting-pipe.pipe';
+
 
 
 
@@ -52,6 +54,7 @@ import {AlertService} from './shared/services/alert.service';
     PostCardComponent,
     AnswersComponent,
     EditPageComponent,
+    SortingPipePipe
   ],
   imports: [
     BrowserModule,

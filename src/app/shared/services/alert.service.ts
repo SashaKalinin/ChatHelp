@@ -1,6 +1,6 @@
-import {Injectable} from "@angular/core";
-import {Subject} from "rxjs";
-import {Alert} from "../../../environments/interface";
+import {Injectable} from '@angular/core';
+import {Subject} from 'rxjs';
+import {Alert} from '../../../environments/interface';
 
 export type AlertType = 'success'| 'warning' | 'danger';
 

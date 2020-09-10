@@ -12,7 +12,7 @@
     <div class="wrapper-empty">
       <p *ngIf="!posts.length" class="emptyPostsArray" > The list of questions is empty</p>
     </div>
-    <mat-grid-tile *ngFor="let post of posts">
+    <mat-grid-tile *ngFor="let post of posts | sortingPipe: 0">
       <mat-card (click)="getId(post)" class="card">
         <mat-card-header>
           <mat-card-title>{{post.title}}</mat-card-title>

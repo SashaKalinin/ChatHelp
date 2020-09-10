@@ -10,10 +10,10 @@ import {PostPageComponent} from '../../../post-page/post-page.component';
 })
 export class ToolBarComponent implements OnInit {
   posts: Post[];
+  sortingPosts: any;
 
   constructor(
-    private postServise: PostService,
-    public postPageComponent: PostPageComponent
+    private postServise: PostService
   ) { }
 
   ngOnInit(): void {
@@ -23,9 +23,6 @@ export class ToolBarComponent implements OnInit {
   }
 
   sort(): any {
-    console.log(this.postPageComponent.posts);
-    // this.postPageComponent.posts.sort((a,b) => {
-    //   return b.date - a.date;
-    // });
+
   }
 }

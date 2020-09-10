@@ -56,6 +56,7 @@ export class PostPageComponent implements OnInit, OnDestroy {
     });
   }
 
+
   ngOnDestroy(): void {
     if (this.postSub) {
       this.postSub.unsubscribe();
