@@ -17,9 +17,9 @@ const routers: Routes = [
       {path: 'posts', component: PostPageComponent, canActivate: [AuthGuard]},
       {path: 'login', component: LoginPageComponent},
       {path: 'sign-up', component: SignUpPageComponent},
-      {path: 'ask', component: AskQuestionComponent},
-      {path: 'post/:id/edit', component: EditPageComponent},
-      {path: ':id', component: PostCardComponent},
+      {path: 'ask', component: AskQuestionComponent, canActivate: [AuthGuard]},
+      {path: 'post/:id/edit', component: EditPageComponent, canActivate: [AuthGuard]},
+      {path: ':id', component: PostCardComponent, canActivate: [AuthGuard]},
     ]
   }
 ];

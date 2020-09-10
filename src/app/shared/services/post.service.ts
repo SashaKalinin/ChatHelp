@@ -51,6 +51,10 @@ export class PostService {
       }));
   }
 
+  update(post: Post): Observable<Post> {
+    return this.http.patch<Post>(`${environment.fbDbUrl}/posts/${post.id}.json`, post);
+  }
+
   getQuestCard(id: string): Observable<any> {
     return this.http.get<any>(`${environment.fbDbUrl}/posts/${id}.json`);
   }

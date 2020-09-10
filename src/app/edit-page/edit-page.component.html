@@ -44,7 +44,7 @@
           <div class="button">
             <button mat-button
                     type="submit"
-                    [disabled]="this.form.invalid"
+                    [disabled]="this.form.invalid || submitted"
             >Update</button>
           </div>
         </mat-card-actions>

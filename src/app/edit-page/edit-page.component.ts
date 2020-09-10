@@ -5,6 +5,7 @@ import {switchMap} from 'rxjs/operators';
 import {Post} from '../../environments/interface';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Constants} from "../../environments/constants";
+import {AuthService} from "../shared/services/auth.service";
 
 @Component({
   selector: 'app-edit-page',
@@ -13,8 +14,10 @@ import {Constants} from "../../environments/constants";
 })
 export class EditPageComponent implements OnInit {
   form: FormGroup;
+  post: Post;
   dir = new FormControl();
   dirList: string[] = Constants.dirArr;
+  submitted = false;
   constructor(
     private rout: ActivatedRoute,
     private postService: PostService,
@@ -28,6 +31,7 @@ export class EditPageComponent implements OnInit {
           return this.postService.getById(params.id);
         })
       ).subscribe( (post: Post) => {
+        this.post = post;
         this.form = new FormGroup({
           title: new FormControl(post.title, Validators.required),
           text: new FormControl(post.text, Validators.required)
@@ -39,7 +43,19 @@ export class EditPageComponent implements OnInit {
     this.router.navigate(['posts']);
   }
 
-  submit() {
-
+  submit(): void {
+    if (this.form.invalid) {
+      return;
+    }
+    this.submitted = true;
+    this.postService.update( {
+      ...this.post,
+      title: this.form.value.title,
+      text: this.form.value.text,
+      direct: this.dir.value,
+    }).subscribe( () => {
+      this.router.navigate(['posts']);
+      this.submitted = false;
+    });
   }
 }
