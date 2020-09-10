@@ -4,6 +4,7 @@ import {PostService} from '../shared/services/post.service';
 import {Post} from '../../environments/interface';
 import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
+import {AlertService} from "../shared/services/alert.service";
 
 @Component({
   selector: 'app-post-page',
@@ -24,13 +25,14 @@ export class PostPageComponent implements OnInit, OnDestroy {
   constructor(
     public authService: AuthService,
     private postService: PostService,
-    private router: Router
+    private router: Router,
+    private alert: AlertService
   ) { }
 
   ngOnInit(): void {
     this.postSub = this.postService.getData().subscribe(post => {
-      this.posts = post;
       this.author = this.authService.email;
+      this.posts = post;
       this.loadingFlag = false;
     });
   }
@@ -50,6 +52,7 @@ export class PostPageComponent implements OnInit, OnDestroy {
     $event.stopPropagation();
     this.deleteSub = this.postService.remove(id).subscribe(() => {
       this.posts = this.posts.filter(post => post.id !== id);
+      this.alert.warning('The question has been deleted');
     });
   }
 

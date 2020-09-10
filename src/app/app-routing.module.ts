@@ -8,7 +8,7 @@ import {SignUpPageComponent} from './auth/sign-up-page/sign-up-page.component';
 import {AuthGuard} from './shared/services/auth.guard';
 import {AskQuestionComponent} from './post-page/ask-question/ask-question.component';
 import {PostCardComponent} from './post-page/post-card/post-card.component';
-import {EditPageComponent} from './edit-page/edit-page.component';
+import {EditPageComponent} from './post-page/edit-page/edit-page.component';
 
 const routers: Routes = [
   {

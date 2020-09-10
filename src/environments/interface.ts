@@ -1,3 +1,5 @@
+import {AlertType} from '../app/shared/services/alert.service';
+
 export interface Environment {
   firebase: any;
   production: boolean;
@@ -22,4 +24,8 @@ export interface Post {
 }
 export interface FbCreateResponse {
   name: string;
+}
+export interface Alert {
+  type: AlertType;
+  text: string;
 }

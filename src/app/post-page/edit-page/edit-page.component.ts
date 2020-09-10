@@ -1,27 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {PostService} from '../shared/services/post.service';
+import {PostService} from '../../shared/services/post.service';
 import {switchMap} from 'rxjs/operators';
-import {Post} from '../../environments/interface';
+import {Post} from '../../../environments/interface';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Constants} from "../../environments/constants";
-import {AuthService} from "../shared/services/auth.service";
+import {Constants} from '../../../environments/constants';
+import {Subscription} from 'rxjs';
+import {AlertService} from "../../shared/services/alert.service";
 
 @Component({
   selector: 'app-edit-page',
   templateUrl: './edit-page.component.html',
   styleUrls: ['./edit-page.component.less']
 })
-export class EditPageComponent implements OnInit {
+export class EditPageComponent implements OnInit, OnDestroy {
   form: FormGroup;
   post: Post;
   dir = new FormControl();
   dirList: string[] = Constants.dirArr;
   submitted = false;
+  updateSub: Subscription;
   constructor(
     private rout: ActivatedRoute,
     private postService: PostService,
-    private router: Router
+    private router: Router,
+    private alert: AlertService
   ) { }
 
   ngOnInit(): void {
@@ -38,6 +41,11 @@ export class EditPageComponent implements OnInit {
         });
     });
   }
+  ngOnDestroy(): void {
+    if (this.updateSub) {
+      this.updateSub.unsubscribe();
+    }
+  }
 
   return(): void {
     this.router.navigate(['posts']);
@@ -48,12 +56,13 @@ export class EditPageComponent implements OnInit {
       return;
     }
     this.submitted = true;
-    this.postService.update( {
+    this.updateSub = this.postService.update( {
       ...this.post,
       title: this.form.value.title,
       text: this.form.value.text,
       direct: this.dir.value,
     }).subscribe( () => {
+      this.alert.success('Question has been changed');
       this.router.navigate(['posts']);
       this.submitted = false;
     });

@@ -35,7 +35,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatSelectModule} from '@angular/material/select';
 import { PostCardComponent } from './post-page/post-card/post-card.component';
 import { AnswersComponent } from './post-page/answers/answers.component';
-import { EditPageComponent } from './edit-page/edit-page.component';
+import { EditPageComponent } from './post-page/edit-page/edit-page.component';
+import {AlertService} from './shared/services/alert.service';
 
 
 
@@ -78,7 +79,7 @@ import { EditPageComponent } from './edit-page/edit-page.component';
     MatGridListModule,
     MatSelectModule
   ],
-  providers: [AuthService, AuthGuard, PostService],
+  providers: [AuthService, AuthGuard, PostService, AlertService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
