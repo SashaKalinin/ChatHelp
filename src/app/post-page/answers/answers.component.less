@@ -1,6 +1,12 @@
 p {
   margin: 0;
 }
+button {
+  outline: none;
+}
+.checkbox {
+  margin-left: 10px;
+}
 .post-card {
   max-width: 800px;
   margin: 0 auto;
@@ -11,8 +17,11 @@ p {
   position: relative;
 }
 .form {
-  width: 90%;
+  width: 100%;
   margin-bottom: 15px;
+  border: 1px solid;
+  border-radius: 10px;
+  padding: 10px ;
 }
 .textaria-form {
   width: 100%;
@@ -76,3 +85,18 @@ p {
 .text-item {
   margin: 0;
 }
+
+
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  color: #c2185b;
+  font-size: 16px;
+  font-weight: bold;
+}
+

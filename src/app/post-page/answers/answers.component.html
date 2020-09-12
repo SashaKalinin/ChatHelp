@@ -1,4 +1,4 @@
-<mat-card class="post-card">
+<mat-card class="post-card" *ngIf="this.isLoaded === true; else comment">
     <form class="form" (ngSubmit)="submit()">
       <mat-form-field class="textaria-fild">
         <mat-label>Leave a comment</mat-label>
@@ -10,7 +10,6 @@
       >SEND</button>
     </form>
   <mat-card-content>
-
       <div class="comment-card">
         <div class="author-and-date">
           <a class="user-int-wrapper">
@@ -26,12 +25,16 @@
         <div class="text">
           <p class="text-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam autem beatae corporis delectus deleniti enim fugiat iure nisi, pariatur similique.</p>
         </div>
-        <div class="checkbox">
-          <mat-checkbox class="example-margin" [(ngModel)]="checked">Checked</mat-checkbox>
+        <div class="checkbox" *ngIf="this.author === card.author">
+          <mat-checkbox class="example-margin" [(ngModel)]="checked">Correct</mat-checkbox>
         </div>
       </div>
-
   </mat-card-content>
   <mat-card-actions>
   </mat-card-actions>
 </mat-card>
+<ng-template #comment>
+  <div class="container">
+    <p>Comments...</p>
+  </div>
+</ng-template>
