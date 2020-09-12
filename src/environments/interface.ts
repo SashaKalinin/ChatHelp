@@ -32,8 +32,8 @@ export interface Alert {
 }
 
 export interface Comment {
-  id?: string;
-  author?: string;
+  id: string;
+  author: string;
   text: string;
   date: number;
   correct: boolean;

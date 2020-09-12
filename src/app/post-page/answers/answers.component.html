@@ -1,1 +1,37 @@
-<p>answers works!</p>
+<mat-card class="post-card">
+    <form class="form" (ngSubmit)="submit()">
+      <mat-form-field class="textaria-fild">
+        <mat-label>Leave a comment</mat-label>
+        <textarea matInput ></textarea>
+      </mat-form-field>
+      <button mat-raised-button
+              type="submit"
+              color="accent"
+      >SEND</button>
+    </form>
+  <mat-card-content>
+
+      <div class="comment-card">
+        <div class="author-and-date">
+          <a class="user-int-wrapper">
+            <div class="user-int-container">
+              <img alt="img" src="https://static.thenounproject.com/png/19085-200.png">
+            </div>
+            <div class="name">
+              <p class="userName">Name</p>
+            </div>
+          </a>
+          <p class="date">11.25</p>
+        </div>
+        <div class="text">
+          <p class="text-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam autem beatae corporis delectus deleniti enim fugiat iure nisi, pariatur similique.</p>
+        </div>
+        <div class="checkbox">
+          <mat-checkbox class="example-margin" [(ngModel)]="checked">Checked</mat-checkbox>
+        </div>
+      </div>
+
+  </mat-card-content>
+  <mat-card-actions>
+  </mat-card-actions>
+</mat-card>

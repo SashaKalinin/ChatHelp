@@ -7,7 +7,7 @@
         <div class="authBtn" *ngIf="isAuthUser(); else log">
           <button routerLink="ask" class="btn-log2" mat-raised-button color="accent">Add question</button>
           <a class="user-int-wrapper">
-            <div class="user-int-conteiner">
+            <div class="user-int-container">
                 <img alt="img" src="https://static.thenounproject.com/png/19085-200.png">
             </div>
             <p class="userName">{{this.authService.email}}</p>

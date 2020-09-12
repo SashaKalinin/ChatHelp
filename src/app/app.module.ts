@@ -38,9 +38,6 @@ import { EditPageComponent } from './post-page/edit-page/edit-page.component';
 import {AlertService} from './shared/services/alert.service';
 import {SortingPipePipe} from './shared/Pipes/sorting-pipe.pipe';
 
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
