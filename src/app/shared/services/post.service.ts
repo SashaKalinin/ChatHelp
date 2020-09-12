@@ -10,6 +10,7 @@ import {map, catchError} from 'rxjs/operators';
   providedIn: 'root'
 })
 export class PostService {
+  isDes: boolean;
   constructor(
     private http: HttpClient
   ) { }

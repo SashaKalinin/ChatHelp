@@ -21,6 +21,8 @@ export class PostPageComponent implements OnInit, OnDestroy {
   questCard: Post;
   editCardPost: Post;
   loadingFlag = true;
+  isDes = true;
+  arrowUpAndDown = 'arrow_upward';
 
   constructor(
     public authService: AuthService,
@@ -54,6 +56,18 @@ export class PostPageComponent implements OnInit, OnDestroy {
       this.posts = this.posts.filter(post => post.id !== id);
       this.alert.warning('The question has been deleted');
     });
+  }
+
+  filter(): void {
+  }
+
+  sort(): void {
+    if (this.isDes === true) {
+      this.arrowUpAndDown = 'arrow_upward';
+    }else {
+      this.arrowUpAndDown = 'arrow_downward';
+    }
+    this.isDes = !this.isDes;
   }
 
 

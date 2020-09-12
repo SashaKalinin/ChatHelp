@@ -24,7 +24,6 @@ import {AngularFireModule} from '@angular/fire';
 import { MatExpansionModule } from '@angular/material/expansion';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatMenuModule} from '@angular/material/menu';
-import { ToolBarComponent } from './shared/components/tool-bar/tool-bar.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatDialogModule} from '@angular/material/dialog';
 import { AskQuestionComponent } from './post-page/ask-question/ask-question.component';
@@ -49,7 +48,6 @@ import {SortingPipePipe} from './shared/Pipes/sorting-pipe.pipe';
     PostPageComponent,
     LoginPageComponent,
     SignUpPageComponent,
-    ToolBarComponent,
     AskQuestionComponent,
     PostCardComponent,
     AnswersComponent,

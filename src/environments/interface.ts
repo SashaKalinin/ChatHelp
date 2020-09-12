@@ -20,6 +20,7 @@ export interface Post {
   date: number;
   author?: string;
   complete: boolean;
+  admin?: boolean;
   adminApprove: boolean;
 }
 export interface FbCreateResponse {
@@ -28,4 +29,12 @@ export interface FbCreateResponse {
 export interface Alert {
   type: AlertType;
   text: string;
+}
+
+export interface Comment {
+  id?: string;
+  author?: string;
+  text: string;
+  date: number;
+  correct: boolean;
 }

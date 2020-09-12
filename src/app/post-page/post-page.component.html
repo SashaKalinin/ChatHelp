@@ -7,12 +7,18 @@
     </div>
 </div>
 <ng-template #postData>
-  <app-tool-bar></app-tool-bar>
+  <div class="wrapper-toolbar">
+    <mat-toolbar-row class="mat-tool">
+      <button (click)="filter()" mat-stroked-button color="primary">Filters</button>
+      <button (click)="sort()" mat-stroked-button color="primary">Sort <mat-icon class="arrow">{{this.arrowUpAndDown}}</mat-icon></button>
+      <button  mat-stroked-button color="primary">Settings</button>
+    </mat-toolbar-row>
+  </div>
   <mat-grid-list cols="3" rowHeight="180px" >
     <div class="wrapper-empty">
       <p *ngIf="!posts.length" class="emptyPostsArray" > The list of questions is empty</p>
     </div>
-    <mat-grid-tile *ngFor="let post of posts | sortingPipe: 0">
+    <mat-grid-tile *ngFor="let post of posts | sortingPipe: this.isDes">
       <mat-card (click)="getId(post)" class="card">
         <mat-card-header>
           <mat-card-title>{{post.title}}</mat-card-title>
