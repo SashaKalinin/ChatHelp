@@ -1,12 +1,18 @@
 <mat-card class="post-card" *ngIf="this.isLoaded === true; else comment">
-    <form class="form" (ngSubmit)="submit()">
+    <form class="form" [formGroup]="form" (ngSubmit)="submit()">
       <mat-form-field class="textaria-fild">
         <mat-label>Leave a comment</mat-label>
-        <textarea matInput ></textarea>
+        <textarea matInput formControlName="text" ></textarea>
       </mat-form-field>
+<!--      <div-->
+<!--        *ngIf="form.get('text').invalid"-->
+<!--        class="validation"-->
+<!--      >-->
+<!--      </div>-->
       <button mat-raised-button
               type="submit"
               color="accent"
+              [disabled]="!this.form.value.text || submitted"
       >SEND</button>
     </form>
   <mat-card-content>

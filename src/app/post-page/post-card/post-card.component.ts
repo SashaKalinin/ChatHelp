@@ -16,6 +16,7 @@ export class PostCardComponent implements OnInit, OnDestroy {
   isLoaded = false;
   postSub: Subscription;
   deleteSub: Subscription;
+  editCardPost: Post;
   constructor(
     private postService: PostService,
     private authService: AuthService,
@@ -43,6 +44,11 @@ export class PostCardComponent implements OnInit, OnDestroy {
     if (this.postSub) {
       this.postSub.unsubscribe();
     }
+  }
+  edit(post: Post, $event: Event): void {
+    $event.stopPropagation();
+    this.editCardPost = post;
+    this.router.navigate(['post', this.editCardPost.id, 'edit']);
   }
 
   return(): void {

@@ -21,7 +21,7 @@ export class AskQuestionComponent implements OnInit {
   constructor(
     private router: Router,
     private postService: PostService,
-    public aithService: AuthService,
+    public authService: AuthService,
     private alert: AlertService
   ) { }
 
@@ -46,7 +46,7 @@ export class AskQuestionComponent implements OnInit {
       text: this.form.value.text,
       date: new Date().getTime(),
       direct: this.dir.value,
-      author: this.aithService.email,
+      author: this.authService.email,
       complete: false,
       adminApprove: false
     };

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {FbCreateResponse, Post} from '../../../environments/interface';
+import {Answers, FbCreateResponse, Post} from '../../../environments/interface';
 import {environment} from '../../../environments/environment';
 import {map, catchError} from 'rxjs/operators';
 
@@ -23,6 +23,10 @@ export class PostService {
           id: response.name
         };
       }));
+  }
+
+  createAnswers(answer: Answers): Observable<any> {
+    return this.http.post(`${environment.fbDbUrl}/answers.json`, answer);
   }
 
   getData(): Observable<Post[]> {

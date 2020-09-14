@@ -26,7 +26,7 @@
       </mat-card-subtitle>
     </mat-card-content>
     <mat-card-actions *ngIf="author === card.author">
-      <button mat-button routerLink="/edit">EDIT</button>
+      <button mat-button (click)="edit(card, $event)">EDIT</button>
       <button mat-button (click)="remove()">DELETE</button>
     </mat-card-actions>
   </mat-card>

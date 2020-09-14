@@ -5,12 +5,6 @@ export interface Environment {
   production: boolean;
   fbDbUrl: string;
 }
-export interface QuestionCard {
-  id: string;
-  title: string;
-  date: string;
-  directions: string;
-}
 
 export interface Post {
   id?: string;
@@ -31,7 +25,7 @@ export interface Alert {
   text: string;
 }
 
-export interface Comment {
+export interface Answers {
   id: string;
   author: string;
   text: string;

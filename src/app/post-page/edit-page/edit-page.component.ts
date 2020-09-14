@@ -37,16 +37,11 @@ export class EditPageComponent implements OnInit, OnDestroy {
         this.post = post;
         this.form = new FormGroup({
           title: new FormControl(post.title, Validators.required),
-          text: new FormControl(post.text, Validators.required)
+          text: new FormControl(post.text, Validators.required),
+          dir: new FormControl(post.direct)  //Спросить как сделать флажки чекед
         });
     });
   }
-  ngOnDestroy(): void {
-    if (this.updateSub) {
-      this.updateSub.unsubscribe();
-    }
-  }
-
   return(): void {
     this.router.navigate(['posts']);
   }
@@ -67,4 +62,10 @@ export class EditPageComponent implements OnInit, OnDestroy {
       this.submitted = false;
     });
   }
+  ngOnDestroy(): void {
+    if (this.updateSub) {
+      this.updateSub.unsubscribe();
+    }
+  }
+
 }
