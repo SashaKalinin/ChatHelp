@@ -4,7 +4,7 @@ import {Answers, Post} from '../../../environments/interface';
 import {Subscription} from 'rxjs';
 import {PostService} from '../../shared/services/post.service';
 import {Router} from '@angular/router';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
 import {AlertService} from '../../shared/services/alert.service';
 
 
@@ -15,10 +15,11 @@ import {AlertService} from '../../shared/services/alert.service';
 })
 export class AnswersComponent implements OnInit, OnDestroy {
   form: FormGroup;
-  checked = false;
-  author: string;
+  authorOnline: string;
   card: Post;
+  answers: Answers[];
   postSub: Subscription;
+  answersSub: Subscription;
   isLoaded = false;
   submitted = false;
   id = this.router.url.slice(1);
@@ -31,7 +32,11 @@ export class AnswersComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.author = this.authService.email;
+    this.authorOnline = this.authService.email;
+    this.answersSub = this.postService.getAnswers(this.id)
+      .subscribe(answers => {
+      this.answers = answers;
+    });
     this.postSub = this.postService.getQuestCard(this.id).subscribe(post => {
       this.card = post;
       this.isLoaded = true;
@@ -48,7 +53,7 @@ export class AnswersComponent implements OnInit, OnDestroy {
     this.submitted = true;
     const answer: Answers = {
       id: this.id,
-      author: this.author,
+      author: this.authorOnline,
       text: this.form.value.text,
       date: new Date().getTime(),
       correct: false
@@ -57,12 +62,19 @@ export class AnswersComponent implements OnInit, OnDestroy {
       this.submitted = false;
       this.form.reset();
       this.alert.success('Comment left');
+      this.answersSub = this.postService.getAnswers(this.id)
+        .subscribe(answers => {
+          this.answers = answers;
+        });
     });
   }
 
   ngOnDestroy(): void {
     if (this.postSub) {
       this.postSub.unsubscribe();
+    }
+    if (this.answersSub) {
+      this.answersSub.unsubscribe();
     }
   }
 }

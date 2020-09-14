@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Answers, FbCreateResponse, Post} from '../../../environments/interface';
 import {environment} from '../../../environments/environment';
-import {map, catchError} from 'rxjs/operators';
+import {map, catchError, filter} from 'rxjs/operators';
 
 
 @Injectable({
@@ -55,13 +55,26 @@ export class PostService {
         };
       }));
   }
-
-  update(post: Post): Observable<Post> {
-    return this.http.patch<Post>(`${environment.fbDbUrl}/posts/${post.id}.json`, post);
-  }
-
   getQuestCard(id: string): Observable<any> {
     return this.http.get<any>(`${environment.fbDbUrl}/posts/${id}.json`);
   }
+
+  update(post: Post): Observable<Post> {
+    return this.http.patch<Post>(`${environment.fbDbUrl}/posts/${post.id}.json`, post)
+  }
+
+
+  getAnswers(id: string): Observable<Answers[]> {
+    return this.http.get<Answers>(`${environment.fbDbUrl}/answers.json`)
+      .pipe(map((response: {[key: string]: any}) => {
+        return response ? Object
+          .keys(response)
+          .map(key => ({
+            ...response[key],
+          }))
+          .filter( answ => answ.id === id) : [];
+      }));
+  }
 }
+
 

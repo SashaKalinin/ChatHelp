@@ -45,11 +45,15 @@ button {
     height: 30%;
   }
 }
-
+mat-card-content {
+  width: 100%;
+}
 .comment-card {
+  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   border: 1px solid ;
   border-radius: 10px;
   padding: 10px;
@@ -62,6 +66,7 @@ button {
   }
 }
 .author-and-date {
+  width: 21%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -83,10 +88,24 @@ button {
   align-items: center;
   justify-content: center;
 }
+.text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+}
 .text-item {
   margin: 0;
 }
-
+.checkbox {
+  width: 15%;
+}
+.userName {
+  text-overflow: ellipsis; /* will make [...] at the end */
+  width: 43%; /* change to your preferences */
+  overflow:hidden;
+  word-wrap: break-word;
+}
 
 .container {
   position: absolute;
