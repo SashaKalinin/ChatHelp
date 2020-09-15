@@ -17,7 +17,7 @@ export class AnswersComponent implements OnInit, OnDestroy {
   form: FormGroup;
   authorOnline: string;
   card: Post;
-  answers: Answers[];
+  answers: Answers[] = [];
   postSub: Subscription;
   answersSub: Subscription;
   isLoaded = false;
@@ -33,16 +33,15 @@ export class AnswersComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.authorOnline = this.authService.email;
-    this.answersSub = this.postService.getAnswers(this.id)
-      .subscribe(answers => {
-      this.answers = answers;
-    });
     this.postSub = this.postService.getQuestCard(this.id).subscribe(post => {
       this.card = post;
+      if (post.answers) {
+        this.answers = post.answers;
+      }
       this.isLoaded = true;
     });
     this.form = new FormGroup({
-      text: new FormControl(null)
+      text: new FormControl()
     });
   }
 
@@ -58,14 +57,15 @@ export class AnswersComponent implements OnInit, OnDestroy {
       date: new Date().getTime(),
       correct: false
     };
-    this.postService.createAnswers(answer).subscribe(() => {
+    this.answers.push(answer);
+    this.answersSub = this.postService.update({
+      ...this.card,
+      id: this.id,
+      answers: this.answers
+    }).subscribe(() => {
       this.submitted = false;
       this.form.reset();
       this.alert.success('Comment left');
-      this.answersSub = this.postService.getAnswers(this.id)
-        .subscribe(answers => {
-          this.answers = answers;
-        });
     });
   }
 

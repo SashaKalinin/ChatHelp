@@ -16,6 +16,7 @@ export interface Post {
   complete: boolean;
   admin?: boolean;
   adminApprove: boolean;
+  answers?: Answers[];
 }
 export interface FbCreateResponse {
   name: string;

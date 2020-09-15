@@ -25,9 +25,6 @@ export class PostService {
       }));
   }
 
-  createAnswers(answer: Answers): Observable<any> {
-    return this.http.post(`${environment.fbDbUrl}/answers.json`, answer);
-  }
 
   getData(): Observable<Post[]> {
     return this.http.get(`${environment.fbDbUrl}/posts.json`)
@@ -60,20 +57,7 @@ export class PostService {
   }
 
   update(post: Post): Observable<Post> {
-    return this.http.patch<Post>(`${environment.fbDbUrl}/posts/${post.id}.json`, post)
-  }
-
-
-  getAnswers(id: string): Observable<Answers[]> {
-    return this.http.get<Answers>(`${environment.fbDbUrl}/answers.json`)
-      .pipe(map((response: {[key: string]: any}) => {
-        return response ? Object
-          .keys(response)
-          .map(key => ({
-            ...response[key],
-          }))
-          .filter( answ => answ.id === id) : [];
-      }));
+    return this.http.patch<Post>(`${environment.fbDbUrl}/posts/${post.id}.json`, post);
   }
 }
 

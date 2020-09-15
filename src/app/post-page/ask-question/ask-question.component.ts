@@ -5,7 +5,7 @@ import {Constants} from '../../../environments/constants';
 import {Post} from '../../../environments/interface';
 import {PostService} from '../../shared/services/post.service';
 import {AuthService} from '../../shared/services/auth.service';
-import {AlertService} from "../../shared/services/alert.service";
+import {AlertService} from '../../shared/services/alert.service';
 
 @Component({
   selector: 'app-ask-question',
@@ -48,7 +48,8 @@ export class AskQuestionComponent implements OnInit {
       direct: this.dir.value,
       author: this.authService.email,
       complete: false,
-      adminApprove: false
+      adminApprove: false,
+      answers: []
     };
     this.postService.create(post).subscribe(() => {
       this.submitted = false;

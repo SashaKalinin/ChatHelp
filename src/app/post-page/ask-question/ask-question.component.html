@@ -12,7 +12,7 @@
         </mat-form-field>
       </p>
       <div
-        *ngIf="form.get('title').invalid"
+        *ngIf="form.get('title').touched && form.get('title').invalid"
         class="validation"
       >
         <small
