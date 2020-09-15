@@ -36,7 +36,7 @@
         </div>
         <mat-form-field appearance="fill">
           <mat-label>Constants:</mat-label>
-          <mat-select [formControl]="dir"  multiple>
+          <mat-select formControlName="dir"  [compareWith]="comparer"  multiple>
             <mat-option  *ngFor="let directions of dirList" [value]="directions">{{directions}}</mat-option>
           </mat-select>
         </mat-form-field>

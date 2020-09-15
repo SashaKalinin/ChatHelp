@@ -1,9 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PostService} from '../../shared/services/post.service';
 import {AuthService} from '../../shared/services/auth.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {Post} from '../../../environments/interface';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-post-card',
@@ -20,19 +21,30 @@ export class PostCardComponent implements OnInit, OnDestroy {
   constructor(
     private postService: PostService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private rout: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
     this.author = this.authService.email;
-    this.postSub = this.postService.getQuestCard(this.router.url.slice(1)).subscribe(post => {
+    this.postSub = this.rout.params
+      .pipe(
+        switchMap((params: Params) => {
+          return this.postService.getById(params.id);
+        })
+      ).subscribe(post => {
       this.card = post;
       this.isLoaded = true;
     });
   }
 
   remove(): void {
-  this.deleteSub = this.postService.remove(this.router.url.slice(1)).subscribe(() => {
+  this.deleteSub = this.rout.params
+    .pipe(
+      switchMap((params: Params) => {
+        return this.postService.remove(params.id);
+      })
+    ).subscribe(() => {
       this.router.navigate(['posts']);
     });
   }

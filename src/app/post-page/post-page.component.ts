@@ -41,7 +41,7 @@ export class PostPageComponent implements OnInit, OnDestroy {
 
   getId(post: Post): void {
     this.questCard = post;
-    this.router.navigate([this.questCard.id]);
+    this.router.navigate(['post', this.questCard.id]);
   }
 
   edit(post: Post, $event: Event): void {

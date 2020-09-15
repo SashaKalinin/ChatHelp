@@ -19,7 +19,7 @@ const routers: Routes = [
       {path: 'sign-up', component: SignUpPageComponent},
       {path: 'ask', component: AskQuestionComponent, canActivate: [AuthGuard]},
       {path: 'post/:id/edit', component: EditPageComponent, canActivate: [AuthGuard]},
-      {path: ':id', component: PostCardComponent, canActivate: [AuthGuard]},
+      {path: 'post/:id', component: PostCardComponent, canActivate: [AuthGuard]}, // activatedRout переделать
     ]
   }
 ];

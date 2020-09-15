@@ -6,7 +6,7 @@ import {Post} from '../../../environments/interface';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Constants} from '../../../environments/constants';
 import {Subscription} from 'rxjs';
-import {AlertService} from "../../shared/services/alert.service";
+import {AlertService} from '../../shared/services/alert.service';
 
 @Component({
   selector: 'app-edit-page',
@@ -38,7 +38,7 @@ export class EditPageComponent implements OnInit, OnDestroy {
         this.form = new FormGroup({
           title: new FormControl(post.title, Validators.required),
           text: new FormControl(post.text, Validators.required),
-          dir: new FormControl(post.direct)  //Спросить как сделать флажки чекед
+          dir: new FormControl(post.direct)
         });
     });
   }
@@ -55,13 +55,18 @@ export class EditPageComponent implements OnInit, OnDestroy {
       ...this.post,
       title: this.form.value.title,
       text: this.form.value.text,
-      direct: this.dir.value,
+      direct: this.form.value.dir,
     }).subscribe( () => {
       this.alert.success('Question has been changed');
       this.router.navigate(['posts']);
       this.submitted = false;
     });
   }
+
+  comparer(a: string, b: string): boolean {
+    return a === b;
+  }
+
   ngOnDestroy(): void {
     if (this.updateSub) {
       this.updateSub.unsubscribe();
