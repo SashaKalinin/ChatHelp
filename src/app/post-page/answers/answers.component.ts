@@ -21,6 +21,7 @@ export class AnswersComponent implements OnInit, OnDestroy {
   postSub: Subscription;
   answersSub: Subscription;
   isLoaded = false;
+  correct = false;
   submitted = false;
   id = this.router.url.slice(1);
 
@@ -36,7 +37,14 @@ export class AnswersComponent implements OnInit, OnDestroy {
     this.postSub = this.postService.getQuestCard(this.id).subscribe(post => {
       this.card = post;
       if (post.answers) {
-        this.answers = post.answers;
+        this.answers = post.answers.sort((a, b) => {
+            if (a.correct === true) {
+              return -1;
+            }
+            else {
+              return 1;
+            }
+        });
       }
       this.isLoaded = true;
     });
@@ -55,7 +63,7 @@ export class AnswersComponent implements OnInit, OnDestroy {
       author: this.authorOnline,
       text: this.form.value.text,
       date: new Date().getTime(),
-      correct: false
+      correct: this.correct,
     };
     this.answers.push(answer);
     this.answersSub = this.postService.update({
@@ -66,6 +74,37 @@ export class AnswersComponent implements OnInit, OnDestroy {
       this.submitted = false;
       this.form.reset();
       this.alert.success('Comment left');
+    });
+  }
+
+  changeFlag(answer: Answers): void {
+    this.answers.map((a) => {
+        if (a === answer) {
+          a.correct = !a.correct;
+        }
+    });
+    this.answersSub = this.postService.update({
+      ...this.card,
+      id: this.id,
+      answers: this.answers
+    }).subscribe(() => {
+      this.submitted = false;
+      this.form.reset();
+      this.alert.success('Comment correct');
+    });
+    this.postSub = this.postService.getQuestCard(this.id).subscribe(post => {
+      this.card = post;
+      if (post.answers) {
+        this.answers = post.answers.sort((a, b) => {
+          if (a.correct === true) {
+            return -1;
+          }
+          else {
+            return 1;
+          }
+        });
+      }
+      this.isLoaded = true;
     });
   }
 
