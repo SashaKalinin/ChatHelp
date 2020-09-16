@@ -1,17 +1,18 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {PostService} from '../../shared/services/post.service';
 import {AuthService} from '../../shared/services/auth.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {Post} from '../../../environments/interface';
 import {switchMap} from 'rxjs/operators';
+import {AlertService} from '../../shared/services/alert.service';
 
 @Component({
   selector: 'app-post-card',
   templateUrl: './post-card.component.html',
   styleUrls: ['./post-card.component.less']
 })
-export class PostCardComponent implements OnInit, OnDestroy {
+export class PostCardComponent implements OnInit, OnDestroy  {
   author: string;
   card: Post;
   isLoaded = false;
@@ -23,6 +24,7 @@ export class PostCardComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     private rout: ActivatedRoute,
+    private alertService: AlertService
   ) { }
 
   ngOnInit(): void {
@@ -46,6 +48,7 @@ export class PostCardComponent implements OnInit, OnDestroy {
       })
     ).subscribe(() => {
       this.router.navigate(['posts']);
+      this.alertService.warning('The question has been deleted');
     });
   }
 
@@ -67,3 +70,4 @@ export class PostCardComponent implements OnInit, OnDestroy {
     this.router.navigate(['posts']);
   }
 }
+

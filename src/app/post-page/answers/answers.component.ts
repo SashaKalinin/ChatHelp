@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {AuthService} from '../../shared/services/auth.service';
 import {Answers, Post} from '../../../environments/interface';
 import {Subscription} from 'rxjs';
@@ -6,56 +6,44 @@ import {PostService} from '../../shared/services/post.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {FormControl, FormGroup} from '@angular/forms';
 import {AlertService} from '../../shared/services/alert.service';
-import {switchMap} from "rxjs/operators";
-
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-answers',
   templateUrl: './answers.component.html',
   styleUrls: ['./answers.component.less']
 })
-export class AnswersComponent implements OnInit, OnDestroy {
+export class AnswersComponent implements OnInit, OnDestroy, OnChanges  {
+  @Input() card: Post;
   form: FormGroup;
   authorOnline: string;
-  card: Post;
   answers: Answers[] = [];
   postSub: Subscription;
   answersSub: Subscription;
   isLoaded = false;
   correct = false;
   submitted = false;
-  id = this.router.url.slice(1);
-  // @input
 
   constructor(
     private authService: AuthService,
     private postService: PostService,
     private router: Router,
     private rout: ActivatedRoute,
-    private alert: AlertService //
+    private alertService: AlertService //
   ) { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+  }
 
   ngOnInit(): void {
     this.authorOnline = this.authService.email;
-    this.postSub = this.rout.params
-      .pipe(
-        switchMap((params: Params) => {
-          return this.postService.getById(params.id);
-        })
-      ).subscribe(post => { //
-      this.card = post;
-      if (post.answers) {
-        this.answers = post.answers.sort((a, b) => {
-            if (a.correct === true) {
-              return -1;
-            }
-            else {
-              return 1;
-            }
-        });
-      }
-      this.isLoaded = true;
-    });
+    if (this.card.answers) {
+      this.answers = this.card.answers.sort((a, ) => {
+        return a.correct ? -1 : 1;
+      });
+    }
+    this.isLoaded = true;
+
     this.form = new FormGroup({
       text: new FormControl()
     });
@@ -67,7 +55,6 @@ export class AnswersComponent implements OnInit, OnDestroy {
     }
     this.submitted = true;
     const answer: Answers = {
-      id: this.id, //
       author: this.authorOnline,
       text: this.form.value.text,
       date: new Date().getTime(),
@@ -77,10 +64,11 @@ export class AnswersComponent implements OnInit, OnDestroy {
     this.answersSub = this.postService.update({
       ...this.card,
       answers: this.answers
-    }).subscribe(() => {
+    }).subscribe((card) => {
+      this.card = card;
       this.submitted = false;
       this.form.reset();
-      this.alert.success('Comment left');
+      this.alertService.success('Comment left');
     });
   }
 
@@ -93,25 +81,20 @@ export class AnswersComponent implements OnInit, OnDestroy {
     this.answersSub = this.postService.update({
       ...this.card,
       answers: this.answers
-    }).subscribe(() => {
-      this.submitted = false;
-      this.form.reset();
-      this.alert.success('Comment correct');
-    });
-    this.postSub = this.rout.params
-      .pipe(
-        switchMap((params: Params) => {
-          return this.postService.getById(params.id);
-        })
-      ).subscribe(post => {
-      this.card = post;
-      if (post.answers) {
-        this.answers = post.answers.sort((a, b) => {
+    }).subscribe((card) => {
+      this.card = card;
+      if (this.card.answers) {
+        this.answers = this.card.answers.sort((a) => {
           return a.correct ? -1 : 1;
         });
       }
-      this.isLoaded = true;
+      this.submitted = false;
+      this.form.reset();
+      this.alertService.success('Comment correct');
     });
+
+    this.isLoaded = true;
+
   }
 
   ngOnDestroy(): void {

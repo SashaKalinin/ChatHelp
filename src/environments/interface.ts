@@ -27,7 +27,7 @@ export interface Alert {
 }
 
 export interface Answers {
-  id: string;
+  id?: string;
   author: string;
   text: string;
   date: number;

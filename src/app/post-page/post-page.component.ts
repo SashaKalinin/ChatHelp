@@ -4,7 +4,7 @@ import {PostService} from '../shared/services/post.service';
 import {Post} from '../../environments/interface';
 import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
-import {AlertService} from "../shared/services/alert.service";
+import {AlertService} from '../shared/services/alert.service';
 
 @Component({
   selector: 'app-post-page',
@@ -28,7 +28,7 @@ export class PostPageComponent implements OnInit, OnDestroy {
     public authService: AuthService,
     private postService: PostService,
     private router: Router,
-    private alert: AlertService
+    private alertService: AlertService
   ) { }
 
   ngOnInit(): void {
@@ -54,7 +54,7 @@ export class PostPageComponent implements OnInit, OnDestroy {
     $event.stopPropagation();
     this.deleteSub = this.postService.remove(id).subscribe(() => {
       this.posts = this.posts.filter(post => post.id !== id);
-      this.alert.warning('The question has been deleted');
+      this.alertService.warning('The question has been deleted');
     });
   }
 

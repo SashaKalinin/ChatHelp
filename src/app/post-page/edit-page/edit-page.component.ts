@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {PostService} from '../../shared/services/post.service';
 import {switchMap} from 'rxjs/operators';
@@ -13,13 +13,14 @@ import {AlertService} from '../../shared/services/alert.service';
   templateUrl: './edit-page.component.html',
   styleUrls: ['./edit-page.component.less']
 })
-export class EditPageComponent implements OnInit, OnDestroy {
+export class EditPageComponent  implements OnInit, OnDestroy {
   form: FormGroup;
   post: Post;
   dir = new FormControl();
   dirList: string[] = Constants.dirArr;
   submitted = false;
   updateSub: Subscription;
+  postSub: Subscription;
   constructor(
     private rout: ActivatedRoute,
     private postService: PostService,
@@ -28,7 +29,7 @@ export class EditPageComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.rout.params
+    this.postSub =  this.rout.params
       .pipe(
         switchMap((params: Params) => {
           return this.postService.getById(params.id);
@@ -70,6 +71,9 @@ export class EditPageComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.updateSub) {
       this.updateSub.unsubscribe();
+    }
+    if (this.postSub) {
+      this.postSub.unsubscribe();
     }
   }
 

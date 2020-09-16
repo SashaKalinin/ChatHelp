@@ -1,31 +1,29 @@
-
-
-    <mat-toolbar>
-      <a routerLink="posts" ><span>ChatHelp</span></a>
-      <span class="example-spacer"></span>
-      <div class="logIn-logOut-btn">
-        <div class="authBtn" *ngIf="isAuthUser(); else log">
-          <button routerLink="ask" class="btn-log2" mat-raised-button color="accent">Add question</button>
-          <a class="user-int-wrapper">
-            <div class="user-int-container">
-                <img alt="img" src="https://static.thenounproject.com/png/19085-200.png">
-            </div>
-            <p class="userName">{{this.authService.email}}</p>
-          </a>
-          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #menu>
-            <button mat-menu-item>
-              <button (click)="logout($event)" class="btn-log1" mat-raised-button color="primary">Logout</button>
-            </button>
-          </mat-menu>
+<mat-toolbar>
+  <a routerLink="posts" ><span>ChatHelp</span></a>
+  <span class="example-spacer"></span>
+  <div class="logIn-logOut-btn">
+    <div class="authBtn" *ngIf="isAuthUser(); else log">
+      <button routerLink="ask" class="btn-log2" mat-raised-button color="accent">Add question</button>
+      <a class="user-int-wrapper">
+        <div class="user-int-container">
+            <img alt="img" src="https://static.thenounproject.com/png/19085-200.png">
         </div>
-        <ng-template #log>
-          <button routerLink="login" class="btn-log btn-log1" mat-raised-button color="primary" >Login</button>
-          <button routerLink="sign-up" class="btn-log1" mat-raised-button color="primary">Sign Up</button>
-        </ng-template>
-      </div>
-    </mat-toolbar>
-    <app-alert></app-alert>
+        <p class="userName">{{this.authService.email}}</p>
+      </a>
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu>
+        <button mat-menu-item>
+          <button (click)="logout($event)" class="btn-log1" mat-raised-button color="primary">Logout</button>
+        </button>
+      </mat-menu>
+    </div>
+    <ng-template #log>
+      <button routerLink="login" class="btn-log btn-log1" mat-raised-button color="primary" >Login</button>
+      <button routerLink="sign-up" class="btn-log1" mat-raised-button color="primary">Sign Up</button>
+    </ng-template>
+  </div>
+</mat-toolbar>
+<app-alert></app-alert>
 <router-outlet></router-outlet>
