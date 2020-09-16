@@ -23,6 +23,7 @@ export class AnswersComponent implements OnInit, OnDestroy, OnChanges  {
   isLoaded = false;
   correct = false;
   submitted = false;
+  isCorrect = false;
 
   constructor(
     private authService: AuthService,
@@ -40,6 +41,11 @@ export class AnswersComponent implements OnInit, OnDestroy, OnChanges  {
     if (this.card.answers) {
       this.answers = this.card.answers.sort((a, ) => {
         return a.correct ? -1 : 1;
+      });
+      this.answers.forEach((flag) => {
+        if (flag.correct) {
+          this.isCorrect = true;
+        }
       });
     }
     this.isLoaded = true;
@@ -84,6 +90,11 @@ export class AnswersComponent implements OnInit, OnDestroy, OnChanges  {
     }).subscribe((card) => {
       this.card = card;
       if (this.card.answers) {
+        this.card.answers.forEach((flag) => {
+          if (flag.correct) {
+            this.isCorrect = true;
+          }
+        });
         this.answers = this.card.answers.sort((a) => {
           return a.correct ? -1 : 1;
         });
