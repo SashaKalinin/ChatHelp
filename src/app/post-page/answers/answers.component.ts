@@ -4,9 +4,8 @@ import {Answers, Post} from '../../../environments/interface';
 import {Subscription} from 'rxjs';
 import {PostService} from '../../shared/services/post.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AlertService} from '../../shared/services/alert.service';
-import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-answers',
@@ -18,12 +17,10 @@ export class AnswersComponent implements OnInit, OnDestroy, OnChanges  {
   form: FormGroup;
   authorOnline: string;
   answers: Answers[] = [];
-  postSub: Subscription;
   answersSub: Subscription;
   isLoaded = false;
   correct = false;
   submitted = false;
-  isCorrect = false;
 
   constructor(
     private authService: AuthService,
@@ -38,20 +35,10 @@ export class AnswersComponent implements OnInit, OnDestroy, OnChanges  {
 
   ngOnInit(): void {
     this.authorOnline = this.authService.email;
-    if (this.card.answers) {
-      this.answers = this.card.answers.sort((a, ) => {
-        return a.correct ? -1 : 1;
-      });
-      this.answers.forEach((flag) => {
-        if (flag.correct) {
-          this.isCorrect = true;
-        }
-      });
-    }
+    this.sortingAnswers();
     this.isLoaded = true;
-
     this.form = new FormGroup({
-      text: new FormControl()
+      text: new FormControl(null, Validators.required)
     });
   }
 
@@ -79,39 +66,27 @@ export class AnswersComponent implements OnInit, OnDestroy, OnChanges  {
   }
 
   changeFlag(answer: Answers): void {
-    this.answers.map((a) => {
-        if (a === answer) {
-          a.correct = !a.correct;
-        }
-    });
+    this.answers.map((a) => a === answer ? a.correct = !a.correct : a.correct);
     this.answersSub = this.postService.update({
       ...this.card,
       answers: this.answers
     }).subscribe((card) => {
       this.card = card;
-      if (this.card.answers) {
-        this.card.answers.forEach((flag) => {
-          if (flag.correct) {
-            this.isCorrect = true;
-          }
-        });
-        this.answers = this.card.answers.sort((a) => {
-          return a.correct ? -1 : 1;
-        });
-      }
+      this.sortingAnswers();
       this.submitted = false;
       this.form.reset();
       this.alertService.success('Comment correct');
     });
-
     this.isLoaded = true;
+  }
 
+  sortingAnswers(): void {
+    if (this.card.answers) {
+      this.answers = this.card.answers.sort(a => a.correct ? -1 : 1);
+    }
   }
 
   ngOnDestroy(): void {
-    if (this.postSub) {
-      this.postSub.unsubscribe();
-    }
     if (this.answersSub) {
       this.answersSub.unsubscribe();
     }
