@@ -51,7 +51,7 @@ export class AnswersComponent implements OnInit, OnDestroy, OnChanges  {
       author: this.authorOnline,
       text: this.form.value.text,
       date: new Date().getTime(),
-      correct: this.correct,
+      correct: false,
     };
     this.answers.push(answer);
     this.answersSub = this.postService.update({

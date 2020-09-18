@@ -4,11 +4,7 @@
         <mat-label>Leave a comment</mat-label>
         <textarea matInput formControlName="text" ></textarea>
       </mat-form-field>
-      <div
-        *ngIf="form.get('text').invalid"
-        class="validation"
-      >
-      </div>
+
       <button mat-raised-button
               type="submit"
               color="accent"
@@ -17,6 +13,12 @@
     </form>
   <mat-card-content *ngFor="let answer of answers">
       <div class="comment-card" [ngClass]="{correct: answer.correct}" >
+        <div  [ngClass]="{
+                          done_icon: answer.correct,
+                          hidden: !answer.correct
+                          }">
+          <mat-icon>done</mat-icon>
+        </div>
         <div class="author-and-date">
           <a class="user-int-wrapper">
             <div class="user-int-container">
