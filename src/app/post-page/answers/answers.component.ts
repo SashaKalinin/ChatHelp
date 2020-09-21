@@ -65,7 +65,7 @@ export class AnswersComponent implements OnInit, OnDestroy, OnChanges  {
     });
   }
 
-  changeFlag(answer: Answers): void {
+  changeFlag(answer: Answers, event?: Event): void {
     this.answers.map((a) => a === answer ? a.correct = !a.correct : a.correct);
     this.answersSub = this.postService.update({
       ...this.card,
@@ -75,7 +75,6 @@ export class AnswersComponent implements OnInit, OnDestroy, OnChanges  {
       this.sortingAnswers();
       this.submitted = false;
       this.form.reset();
-      this.alertService.success('Comment correct');
     });
     this.isLoaded = true;
   }

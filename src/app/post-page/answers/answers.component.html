@@ -36,7 +36,7 @@
         <div class="checkbox"   *ngIf="this.authorOnline === card.author">
           <mat-checkbox
             class="example-margin"
-            (click)="changeFlag(answer)"
+            (click)="changeFlag(answer, $event)"
             [checked]= answer.correct
           >Correct</mat-checkbox>
         </div>

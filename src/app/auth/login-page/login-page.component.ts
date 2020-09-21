@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../shared/services/auth.service';
 import {Router} from '@angular/router';
+import {AlertService} from "../../shared/services/alert.service";
 
 @Component({
   selector: 'app-login-page',
@@ -10,10 +11,12 @@ import {Router} from '@angular/router';
 })
 export class LoginPageComponent implements OnInit {
   form: FormGroup;
+  authorOnline: string;
 
   constructor(
-    public authSeervice: AuthService,
+    public authService: AuthService,
     private router: Router,
+    private alertService: AlertService
   ) {
 
   }
@@ -33,24 +36,33 @@ export class LoginPageComponent implements OnInit {
 
   submit(): void {
     const {email, password} = this.form.value;
-    this.authSeervice.onLogin(email, password)
+    this.authService.onLogin(email, password)
       .then(() => {
+        this.greeting();
         this.router.navigate(['posts']);
       });
   }
 
    facebookLogIn(): void{
-    this.authSeervice.logInWIthFacebook()
+    this.authService.logInWIthFacebook()
           .then(() => {
+            this.greeting();
             this.router.navigate(['posts']);
           });
   }
 
    googleLogIn(): void {
-     this.authSeervice.logInWIthGoogle()
+     this.authService.logInWIthGoogle()
        .then(() => {
+         this.greeting();
          this.router.navigate(['posts']);
        });
   }
+
+  greeting(): void {
+    this.authorOnline = this.authService.email;
+    this.alertService.success(`Hello ${this.authorOnline}`);
+  }
+
 }
 
