@@ -23,6 +23,7 @@ export class PostPageComponent implements OnInit, OnDestroy {
   loadingFlag = true;
   isDes = true;
   arrowUpAndDown = 'arrow_upward';
+  selected: string;
 
   constructor(
     public authService: AuthService,

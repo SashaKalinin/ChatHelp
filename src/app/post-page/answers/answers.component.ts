@@ -3,7 +3,7 @@ import {AuthService} from '../../shared/services/auth.service';
 import {Answers, Post} from '../../../environments/interface';
 import {Subscription} from 'rxjs';
 import {PostService} from '../../shared/services/post.service';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AlertService} from '../../shared/services/alert.service';
 
@@ -21,6 +21,7 @@ export class AnswersComponent implements OnInit, OnDestroy, OnChanges  {
   isLoaded = false;
   correct = false;
   submitted = false;
+  complete: boolean;
 
   constructor(
     private authService: AuthService,
@@ -37,6 +38,7 @@ export class AnswersComponent implements OnInit, OnDestroy, OnChanges  {
     this.authorOnline = this.authService.email;
     this.sortingAnswers();
     this.isLoaded = true;
+    this.complete = this.card.answers.some(a => a.correct);
     this.form = new FormGroup({
       text: new FormControl(null, Validators.required)
     });
@@ -60,6 +62,8 @@ export class AnswersComponent implements OnInit, OnDestroy, OnChanges  {
     }).subscribe((card) => {
       this.card = card;
       this.submitted = false;
+      this.form.markAsPristine();
+      this.form.markAsUntouched();
       this.form.reset();
       this.alertService.success('Comment left');
     });
@@ -67,9 +71,11 @@ export class AnswersComponent implements OnInit, OnDestroy, OnChanges  {
 
   changeFlag(answer: Answers, event?: Event): void {
     this.answers.map((a) => a === answer ? a.correct = !a.correct : a.correct);
+    this.complete = this.answers.some(a => a.correct);
     this.answersSub = this.postService.update({
       ...this.card,
-      answers: this.answers
+      answers: this.answers,
+      complete: this.complete
     }).subscribe((card) => {
       this.card = card;
       this.sortingAnswers();

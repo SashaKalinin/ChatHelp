@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../shared/services/auth.service';
 import {Router} from '@angular/router';
-import {AlertService} from "../../shared/services/alert.service";
+import {AlertService} from '../../shared/services/alert.service';
 
 @Component({
   selector: 'app-login-page',

@@ -10,18 +10,15 @@ export class SortingPipePipe implements PipeTransform {
     if (posts.length === 0) {
       return posts;
     }
-    if (isDes === true) {
+    if (isDes) {
       posts.sort((a, b) => {
         return a.date - b.date;
       });
-    } else if (isDes === false) {
+    } else {
       posts.sort((a, b) => {
         return b.date - a.date;
       });
-    } else {
-      return posts ;
     }
     return  posts;
   }
-
 }
