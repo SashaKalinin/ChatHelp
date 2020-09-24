@@ -8,6 +8,11 @@ export class FilterPipePipe implements PipeTransform {
 
   transform(posts: Post[], filerTrigger: string[] ): Post[] {
     let resArr: any = [];
+    const direction = {
+      frontend: 'Frontend',
+      nET: '.NET',
+      salesforce: 'Salesforce'
+    };
     if (posts.length === 0 || filerTrigger.length === 0) {
       return posts;
     }
@@ -19,13 +24,13 @@ export class FilterPipePipe implements PipeTransform {
         if (trigger === 'Answered') {
           resArr = posts.filter( post => post.complete);
         }
-        if (trigger === 'Frontend') {
+        if (trigger === direction.frontend) {
           resArr = filterDir(resArr, trigger, posts);
         }
-        if (trigger === '.NET') {
+        if (trigger === direction.nET) {
           resArr = filterDir(resArr, trigger, posts);
         }
-        if (trigger === 'Salesforce') {
+        if (trigger === direction.salesforce) {
           resArr = filterDir(resArr, trigger, posts);
         }
         if (trigger === 'Per day') {
