@@ -38,7 +38,9 @@ export class AnswersComponent implements OnInit, OnDestroy, OnChanges  {
     this.authorOnline = this.authService.email;
     this.sortingAnswers();
     this.isLoaded = true;
-    this.complete = this.card.answers.some(a => a.correct);
+    if (this.card.answers) {
+      this.complete = this.card.answers.some(a => a.correct);
+    }
     this.form = new FormGroup({
       text: new FormControl(null, Validators.required)
     });

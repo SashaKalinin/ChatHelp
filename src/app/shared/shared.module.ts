@@ -8,7 +8,7 @@ import { FilterPipePipe } from './Pipes/filter-pipe.pipe';
 @NgModule({
     imports: [HttpClientModule, CommonModule],
   exports: [HttpClientModule, AlertComponent],
-  declarations: [AlertComponent, FilterPipePipe]
+  declarations: [AlertComponent]
 })
 export class SharedModule {
 

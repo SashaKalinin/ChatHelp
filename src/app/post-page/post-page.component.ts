@@ -3,8 +3,10 @@ import {AuthService} from '../shared/services/auth.service';
 import {PostService} from '../shared/services/post.service';
 import {Post} from '../../environments/interface';
 import {Subscription} from 'rxjs';
+import {Constants} from '../../environments/constants';
 import {Router} from '@angular/router';
 import {AlertService} from '../shared/services/alert.service';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-post-page',
@@ -23,7 +25,9 @@ export class PostPageComponent implements OnInit, OnDestroy {
   loadingFlag = true;
   isDes = true;
   arrowUpAndDown = 'arrow_upward';
-  selected: string;
+  filters = new FormControl();
+  filtersValue: string[] = [];
+  filterList: string[] = Constants.filterList;
 
   constructor(
     public authService: AuthService,
@@ -59,9 +63,6 @@ export class PostPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  filter(): void {
-  }
-
   sort(): void {
     if (this.isDes === true) {
       this.arrowUpAndDown = 'arrow_upward';
@@ -80,5 +81,14 @@ export class PostPageComponent implements OnInit, OnDestroy {
     if (this.deleteSub) {
       this.deleteSub.unsubscribe();
     }
+  }
+
+  addFilterArr(): void {
+    if (this.filters.value) {
+      this.filtersValue = this.filters.value;
+    } else {
+      this.filtersValue = [];
+    }
+
   }
 }
