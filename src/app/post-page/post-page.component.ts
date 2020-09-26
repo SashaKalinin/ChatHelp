@@ -19,6 +19,8 @@ export class PostPageComponent implements OnInit, OnDestroy {
   postSub: Subscription;
   deleteSub: Subscription;
   dir: string[];
+  direction = Constants.dirArr;
+  timeFilter = Constants.timeFilter;
   author: string;
   questCard: Post;
   editCardPost: Post;
@@ -26,8 +28,11 @@ export class PostPageComponent implements OnInit, OnDestroy {
   isDes = true;
   arrowUpAndDown = 'arrow_upward';
   filters = new FormControl();
-  filtersValue: string[] = [];
-  filterList: string[] = Constants.filterList;
+  commentFiltersValue: string[] = [];
+  commentFilter: string[] = Constants.commentFilter;
+  direFiltersValue: string[] = [];
+  direct = new FormControl();
+  timeSelect: string;
 
   constructor(
     public authService: AuthService,
@@ -65,9 +70,9 @@ export class PostPageComponent implements OnInit, OnDestroy {
 
   sort(): void {
     if (this.isDes === true) {
-      this.arrowUpAndDown = 'arrow_upward';
-    }else {
       this.arrowUpAndDown = 'arrow_downward';
+    }else {
+      this.arrowUpAndDown = 'arrow_upward';
     }
     this.isDes = !this.isDes;
   }
@@ -85,10 +90,14 @@ export class PostPageComponent implements OnInit, OnDestroy {
 
   addFilterArr(): void {
     if (this.filters.value) {
-      this.filtersValue = this.filters.value;
+      this.commentFiltersValue = this.filters.value;
     } else {
-      this.filtersValue = [];
+      this.commentFiltersValue = [];
     }
-
+    if (this.direct.value) {
+      this.direFiltersValue = this.direct.value;
+    } else {
+      this.direFiltersValue = [];
+    }
   }
 }

@@ -6,47 +6,15 @@ import {Post} from '../../../environments/interface';
 })
 export class FilterPipePipe implements PipeTransform {
 
-  transform(posts: Post[], filerTrigger: string[] ): Post[] {
-    let resArr: any = [];
-    const direction = {
-      frontend: 'Frontend',
-      nET: '.NET',
-      salesforce: 'Salesforce'
-    };
-    if (posts.length === 0 || filerTrigger.length === 0) {
+  transform(posts: Post[], commentSelect: string[], direSelect?: string[], timeSelect?: string ): Post[] {
+    let resArr: Post[] = posts;
+    const filterTrigger: string[] = [];
+    pushTrigger(commentSelect, filterTrigger, direSelect, timeSelect);
+    if (posts.length === 0 || filterTrigger.length === 0) {
       return posts;
     }
-    if (resArr.length === 0) {
-      filerTrigger.forEach(trigger => {
-        if (trigger === 'Comments') {
-          resArr = posts.filter( post => post.answers);
-        }
-        if (trigger === 'Answered') {
-          resArr = posts.filter( post => post.complete);
-        }
-        if (trigger === direction.frontend) {
-          resArr = filterDir(resArr, trigger, posts);
-        }
-        if (trigger === direction.nET) {
-          resArr = filterDir(resArr, trigger, posts);
-        }
-        if (trigger === direction.salesforce) {
-          resArr = filterDir(resArr, trigger, posts);
-        }
-        if (trigger === 'Per day') {
-          resArr = perDay(resArr, posts);
-        }
-        if (trigger === 'Per week') {
-          resArr = perWeek(resArr, posts);
-        }
-        if (trigger === 'Per month') {
-          resArr = perMonth(resArr, posts);
-        }
-      });
-    }
-
-    if (resArr.length !== 0) {
-      filerTrigger.forEach(trigger => {
+    if (resArr) {
+      filterTrigger.forEach(trigger => {
         if (trigger === 'Comments') {
           resArr = resArr.filter( post => post.answers);
         }
@@ -77,17 +45,7 @@ export class FilterPipePipe implements PipeTransform {
   }
 }
 
-function perDay(arr: Post[], posts?: Post[]): Post[] {
-  if (posts) {
-      arr = posts.filter(post => {
-        const day = 86400000;
-        const dateNow = new Date().getTime();
-        if ((dateNow - post.date) < day) {
-          return post;
-        }
-      });
-      return arr;
-  } else {
+function perDay(arr: Post[]): Post[] {
       arr = arr.filter(post => {
         const day = 86400000;
         const dateNow = new Date().getTime();
@@ -96,19 +54,8 @@ function perDay(arr: Post[], posts?: Post[]): Post[] {
         }
       });
       return arr;
-  }
 }
-function perWeek(arr: Post[], posts?: Post[]): Post[] {
-  if (posts) {
-    arr = posts.filter(post => {
-      const week = 604800000;
-      const dateNow = new Date().getTime();
-      if ((dateNow - post.date) < week) {
-        return post;
-      }
-    });
-    return arr;
-  } else  {
+function perWeek(arr: Post[]): Post[] {
     arr = arr.filter(post => {
       const week = 604800000;
       const dateNow = new Date().getTime();
@@ -117,19 +64,8 @@ function perWeek(arr: Post[], posts?: Post[]): Post[] {
       }
     });
     return arr;
-  }
 }
-function perMonth(arr: Post[], posts?: Post[]): Post[] {
-  if (posts) {
-    arr = posts.filter(post => {
-      const msInMonth = (33 - new Date(new Date().getFullYear(), new Date().getMonth(), 33).getDate()) * 86400000;
-      const dateNow = new Date().getTime();
-      if ((dateNow - post.date) < msInMonth) {
-        return post;
-      }
-    });
-    return arr;
-  } else  {
+function perMonth(arr: Post[]): Post[] {
     arr = arr.filter(post => {
       const msInMonth = (33 - new Date(new Date().getFullYear(), new Date().getMonth(), 33).getDate()) * 86400000;
       const dateNow = new Date().getTime();
@@ -138,20 +74,8 @@ function perMonth(arr: Post[], posts?: Post[]): Post[] {
       }
     });
     return arr;
-  }
-
 }
-function filterDir(arr: Post[], trigger: string, posts?: Post[]): Post[] {
-  if (posts) {
-    arr = posts.filter(post => {
-      let flag = false;
-      post.direct.forEach(dir => dir === trigger ? flag = true : flag);
-      if (flag) {
-        return post;
-      }
-    });
-    return arr;
-  } else {
+function filterDir(arr: Post[], trigger: string): Post[] {
     arr = arr.filter(post => {
       let flag = false;
       post.direct.forEach(dir => dir === trigger ? flag = true : flag);
@@ -160,7 +84,21 @@ function filterDir(arr: Post[], trigger: string, posts?: Post[]): Post[] {
       }
     });
     return arr;
+}
+function pushTrigger(commentSelect: string[], filterTrigger: string[], direSelect: string[], timeSelect: string): string[] {
+  if (commentSelect || direSelect || timeSelect) {
+    if (commentSelect) {
+      commentSelect.forEach(com => filterTrigger.push(com));
+    }
+    if (direSelect) {
+      direSelect.forEach(dir => filterTrigger.push(dir));
+    }
+    if (timeSelect) {
+      filterTrigger.push(timeSelect);
+    }
+    return filterTrigger;
   }
+  return filterTrigger;
 }
 
 
