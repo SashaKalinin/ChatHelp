@@ -33,6 +33,8 @@ export class PostPageComponent implements OnInit, OnDestroy {
   direFiltersValue: string[] = [];
   direct = new FormControl();
   timeSelect: string;
+  displaySelect = 'Tiled';
+  isDisplayTiled = true;
 
   constructor(
     public authService: AuthService,
@@ -100,4 +102,17 @@ export class PostPageComponent implements OnInit, OnDestroy {
       this.direFiltersValue = [];
     }
   }
+
+  reverseDisplay(): void {
+    if (this.displaySelect === 'Tiled') {
+      this.isDisplayTiled = true;
+    } else if (this.displaySelect === '') {
+      return;
+    } else {
+      this.isDisplayTiled = false;
+    }
+
+  }
+
+
 }

@@ -9,7 +9,6 @@
 <ng-template #postData>
   <div class="wrapper-toolbar">
     <mat-toolbar-row class="mat-tool">
-
       <mat-form-field class="select_field" >
         <mat-label>Comments</mat-label>
         <mat-select [formControl]="filters" multiple>
@@ -43,17 +42,32 @@
           <mat-option value="{{time}}" *ngFor="let time of timeFilter">{{time}}</mat-option>
         </mat-select>
       </mat-form-field>
+
       <button (click)="sort()" mat-stroked-button color="accent" >Sort <mat-icon class="arrow">{{this.arrowUpAndDown}}</mat-icon></button>
-      <button  mat-stroked-button color="accent" >Settings</button>
+
+      <button mat-button id="setting_menu" [matMenuTriggerFor]="menu" color="accent">Settings<mat-icon class="settings_icon">settings</mat-icon></button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-form-field  class="select_setting" >
+            <mat-label>Display</mat-label>
+            <mat-select [(value)]="displaySelect" >
+              <mat-option onclick="document.querySelector('#setting_menu').click()">Return</mat-option>
+              <mat-option value="Line" (click)="reverseDisplay()">Line display</mat-option>
+              <mat-option value="Tiled" (click)="reverseDisplay()">Tiled display</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </button>
+        <button mat-menu-item>Theme</button>
+      </mat-menu>
     </mat-toolbar-row>
   </div>
 
-  <mat-grid-list cols="3" rowHeight="180px" >
+  <mat-grid-list cols="{{isDisplayTiled ? 3 : 1}}" rowHeight="{{isDisplayTiled ? 180 : 80}}px" >
     <div class="wrapper-empty">
       <p *ngIf="!posts.length" class="emptyPostsArray" > The list of questions is empty</p>
     </div>
     <mat-grid-tile *ngFor="let post of posts | sortingPipe: isDes | filterPipe: commentFiltersValue: direFiltersValue: timeSelect" >
-      <mat-card (click)="getId(post)" class="card">
+      <mat-card (click)="getId(post)" class="card" [ngClass]="{card_liner : !isDisplayTiled}">
         <div class="done" *ngIf="post.complete">
           <div >
             <mat-icon>done</mat-icon>
@@ -62,7 +76,7 @@
         <mat-card-header>
           <mat-card-title>{{post.title}}</mat-card-title>
         </mat-card-header>
-        <mat-card-content>
+        <mat-card-content [ngClass]="{liner : !isDisplayTiled}">
           <p>
             {{post.date | date:'short'}}
           </p>
@@ -75,12 +89,9 @@
             <button mat-button  class="btn-card" (click)="edit(post, $event)" >EDIT</button>
             <button mat-button class="btn-card" (click)="remove(post.id, $event)" >DELETE</button>
           </div>
-          <mat-icon>grade</mat-icon>
         </mat-card-actions>
         <ng-template #userButton>
-          <mat-card-actions>
-            <mat-icon>crop_free</mat-icon>
-          </mat-card-actions>
+            <div class="button_emet"></div>
         </ng-template>
       </mat-card>
     </mat-grid-tile>
