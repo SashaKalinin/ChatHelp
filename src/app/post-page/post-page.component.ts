@@ -47,6 +47,10 @@ export class PostPageComponent implements OnInit, OnDestroy {
     this.postSub = this.postService.getData().subscribe(post => {
       this.author = this.authService.email;
       this.posts = post;
+      if (localStorage.getItem('display_view')) {
+        this.displaySelect = localStorage.getItem('display_view');
+      }
+      this.reverseDisplay();
       this.loadingFlag = false;
     });
   }
@@ -106,12 +110,14 @@ export class PostPageComponent implements OnInit, OnDestroy {
   reverseDisplay(): void {
     if (this.displaySelect === 'Tiled') {
       this.isDisplayTiled = true;
+
     } else if (this.displaySelect === '') {
       return;
     } else {
       this.isDisplayTiled = false;
     }
-
+    localStorage.removeItem('display_view');
+    localStorage.setItem('display_view', this.displaySelect);
   }
 
 
