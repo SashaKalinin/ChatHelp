@@ -48,15 +48,14 @@ function timeFilter(arr: Post[], time: number): Post[] {
       arr = arr.filter(post => {
         const dateNow = new Date().getTime();
         if ((dateNow - post.date) < time) {
-          return post;
+          return true;
         }
       });
       return arr;
 }
 function filterDir(arr: Post[], trigger: string): Post[] {
     arr = arr.filter(post => {
-      const flag = post.direct.includes(trigger);
-      if (flag) {
+      if (post.direct.includes(trigger)) {
         return true;
       }
     });
