@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {Constants} from '../../../environments/constants';
@@ -6,23 +6,28 @@ import {Post} from '../../../environments/interface';
 import {PostService} from '../../shared/services/post.service';
 import {AuthService} from '../../shared/services/auth.service';
 import {AlertService} from '../../shared/services/alert.service';
+import {Subscription} from 'rxjs';
+import {ThemeService} from '../../shared/services/theme.service';
 
 @Component({
   selector: 'app-ask-question',
   templateUrl: './ask-question.component.html',
   styleUrls: ['./ask-question.component.less']
 })
-export class AskQuestionComponent implements OnInit {
+export class AskQuestionComponent implements OnInit, OnDestroy {
   form: FormGroup;
   dir = new FormControl();
   dirList: string[] = Constants.dirArr;
   submitted = false;
+  selectedTheme: number;
+  themeSub: Subscription;
 
   constructor(
     private router: Router,
     private postService: PostService,
     public authService: AuthService,
-    private alert: AlertService
+    private alert: AlertService,
+    private themeService: ThemeService
   ) { }
 
   ngOnInit(): void {
@@ -34,6 +39,8 @@ export class AskQuestionComponent implements OnInit {
         Validators.required,
       ])
     });
+    this.themeSub = this.themeService.selectTheme$
+      .subscribe(item => this.selectedTheme = item);
   }
 
   submit(): void {
@@ -61,5 +68,10 @@ export class AskQuestionComponent implements OnInit {
   }
   return(): void {
     this.router.navigate(['posts']);
+  }
+  ngOnDestroy(): void {
+    if (this.themeSub) {
+      this.themeSub.unsubscribe();
+    }
   }
 }

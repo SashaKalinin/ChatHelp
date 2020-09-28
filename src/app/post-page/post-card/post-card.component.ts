@@ -1,4 +1,4 @@
-import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PostService} from '../../shared/services/post.service';
 import {AuthService} from '../../shared/services/auth.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
@@ -6,6 +6,7 @@ import {Subscription} from 'rxjs';
 import {Post} from '../../../environments/interface';
 import {switchMap} from 'rxjs/operators';
 import {AlertService} from '../../shared/services/alert.service';
+import {ThemeService} from '../../shared/services/theme.service';
 
 @Component({
   selector: 'app-post-card',
@@ -18,13 +19,16 @@ export class PostCardComponent implements OnInit, OnDestroy  {
   isLoaded = false;
   postSub: Subscription;
   deleteSub: Subscription;
+  themeSub: Subscription;
   editCardPost: Post;
+  selectedTheme: number;
   constructor(
     private postService: PostService,
     private authService: AuthService,
     private router: Router,
     private rout: ActivatedRoute,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private themeService: ThemeService
   ) { }
 
   ngOnInit(): void {
@@ -38,6 +42,8 @@ export class PostCardComponent implements OnInit, OnDestroy  {
       this.card = post;
       this.isLoaded = true;
     });
+    this.themeSub = this.themeService.selectTheme$
+      .subscribe(item => this.selectedTheme = item);
   }
 
   remove(): void {
@@ -52,14 +58,6 @@ export class PostCardComponent implements OnInit, OnDestroy  {
     });
   }
 
-  ngOnDestroy(): void {
-    if (this.deleteSub) {
-      this.deleteSub.unsubscribe();
-    }
-    if (this.postSub) {
-      this.postSub.unsubscribe();
-    }
-  }
   edit(post: Post, $event: Event): void {
     $event.stopPropagation();
     this.editCardPost = post;
@@ -68,6 +66,18 @@ export class PostCardComponent implements OnInit, OnDestroy  {
 
   return(): void {
     this.router.navigate(['posts']);
+  }
+
+  ngOnDestroy(): void {
+    if (this.deleteSub) {
+      this.deleteSub.unsubscribe();
+    }
+    if (this.postSub) {
+      this.postSub.unsubscribe();
+    }
+    if (this.themeSub) {
+      this.themeSub.unsubscribe();
+    }
   }
 }
 

@@ -1,4 +1,4 @@
-<div class='havent_quest'*ngIf="this.isLoaded === false; else questCard">
+<div class='havent_quest' [ngClass]="{spring : selectedTheme === 2}" *ngIf="this.isLoaded === false; else questCard">
   <div class="container">
     <div class="dash uno"></div>
     <div class="dash dos"></div>
@@ -6,7 +6,7 @@
     <div class="dash cuatro"></div>
   </div>
 </div>
-<ng-template #questCard>
+<ng-template #questCard class="spring">
   <mat-card class="post-card">
     <mat-card-header class="header">
       <button mat-button class="returnBtn" color="accent" (click)="return()"><mat-icon>reply</mat-icon></button>

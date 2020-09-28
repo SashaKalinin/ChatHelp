@@ -1,4 +1,4 @@
-<div class='havent_quest' *ngIf="this.loadingFlag; else postData">
+<div class='havent_quest' [ngClass]="{spring : selectedTheme === 2}" *ngIf="this.loadingFlag; else postData">
     <div class="container">
       <div class="dash uno"></div>
       <div class="dash dos"></div>
@@ -7,7 +7,7 @@
     </div>
 </div>
 <ng-template #postData>
-  <div class="wrapper-toolbar">
+  <div class="wrapper-toolbar" [ngClass]="{spring : selectedTheme === 2}">
     <mat-toolbar-row class="mat-tool">
       <mat-form-field class="select_field" >
         <mat-label>Comments</mat-label>
@@ -56,46 +56,55 @@
             </mat-select>
           </mat-form-field>
         </button>
-        <button mat-menu-item>Theme</button>
+        <button mat-menu-item>
+          <mat-form-field  class="select_setting" >
+            <mat-label>Theme</mat-label>
+            <mat-select  >
+              <mat-option value="1" (click)="selectedThemeItem(1)">White</mat-option>
+              <mat-option value="2" (click)="selectedThemeItem(2)">Azure</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </button>
       </mat-menu>
     </mat-toolbar-row>
   </div>
-
-  <mat-grid-list cols="{{isDisplayTiled ? 3 : 1}}" rowHeight="{{isDisplayTiled ? 180 : 80}}px" >
-    <div class="wrapper-empty">
-      <p *ngIf="!posts.length" class="emptyPostsArray" > The list of questions is empty</p>
-    </div>
-    <mat-grid-tile *ngFor="let post of posts | sortingPipe: isDes | filterPipe: commentFiltersValue: direFiltersValue: timeSelect" >
-      <mat-card (click)="getId(post)" class="card" [ngClass]="{card_liner : !isDisplayTiled}">
-        <div class="done" *ngIf="post.complete">
-          <div >
-            <mat-icon>done</mat-icon>
+  <div class="mat-grid-cont" [ngClass]="{spring : selectedTheme === 2}">
+    <mat-grid-list [ngClass]="{spring : selectedTheme === 2}" cols="{{isDisplayTiled ? 3 : 1}}" rowHeight="{{isDisplayTiled ? 180 : 80}}px" >
+      <div class="wrapper-empty" >
+        <p *ngIf="!posts.length" class="emptyPostsArray" > The list of questions is empty</p>
+      </div>
+      <mat-grid-tile *ngFor="let post of posts | sortingPipe: isDes | filterPipe: commentFiltersValue: direFiltersValue: timeSelect" >
+        <mat-card (click)="getId(post)" class="card" [ngClass]="{card_liner : !isDisplayTiled}">
+          <div class="done" *ngIf="post.complete">
+            <div >
+              <mat-icon>done</mat-icon>
+            </div>
           </div>
-        </div>
-        <mat-card-header>
-          <mat-card-title>{{post.title}}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content [ngClass]="{liner : !isDisplayTiled}">
-          <p>
-            {{post.date | date:'short'}}
-          </p>
-          <div class="directions" >
-            <p class="directions-items" *ngFor="let dir of post.direct">{{dir}}</p>
-          </div>
-        </mat-card-content>
-        <mat-card-actions class="mat-card-btn" *ngIf="author === post.author; else userButton">
-          <div>
-            <button mat-button  class="btn-card" (click)="edit(post, $event)" >EDIT</button>
-            <button mat-button class="btn-card" (click)="remove(post.id, $event)" >DELETE</button>
-          </div>
-        </mat-card-actions>
-        <ng-template #userButton>
+          <mat-card-header>
+            <mat-card-title>{{post.title}}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content [ngClass]="{liner : !isDisplayTiled}">
+            <p>
+              {{post.date | date:'short'}}
+            </p>
+            <div class="directions" >
+              <p class="directions-items" *ngFor="let dir of post.direct">{{dir}}</p>
+            </div>
+          </mat-card-content>
+          <mat-card-actions class="mat-card-btn" *ngIf="author === post.author; else userButton">
+            <div>
+              <button mat-button  class="btn-card" (click)="edit(post, $event)" >EDIT</button>
+              <button mat-button class="btn-card" (click)="remove(post.id, $event)" >DELETE</button>
+            </div>
+          </mat-card-actions>
+          <ng-template #userButton>
             <div class="button_emet"></div>
-        </ng-template>
-      </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
-  <div class="circleAddQuestButton"></div>
+          </ng-template>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+
 </ng-template>
 <button class="circleButtonAsk"
         color="accent"

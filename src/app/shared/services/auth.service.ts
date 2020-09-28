@@ -121,6 +121,7 @@ export class AuthService {
     } else {
       localStorage.removeItem('fb-token');
       localStorage.removeItem('fb-token-exp');
+      localStorage.removeItem('display_view');
     }
 
   }

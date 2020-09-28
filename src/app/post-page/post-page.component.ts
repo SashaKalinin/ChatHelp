@@ -7,6 +7,7 @@ import {Constants} from '../../environments/constants';
 import {Router} from '@angular/router';
 import {AlertService} from '../shared/services/alert.service';
 import {FormControl} from '@angular/forms';
+import {ThemeService} from "../shared/services/theme.service";
 
 @Component({
   selector: 'app-post-page',
@@ -35,8 +36,11 @@ export class PostPageComponent implements OnInit, OnDestroy {
   timeSelect: string;
   displaySelect = 'Tiled';
   isDisplayTiled = true;
+  selectedTheme = 1;
+  themeSub: Subscription;
 
   constructor(
+    private themeService: ThemeService,
     public authService: AuthService,
     private postService: PostService,
     private router: Router,
@@ -53,6 +57,8 @@ export class PostPageComponent implements OnInit, OnDestroy {
       this.reverseDisplay();
       this.loadingFlag = false;
     });
+    this.themeSub = this.themeService.selectTheme$
+      .subscribe(item => this.selectedTheme = item);
   }
 
   getId(post: Post): void {
@@ -83,17 +89,6 @@ export class PostPageComponent implements OnInit, OnDestroy {
     this.isDes = !this.isDes;
   }
 
-
-  ngOnDestroy(): void {
-    if (this.postSub) {
-      this.postSub.unsubscribe();
-    }
-
-    if (this.deleteSub) {
-      this.deleteSub.unsubscribe();
-    }
-  }
-
   addFilterArr(): void {
     if (this.filters.value) {
       this.commentFiltersValue = this.filters.value;
@@ -118,6 +113,24 @@ export class PostPageComponent implements OnInit, OnDestroy {
     }
     localStorage.removeItem('display_view');
     localStorage.setItem('display_view', this.displaySelect);
+  }
+
+  selectedThemeItem(item: number): void {
+    this.selectedTheme = item;
+    this.themeService.changeTheme(item);
+  }
+
+  ngOnDestroy(): void {
+    if (this.postSub) {
+      this.postSub.unsubscribe();
+    }
+
+    if (this.deleteSub) {
+      this.deleteSub.unsubscribe();
+    }
+    if (this.themeSub) {
+      this.themeSub.unsubscribe();
+    }
   }
 
 

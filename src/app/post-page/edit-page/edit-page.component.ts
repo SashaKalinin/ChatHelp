@@ -7,6 +7,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Constants} from '../../../environments/constants';
 import {Subscription} from 'rxjs';
 import {AlertService} from '../../shared/services/alert.service';
+import {ThemeService} from "../../shared/services/theme.service";
 
 @Component({
   selector: 'app-edit-page',
@@ -21,11 +22,14 @@ export class EditPageComponent  implements OnInit, OnDestroy {
   submitted = false;
   updateSub: Subscription;
   postSub: Subscription;
+  themeSub: Subscription;
+  selectedTheme: number;
   constructor(
     private rout: ActivatedRoute,
     private postService: PostService,
     private router: Router,
-    private alert: AlertService
+    private alert: AlertService,
+    private themeService: ThemeService
   ) { }
 
   ngOnInit(): void {
@@ -42,7 +46,10 @@ export class EditPageComponent  implements OnInit, OnDestroy {
           dir: new FormControl(post.direct)
         });
     });
+    this.themeSub = this.themeService.selectTheme$
+      .subscribe(item => this.selectedTheme = item);
   }
+
   return(): void {
     this.router.navigate(['posts']);
   }
@@ -74,6 +81,9 @@ export class EditPageComponent  implements OnInit, OnDestroy {
     }
     if (this.postSub) {
       this.postSub.unsubscribe();
+    }
+    if (this.themeSub) {
+      this.themeSub.unsubscribe();
     }
   }
 
