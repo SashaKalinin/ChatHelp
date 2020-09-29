@@ -19,7 +19,7 @@ export class AskQuestionComponent implements OnInit, OnDestroy {
   dir = new FormControl();
   dirList: string[] = Constants.dirArr;
   submitted = false;
-  selectedTheme: number;
+  selectedTheme: string;
   themeSub: Subscription;
 
   constructor(

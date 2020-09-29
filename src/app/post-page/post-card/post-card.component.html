@@ -1,4 +1,4 @@
-<div class='havent_quest' [ngClass]="{spring : selectedTheme === 2}" *ngIf="this.isLoaded === false; else questCard">
+<div class='havent_quest {{selectedTheme}}'  *ngIf="this.isLoaded === false; else questCard">
   <div class="container">
     <div class="dash uno"></div>
     <div class="dash dos"></div>
@@ -6,33 +6,36 @@
     <div class="dash cuatro"></div>
   </div>
 </div>
-<ng-template #questCard class="spring">
-  <mat-card class="post-card">
-    <mat-card-header class="header">
-      <button mat-button class="returnBtn" color="accent" (click)="return()"><mat-icon>reply</mat-icon></button>
-      <div class="header_item">
-        <p class="sub">{{card.author}}</p>
-        <p class="sub">{{card.date | date:'short'}}</p>
-      </div>
-      <p class="title">{{card.title}}</p>
-      <div class="line"></div>
-    </mat-card-header>
-    <mat-card-content>
-      <p class="main_text">
-        {{card.text}}
-      </p>
-      <mat-card-subtitle class="directions">
-        <p *ngFor="let dir of card.direct">{{dir}}</p>
-      </mat-card-subtitle>
-    </mat-card-content>
-    <mat-card-actions *ngIf="author === card.author">
-      <button mat-button (click)="edit(card, $event)">EDIT</button>
-      <button mat-button (click)="remove()">DELETE</button>
-    </mat-card-actions>
-  </mat-card>
-  <app-answers
-    [card] = "card"
-  ></app-answers>
+<ng-template #questCard >
+  <div class="wrapper {{selectedTheme}}">
+    <mat-card class="post-card">
+      <mat-card-header class="header">
+        <button mat-button class="returnBtn" color="accent" (click)="return()"><mat-icon>reply</mat-icon></button>
+        <div class="header_item">
+          <p class="sub">{{card.author}}</p>
+          <p class="sub">{{card.date | date:'short'}}</p>
+        </div>
+        <p class="title">{{card.title}}</p>
+        <div class="line"></div>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="main_text">
+          {{card.text}}
+        </p>
+        <mat-card-subtitle class="directions">
+          <p *ngFor="let dir of card.direct">{{dir}}</p>
+        </mat-card-subtitle>
+      </mat-card-content>
+      <mat-card-actions *ngIf="author === card.author">
+        <button mat-button (click)="edit(card, $event)">EDIT</button>
+        <button mat-button (click)="remove()">DELETE</button>
+      </mat-card-actions>
+    </mat-card>
+    <app-answers
+      [card] = "card"
+    ></app-answers>
+  </div>
+
 </ng-template>
 
 

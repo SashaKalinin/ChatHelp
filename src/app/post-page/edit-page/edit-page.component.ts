@@ -23,7 +23,7 @@ export class EditPageComponent  implements OnInit, OnDestroy {
   updateSub: Subscription;
   postSub: Subscription;
   themeSub: Subscription;
-  selectedTheme: number;
+  selectedTheme: string;
   constructor(
     private rout: ActivatedRoute,
     private postService: PostService,

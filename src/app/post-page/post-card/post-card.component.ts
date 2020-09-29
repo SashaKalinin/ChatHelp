@@ -21,7 +21,7 @@ export class PostCardComponent implements OnInit, OnDestroy  {
   deleteSub: Subscription;
   themeSub: Subscription;
   editCardPost: Post;
-  selectedTheme: number;
+  selectedTheme: string;
   constructor(
     private postService: PostService,
     private authService: AuthService,

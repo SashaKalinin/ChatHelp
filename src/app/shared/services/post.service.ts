@@ -24,7 +24,6 @@ export class PostService {
       }));
   }
 
-
   getData(): Observable<Post[]> {
     return this.http.get(`${environment.fbDbUrl}/posts.json`)
       .pipe(map((response: {[key: string]: any}) => {

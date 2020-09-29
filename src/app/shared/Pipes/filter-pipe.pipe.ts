@@ -19,7 +19,7 @@ export class FilterPipePipe implements PipeTransform {
       return posts;
     }
     if (resArr) {
-      filterTrigger.forEach(trigger => {
+      filterTrigger.forEach(trigger => { // переделать массивы по одному
         if (trigger === 'Comments') {
           resArr = resArr.filter( post => post.answers);
         }
@@ -30,7 +30,7 @@ export class FilterPipePipe implements PipeTransform {
           direSelect.forEach(dir => resArr = filterDir(resArr, dir));
         }
         if (trigger === 'Per day') {
-          resArr = timeFilter(resArr, day);
+          resArr = timeFilter(resArr, day); //переделать как dir
         }
         if (trigger === 'Per week') {
           resArr = timeFilter(resArr, week);
@@ -44,16 +44,16 @@ export class FilterPipePipe implements PipeTransform {
   }
 }
 
-function timeFilter(arr: Post[], time: number): Post[] {
+function timeFilter(arr: Post[], time: number): Post[] { //переписать легче
+      const dateNow = new Date().getTime();
       arr = arr.filter(post => {
-        const dateNow = new Date().getTime();
         if ((dateNow - post.date) < time) {
           return true;
         }
       });
       return arr;
 }
-function filterDir(arr: Post[], trigger: string): Post[] {
+function filterDir(arr: Post[], trigger: string): Post[] {  // исправить
     arr = arr.filter(post => {
       if (post.direct.includes(trigger)) {
         return true;

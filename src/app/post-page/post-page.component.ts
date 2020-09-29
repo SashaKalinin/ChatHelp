@@ -7,7 +7,7 @@ import {Constants} from '../../environments/constants';
 import {Router} from '@angular/router';
 import {AlertService} from '../shared/services/alert.service';
 import {FormControl} from '@angular/forms';
-import {ThemeService} from "../shared/services/theme.service";
+import {ThemeService} from '../shared/services/theme.service';
 
 @Component({
   selector: 'app-post-page',
@@ -36,7 +36,7 @@ export class PostPageComponent implements OnInit, OnDestroy {
   timeSelect: string;
   displaySelect = 'Tiled';
   isDisplayTiled = true;
-  selectedTheme = 1;
+  selectedTheme = '';
   themeSub: Subscription;
 
   constructor(
@@ -51,9 +51,7 @@ export class PostPageComponent implements OnInit, OnDestroy {
     this.postSub = this.postService.getData().subscribe(post => {
       this.author = this.authService.email;
       this.posts = post;
-      if (localStorage.getItem('display_view')) {
-        this.displaySelect = localStorage.getItem('display_view');
-      }
+      this.displaySelect = this.themeService.getFromLocalStore('display_view') || this.displaySelect;
       this.reverseDisplay();
       this.loadingFlag = false;
     });
@@ -81,50 +79,28 @@ export class PostPageComponent implements OnInit, OnDestroy {
   }
 
   sort(): void {
-    if (this.isDes === true) {
-      this.arrowUpAndDown = 'arrow_downward';
-    }else {
-      this.arrowUpAndDown = 'arrow_upward';
-    }
+    this.isDes ? this.arrowUpAndDown = 'arrow_downward' : this.arrowUpAndDown = 'arrow_upward';
     this.isDes = !this.isDes;
   }
 
   addFilterArr(): void {
-    if (this.filters.value) {
-      this.commentFiltersValue = this.filters.value;
-    } else {
-      this.commentFiltersValue = [];
-    }
-    if (this.direct.value) {
-      this.direFiltersValue = this.direct.value;
-    } else {
-      this.direFiltersValue = [];
-    }
+    this.commentFiltersValue = this.filters.value || [];
+    this.direFiltersValue = this.direct.value || [];
   }
 
   reverseDisplay(): void {
-    if (this.displaySelect === 'Tiled') {
-      this.isDisplayTiled = true;
-
-    } else if (this.displaySelect === '') {
-      return;
-    } else {
-      this.isDisplayTiled = false;
-    }
-    localStorage.removeItem('display_view');
-    localStorage.setItem('display_view', this.displaySelect);
+    this.displaySelect === 'Tiled' ? this.isDisplayTiled = true : this.isDisplayTiled = false;
+    this.themeService.setInLocalStore('display_view', this.displaySelect);
   }
 
-  selectedThemeItem(item: number): void {
-    this.selectedTheme = item;
-    this.themeService.changeTheme(item);
+  selectedThemeItem(): void {
+    this.themeService.changeTheme(this.selectedTheme);
   }
 
   ngOnDestroy(): void {
     if (this.postSub) {
       this.postSub.unsubscribe();
     }
-
     if (this.deleteSub) {
       this.deleteSub.unsubscribe();
     }

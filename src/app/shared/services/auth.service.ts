@@ -103,15 +103,9 @@ export class AuthService {
   }
 
   private userEmail(email: string): string {
-    if (email) {
-      localStorage.setItem('user-email', email);
-    }else {
-      localStorage.removeItem('user-email');
-    }
+    email ? localStorage.setItem('user-email', email) : localStorage.removeItem('user-email');
     return localStorage.getItem('user-email');
   }
-
-
 
  private setToken(idToken): void {
     if (idToken) {
@@ -123,7 +117,6 @@ export class AuthService {
       localStorage.removeItem('fb-token-exp');
       localStorage.removeItem('display_view');
     }
-
   }
 }
 

@@ -5,9 +5,15 @@ import {BehaviorSubject} from 'rxjs';
   providedIn: 'root'
 })
 export class ThemeService {
-  private selectThemeSource = new BehaviorSubject<number>(1);
+  private selectThemeSource = new BehaviorSubject<string>('white');
   selectTheme$ = this.selectThemeSource.asObservable();
-  changeTheme(a: number): void {
+  changeTheme(a: string): void {
     this.selectThemeSource.next(a);
+  }
+  setInLocalStore(name: string, variable: string): void {
+    localStorage.setItem(name, variable);
+  }
+  getFromLocalStore(name: string): string {
+    return localStorage.getItem(name);
   }
 }

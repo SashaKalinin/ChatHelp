@@ -1,4 +1,4 @@
-<div class="wrapper" [ngClass]="{spring : selectedTheme === 2}" *ngIf="form; else loading">
+<div class="wrapper {{selectedTheme}}" *ngIf="form; else loading">
     <mat-card>
       <button mat-button class="returnBtn" color="accent" (click)="return()"><mat-icon>reply</mat-icon></button>
       <mat-card-title>
@@ -53,7 +53,7 @@
     </mat-card>
 </div>
 <ng-template #loading class='havent_quest' >
-  <div class="wrapper_load" [ngClass]="{spring : selectedTheme === 2}">
+  <div class="wrapper_load {{selectedTheme}}">
     <div class="container">
       <div class="dash uno"></div>
       <div class="dash dos"></div>
