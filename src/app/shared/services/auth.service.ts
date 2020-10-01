@@ -5,12 +5,14 @@ import {auth} from 'firebase';
 import {FormGroup} from '@angular/forms';
 import {Constants} from '../../../environments/constants';
 import {Router} from '@angular/router';
+import * as firebase from 'firebase';
 
 @Injectable()
 export class AuthService {
   public  error$: Subject<string> = new Subject<string>();
   form: FormGroup;
   public email = localStorage.getItem('user-email');
+  public isAdminOnline: boolean;
   constructor(
     public af: AngularFireAuth,
     public router: Router
@@ -23,6 +25,11 @@ export class AuthService {
       return null;
     }
     return localStorage.getItem('fb-token');
+  }
+
+  isAdmin(email: string): Promise<firebase.database.DataSnapshot> {
+    return firebase.database().ref('admin')
+      .once('value');
   }
 
   onSignUp(email: string, password: string): Promise<any> {

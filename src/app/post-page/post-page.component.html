@@ -46,7 +46,7 @@
 
         <button (click)="sort()" mat-stroked-button color="accent" >Sort <mat-icon class="arrow">{{this.arrowUpAndDown}}</mat-icon></button>
 
-        <button mat-button id="setting_menu" [matMenuTriggerFor]="menu" color="accent">Settings<mat-icon class="settings_icon">settings</mat-icon></button>
+        <button mat-button class="setting_menu" id="setting_menu" [matMenuTriggerFor]="menu" color="accent">Settings<mat-icon class="settings_icon">settings</mat-icon></button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item>
             <mat-form-field  class="select_setting" >

@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {FbCreateResponse, Post} from '../../../environments/interface';
 import {environment} from '../../../environments/environment';
 import {map} from 'rxjs/operators';
+import * as firebase from "firebase";
 
 
 @Injectable({
@@ -14,7 +15,7 @@ export class PostService {
     private http: HttpClient
   ) { }
 
-  create(post: Post): Observable<Post> {
+  createPostsData(post: Post): Observable<Post> {
     return this.http.post(`${environment.fbDbUrl}/posts.json`, post)
       .pipe(map( (response: FbCreateResponse) => {
         return {
@@ -23,6 +24,9 @@ export class PostService {
         };
       }));
   }
+  // createAdminData(admin: any): Observable<any> {
+  //   return this.http.post(`${environment.fbDbUrl}/admin.json`, admin);
+  // }
 
   getData(): Observable<Post[]> {
     return this.http.get(`${environment.fbDbUrl}/posts.json`)

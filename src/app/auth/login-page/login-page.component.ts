@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../shared/services/auth.service';
 import {Router} from '@angular/router';
 import {AlertService} from '../../shared/services/alert.service';
+import {PostService} from "../../shared/services/post.service";
 
 @Component({
   selector: 'app-login-page',
@@ -16,7 +17,7 @@ export class LoginPageComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private router: Router,
-    private alertService: AlertService
+    private alertService: AlertService,
   ) {
 
   }
@@ -36,11 +37,19 @@ export class LoginPageComponent implements OnInit {
 
   submit(): void {
     const {email, password} = this.form.value;
-    this.authService.onLogin(email, password)
-      .then(() => {
-        this.greeting();
-        this.router.navigate(['posts']);
-      });
+    this.authService.isAdmin(email).then(s => {
+      const arr = s.val();
+      for (const i in arr) {
+        const v = arr[i];
+        this.authService.isAdminOnline = v.includes(email);
+        console.log(this.authService.isAdminOnline);
+      }
+      this.authService.onLogin(email, password)
+        .then(() => {
+          this.greeting();
+          this.router.navigate(['posts']);
+        });
+    });
   }
 
    facebookLogIn(): void{

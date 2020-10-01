@@ -55,6 +55,7 @@ export class PostPageComponent implements OnInit, OnDestroy {
       this.reverseDisplay();
       this.loadingFlag = false;
     });
+    // this.postService.createAdminData(Constants.adminEmail).subscribe();
     this.themeSub = this.themeService.selectTheme$
       .subscribe(item => this.selectedTheme = item);
   }

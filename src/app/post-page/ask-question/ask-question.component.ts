@@ -58,7 +58,7 @@ export class AskQuestionComponent implements OnInit, OnDestroy {
       adminApprove: false,
       answers: []
     };
-    this.postService.create(post).subscribe(() => {
+    this.postService.createPostsData(post).subscribe(() => {
       this.submitted = false;
       this.form.reset();
       this.dir.reset();
