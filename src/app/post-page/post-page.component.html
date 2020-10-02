@@ -76,7 +76,8 @@
           <p *ngIf="!posts.length" class="emptyPostsArray" > The list of questions is empty</p>
         </div>
         <mat-grid-tile *ngFor="let post of posts | sortingPipe: isDes | filterPipe: commentFiltersValue: direFiltersValue: timeSelect" >
-          <mat-card (click)="getId(post)" class="card" [ngClass]="{card_liner : !isDisplayTiled}">
+          <mat-card (click)="getId(post)" class="card"
+                    [ngClass]="{card_liner : !isDisplayTiled}">
             <div class="done" *ngIf="post.complete">
               <div >
                 <mat-icon>done</mat-icon>
@@ -93,12 +94,20 @@
                 <p class="directions-items" *ngFor="let dir of post.direct">{{dir}}</p>
               </div>
             </mat-card-content>
-            <mat-card-actions class="mat-card-btn" *ngIf="author === post.author; else userButton">
+            <mat-card-actions class="mat-card-btn" *ngIf="author === post.author; else adminButton">
               <div>
-                <button mat-button  class="btn-card" (click)="edit(post, $event)" >EDIT</button>
+                <button mat-button *ngIf="!post.adminApprove" class="btn-card" (click)="edit(post, $event)" >EDIT</button>
                 <button mat-button class="btn-card" (click)="remove(post.id, $event)" >DELETE</button>
               </div>
             </mat-card-actions>
+            <ng-template #adminButton>
+              <ng-container *ngIf="this.authService.isAdminOnline ; else userButton">
+                <div>
+                  <button mat-button *ngIf="!post.adminApprove" class="btn-card" (click)="approve(post, $event)" >APPROVE</button>
+                  <button mat-button class="btn-card" (click)="remove(post.id, $event)" >DELETE</button>
+                </div>
+              </ng-container>
+            </ng-template>
             <ng-template #userButton>
               <div class="button_emet"></div>
             </ng-template>

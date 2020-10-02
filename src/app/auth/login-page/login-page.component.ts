@@ -37,12 +37,12 @@ export class LoginPageComponent implements OnInit {
 
   submit(): void {
     const {email, password} = this.form.value;
-    this.authService.isAdmin(email).then(s => {
+    this.authService.isAdmin(email)
+      .then(s => {
       const arr = s.val();
-      for (const i in arr) {
-        const v = arr[i];
+      for (const adm in arr) {
+        const v = arr[adm];
         this.authService.isAdminOnline = v.includes(email);
-        console.log(this.authService.isAdminOnline);
       }
       this.authService.onLogin(email, password)
         .then(() => {

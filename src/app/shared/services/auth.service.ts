@@ -123,6 +123,7 @@ export class AuthService {
       localStorage.removeItem('fb-token');
       localStorage.removeItem('fb-token-exp');
       localStorage.removeItem('display_view');
+      localStorage.removeItem('adminOnline');
     }
   }
 }

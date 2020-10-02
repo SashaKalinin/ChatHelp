@@ -19,6 +19,7 @@ export class PostCardComponent implements OnInit, OnDestroy  {
   isLoaded = false;
   postSub: Subscription;
   deleteSub: Subscription;
+  updateSub: Subscription;
   themeSub: Subscription;
   editCardPost: Post;
   selectedTheme: string;
@@ -64,6 +65,18 @@ export class PostCardComponent implements OnInit, OnDestroy  {
     this.router.navigate(['post', this.editCardPost.id, 'edit']);
   }
 
+  approve(post: Post, $event: MouseEvent): void {
+    $event.stopPropagation();
+    this.updateSub = this.postService.update({
+      ...post,
+      adminApprove: true
+    }).subscribe(() => {
+      this.router.navigate(['posts']);
+      this.alertService.success('Question has been approved');
+      }
+    );
+  }
+
   return(): void {
     this.router.navigate(['posts']);
   }
@@ -77,6 +90,9 @@ export class PostCardComponent implements OnInit, OnDestroy  {
     }
     if (this.themeSub) {
       this.themeSub.unsubscribe();
+    }
+    if (this.updateSub) {
+      this.updateSub.unsubscribe();
     }
   }
 }

@@ -19,6 +19,7 @@ export class PostPageComponent implements OnInit, OnDestroy {
   posts: Post[] = [];
   postSub: Subscription;
   deleteSub: Subscription;
+  updateSub: Subscription;
   dir: string[];
   direction = Constants.dirArr;
   timeFilter = Constants.timeFilter;
@@ -48,14 +49,17 @@ export class PostPageComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    if (!localStorage.getItem('adminOnline')) {
+      localStorage.setItem('adminOnline', JSON.stringify(this.authService.isAdminOnline));
+    }
+    this.authService.isAdminOnline = JSON.parse(localStorage.getItem('adminOnline'));
     this.postSub = this.postService.getData().subscribe(post => {
       this.author = this.authService.email;
-      this.posts = post;
+      this.posts = post.filter(p => this.author === p.author || this.authService.isAdminOnline || p.adminApprove);
       this.displaySelect = this.themeService.getFromLocalStore('display_view') || this.displaySelect;
       this.reverseDisplay();
       this.loadingFlag = false;
     });
-    // this.postService.createAdminData(Constants.adminEmail).subscribe();
     this.themeSub = this.themeService.selectTheme$
       .subscribe(item => this.selectedTheme = item);
   }
@@ -69,6 +73,21 @@ export class PostPageComponent implements OnInit, OnDestroy {
     $event.stopPropagation();
     this.editCardPost = post;
     this.router.navigate(['post', this.editCardPost.id, 'edit']);
+  }
+
+  approve(post: Post, $event: MouseEvent): void {
+    $event.stopPropagation();
+    this.updateSub = this.postService.update({
+      ...post,
+      adminApprove: true
+    }).subscribe(() => {
+      this.postSub = this.postService.getData().subscribe(pos => {
+        this.author = this.authService.email;
+        this.posts = pos.filter(p => this.author === p.author || this.authService.isAdminOnline || p.adminApprove);
+      });
+      this.alertService.success('Question has been approved');
+      }
+    );
   }
 
   remove(id: string, $event): void {
@@ -108,7 +127,8 @@ export class PostPageComponent implements OnInit, OnDestroy {
     if (this.themeSub) {
       this.themeSub.unsubscribe();
     }
+    if (this.updateSub) {
+      this.updateSub.unsubscribe();
+    }
   }
-
-
 }

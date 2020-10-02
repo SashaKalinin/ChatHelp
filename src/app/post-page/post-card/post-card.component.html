@@ -26,10 +26,18 @@
           <p *ngFor="let dir of card.direct">{{dir}}</p>
         </mat-card-subtitle>
       </mat-card-content>
-      <mat-card-actions *ngIf="author === card.author">
-        <button mat-button (click)="edit(card, $event)">EDIT</button>
+      <mat-card-actions *ngIf="author === card.author; else adminBtn">
+        <button *ngIf="!card.adminApprove" mat-button (click)="edit(card, $event)">EDIT</button>
         <button mat-button (click)="remove()">DELETE</button>
       </mat-card-actions>
+      <ng-template #adminBtn >
+        <ng-container *ngIf="this.authService.isAdminOnline">
+          <div>
+            <button mat-button *ngIf="!card.adminApprove"  class="btn-card" (click)="approve(card, $event)" >APPROVE</button>
+            <button mat-button class="btn-card" (click)="remove()" >DELETE</button>
+          </div>
+        </ng-container>
+      </ng-template>
     </mat-card>
     <app-answers
       [card] = "card"
