@@ -30,10 +30,13 @@ export class PostPageComponent implements OnInit, OnDestroy {
   isDes = true;
   arrowUpAndDown = 'arrow_upward';
   filters = new FormControl();
-  commentFiltersValue: string[] = [];
-  commentFilter: string[] = Constants.commentFilter;
-  direFiltersValue: string[] = [];
   direct = new FormControl();
+  direFiltersValue: string[] = [];
+  commentFilter: string[] = Constants.commentFilter;
+  commentFiltersValue: string[] = [];
+  admFilter: string[] = Constants.adminFilter;
+  adminFilter = new FormControl();
+  adminFiltersValue: string[] = [];
   timeSelect: string;
   displaySelect = 'Tiled';
   isDisplayTiled = true;
@@ -106,6 +109,7 @@ export class PostPageComponent implements OnInit, OnDestroy {
   addFilterArr(): void {
     this.commentFiltersValue = this.filters.value || [];
     this.direFiltersValue = this.direct.value || [];
+    this.adminFiltersValue = this.adminFilter.value || [];
   }
 
   reverseDisplay(): void {

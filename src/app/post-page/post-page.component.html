@@ -7,9 +7,20 @@
     </div>
 </div>
 <ng-template #postData>
-  <div class="{{selectedTheme}}">
+  <div class=" wrapper2 {{selectedTheme}}">
     <div class="wrapper-toolbar " >
       <mat-toolbar-row class="mat-tool">
+
+        <mat-form-field class="select_field" *ngIf="this.authService.isAdminOnline">
+          <mat-label>Admin</mat-label>
+          <mat-select [formControl]="adminFilter" multiple>
+            <mat-select-trigger>
+              {{adminFilter.value ? adminFilter.value[0] : ''}}
+            </mat-select-trigger>
+            <mat-option (click)="addFilterArr()" *ngFor="let filter of admFilter" [value]="filter">{{filter}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
         <mat-form-field class="select_field" >
           <mat-label>Comments</mat-label>
           <mat-select [formControl]="filters" multiple>
@@ -75,13 +86,17 @@
         <div class="wrapper-empty" >
           <p *ngIf="!posts.length" class="emptyPostsArray" > The list of questions is empty</p>
         </div>
-        <mat-grid-tile *ngFor="let post of posts | sortingPipe: isDes | filterPipe: commentFiltersValue: direFiltersValue: timeSelect" >
+        <mat-grid-tile *ngFor="let post of posts | sortingPipe: isDes
+                                                 | filterPipe: commentFiltersValue: direFiltersValue: timeSelect: adminFiltersValue" >
           <mat-card (click)="getId(post)" class="card"
                     [ngClass]="{card_liner : !isDisplayTiled}">
             <div class="done" *ngIf="post.complete">
               <div >
                 <mat-icon>done</mat-icon>
               </div>
+            </div>
+            <div class="done" *ngIf="!post.adminApprove">
+                <p class="moderation">Moderation</p>
             </div>
             <mat-card-header>
               <mat-card-title>{{post.title}}</mat-card-title>

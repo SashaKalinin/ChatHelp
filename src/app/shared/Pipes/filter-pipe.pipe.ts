@@ -7,19 +7,19 @@ import {Post} from '../../../environments/interface';
 })
 export class FilterPipePipe implements PipeTransform {
 
-  transform(posts: Post[], commentSelect: string[], direSelect?: string[], timeSelect?: string ): Post[] {
+  transform(posts: Post[], commentSelect: string[], direSelect?: string[], timeSelect?: string, adminSelect?: string[] ): Post[] {
     let resArr: Post[] = posts;
     const filterTrigger: string[] = [];
     const day = 86400000;
     const week = 604800000;
     const msInMonth = (33 - new Date(new Date().getFullYear(), new Date().getMonth(), 33).getDate()) * day;
 
-    pushTrigger(commentSelect, filterTrigger, direSelect, timeSelect);
+    pushTrigger(commentSelect, filterTrigger, direSelect, timeSelect, adminSelect);
     if (posts.length === 0 || filterTrigger.length === 0) {
       return posts;
     }
     if (resArr) {
-      filterTrigger.forEach(trigger => { // переделать массивы по одному
+      filterTrigger.forEach(trigger => {
         if (trigger === 'Comments') {
           resArr = resArr.filter( post => post.answers);
         }
@@ -30,7 +30,7 @@ export class FilterPipePipe implements PipeTransform {
           direSelect.forEach(dir => resArr = filterDir(resArr, dir));
         }
         if (trigger === 'Per day') {
-          resArr = timeFilter(resArr, day); //переделать как dir
+          resArr = timeFilter(resArr, day);
         }
         if (trigger === 'Per week') {
           resArr = timeFilter(resArr, week);
@@ -38,13 +38,26 @@ export class FilterPipePipe implements PipeTransform {
         if (trigger === 'Per month') {
           resArr = timeFilter(resArr, msInMonth);
         }
+        if (adminSelect) {
+          adminSelect.forEach(adm => resArr = filterAdmin(resArr, adm));
+        }
       });
     }
     return resArr;
   }
 }
 
-function timeFilter(arr: Post[], time: number): Post[] { //переписать легче
+function filterAdmin(arr: Post[], trigger: string): Post[] {
+  if (trigger === 'On moderation') {
+    arr = arr.filter(post => {
+      if (post.adminApprove === false) {
+        return true;
+      }
+    });
+  }
+  return arr;
+}
+function timeFilter(arr: Post[], time: number): Post[] {
       const dateNow = new Date().getTime();
       arr = arr.filter(post => {
         if ((dateNow - post.date) < time) {
@@ -53,7 +66,7 @@ function timeFilter(arr: Post[], time: number): Post[] { //переписать 
       });
       return arr;
 }
-function filterDir(arr: Post[], trigger: string): Post[] {  // исправить
+function filterDir(arr: Post[], trigger: string): Post[] {
     arr = arr.filter(post => {
       if (post.direct.includes(trigger)) {
         return true;
@@ -61,8 +74,8 @@ function filterDir(arr: Post[], trigger: string): Post[] {  // исправит�
     });
     return arr;
 }
-function pushTrigger(commentSelect: string[], filterTrigger: string[], direSelect: string[], timeSelect: string): string[] {
-  if (commentSelect || direSelect || timeSelect) {
+function pushTrigger(commentSelect: string[], filterTrigger: string[], direSelect: string[], timeSelect: string, adminSelect: string[]): string[] {
+  if (commentSelect || direSelect || timeSelect || adminSelect) {
     if (commentSelect) {
       commentSelect.forEach(com => filterTrigger.push(com));
     }
@@ -71,6 +84,9 @@ function pushTrigger(commentSelect: string[], filterTrigger: string[], direSelec
     }
     if (timeSelect) {
       filterTrigger.push(timeSelect);
+    }
+    if (adminSelect) {
+      adminSelect.forEach(adm => filterTrigger.push(adm));
     }
     return filterTrigger;
   }
