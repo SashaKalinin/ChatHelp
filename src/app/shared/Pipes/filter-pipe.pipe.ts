@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import {Post} from '../../../environments/interface';
+import {AuthService} from '../services/auth.service';
 
 @Pipe({
   name: 'filterPipe',
@@ -7,14 +8,13 @@ import {Post} from '../../../environments/interface';
 })
 export class FilterPipePipe implements PipeTransform {
 
-  transform(posts: Post[], commentSelect: string[], direSelect?: string[], timeSelect?: string, adminSelect?: string[] ): Post[] {
+  transform(posts: Post[], commentSelect: string[], direSelect?: string[], timeSelect?: string, adminSelect?: string[], authorSelect?: string[] ): Post[] {
     let resArr: Post[] = posts;
     const filterTrigger: string[] = [];
     const day = 86400000;
     const week = 604800000;
     const msInMonth = (33 - new Date(new Date().getFullYear(), new Date().getMonth(), 33).getDate()) * day;
-
-    pushTrigger(commentSelect, filterTrigger, direSelect, timeSelect, adminSelect);
+    pushTrigger(commentSelect, filterTrigger, direSelect, timeSelect, adminSelect, authorSelect);
     if (posts.length === 0 || filterTrigger.length === 0) {
       return posts;
     }
@@ -41,12 +41,21 @@ export class FilterPipePipe implements PipeTransform {
         if (adminSelect) {
           adminSelect.forEach(adm => resArr = filterAdmin(resArr, adm));
         }
+        if (authorSelect) {
+          authorSelect.forEach((tr) => resArr = filterAuthor(resArr, tr));
+        }
       });
     }
     return resArr;
   }
 }
 
+function filterAuthor(arr: Post[], trigger: string): Post[] {
+    if (trigger === 'My questions') {
+      arr = arr.filter( post => localStorage.getItem('user-email') === post.author);
+    }
+    return arr;
+}
 function filterAdmin(arr: Post[], trigger: string): Post[] {
   if (trigger === 'On moderation') {
     arr = arr.filter(post => {
@@ -74,8 +83,8 @@ function filterDir(arr: Post[], trigger: string): Post[] {
     });
     return arr;
 }
-function pushTrigger(commentSelect: string[], filterTrigger: string[], direSelect: string[], timeSelect: string, adminSelect: string[]): string[] {
-  if (commentSelect || direSelect || timeSelect || adminSelect) {
+function pushTrigger(commentSelect: string[], filterTrigger: string[], direSelect: string[], timeSelect: string, adminSelect: string[], authorSelect: string[]): string[] {
+  if (commentSelect || direSelect || timeSelect || adminSelect || authorSelect) {
     if (commentSelect) {
       commentSelect.forEach(com => filterTrigger.push(com));
     }
@@ -87,6 +96,9 @@ function pushTrigger(commentSelect: string[], filterTrigger: string[], direSelec
     }
     if (adminSelect) {
       adminSelect.forEach(adm => filterTrigger.push(adm));
+    }
+    if (authorSelect) {
+      authorSelect.forEach((author => filterTrigger.push(author)));
     }
     return filterTrigger;
   }
