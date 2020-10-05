@@ -98,8 +98,11 @@
         </div>
         <mat-grid-tile *ngFor="let post of posts | sortingPipe: isDes
                                                  | filterPipe: commentFiltersValue: direFiltersValue: timeSelect: adminFiltersValue: authorFilterValue" >
-          <mat-card (click)="getId(post)" class="card"
-                    [ngClass]="{card_liner : !isDisplayTiled}">
+          <mat-card (click)="getId(post)"
+                    [ngClass]="{
+                    card_liner : !isDisplayTiled,
+                    card : isDisplayTiled
+                    }">
             <div class="done" *ngIf="post.complete">
               <div >
                 <mat-icon>done</mat-icon>
@@ -109,9 +112,9 @@
                 <p class="moderation">Moderation</p>
             </div>
             <mat-card-header class="mat-card-header">
-              <mat-card-title>{{post.title}}</mat-card-title>
+              <mat-card-title><p class="title">{{post.title}}</p></mat-card-title>
             </mat-card-header>
-            <mat-card-content [ngClass]="{liner : !isDisplayTiled}">
+            <mat-card-content class="mat-card-content" [ngClass]="{liner : !isDisplayTiled}">
               <div class="date">
                 <p>
                   {{post.date | date:'short'}}

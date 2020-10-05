@@ -31,10 +31,12 @@ body {
   margin-right: 2px;
   padding: 2px;
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 25% 50% 25%;
+  grid-template-areas: 'title'
+                       'dateDir'
+                       'btn';
 }
 .button_emet {
   width: 161px;
@@ -50,15 +52,27 @@ body {
     margin-right: 12px;
   }
 }
+.title {
+  min-width: 10px;
+  max-width: 160px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow:hidden;
+}
 .mat-card-header {
+  margin: 0;
   grid-area: title;
   justify-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 mat-card-content {
   grid-area: dateDir;
-}
-.lin {
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .mat-card-btn {
@@ -68,7 +82,16 @@ mat-card-content {
   justify-content: center;
   grid-area: btn;
 }
+.date {
+  align-self: center;
+}
 .card_liner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin-right: 2px;
+  padding: 2px;
+  cursor: pointer;
   display: grid;
   grid-template-columns: 25% 50% 25%;
   grid-template-rows: 100%;
@@ -79,11 +102,13 @@ mat-card-content {
   align-items: center;
   justify-content: center;
 }
-
+.mat-card-actions {
+  margin: 0;
+}
 .done {
   position: absolute;
   top: 7%;
-  left: 5%;
+  left: 1%;
   div mat-icon {
     color: green;
   }
@@ -94,15 +119,10 @@ mat-card-content {
 }
 
 .btn-card {
-  margin-bottom: 10px;
-  margin-right: 10px;
   outline: none;
 }
 .mat-card-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+
 }
 .liner {
   flex-direction: row;
