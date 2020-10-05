@@ -37,12 +37,47 @@ body {
   align-items: center;
 }
 .button_emet {
-    width: 161px;
+  width: 161px;
+}
+.directions {
+  width: 100%;
+  min-width: 150px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 5px;
+  .directions-items {
+    margin-right: 12px;
+  }
+}
+.mat-card-header {
+  grid-area: title;
+  justify-self: center;
+}
+mat-card-content {
+  grid-area: dateDir;
+}
+.lin {
 
 }
+
+.mat-card-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  grid-area: btn;
+}
 .card_liner {
-  flex-direction: row;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: 25% 50% 25%;
+  grid-template-rows: 100%;
+  grid-template-areas: 'title dateDir btn';
+}
+.btn-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .done {
@@ -62,17 +97,6 @@ body {
   margin-bottom: 10px;
   margin-right: 10px;
   outline: none;
-}
-.directions {
-  width: 100%;
-  min-width: 150px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  margin-top: 5px;
-  .directions-items {
-    margin-right: 5px;
-  }
 }
 .mat-card-content {
   display: flex;
@@ -98,15 +122,10 @@ mat-icon {
 .wrapper2 {
   min-height: 100%;
 }
-.mat-card-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
+
 mat-grid-tile {
   :hover {
-    transition: 0.2s ease-in-out;
+    transition: 0.1s ease-in-out;
     background-color: #212121;
   }
 }

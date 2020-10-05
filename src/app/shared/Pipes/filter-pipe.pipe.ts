@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import {Post} from '../../../environments/interface';
-import {AuthService} from '../services/auth.service';
 
 @Pipe({
   name: 'filterPipe',
@@ -30,7 +29,7 @@ export class FilterPipePipe implements PipeTransform {
           direSelect.forEach(dir => resArr = filterDir(resArr, dir));
         }
         if (trigger === 'Per day') {
-          resArr = timeFilter(resArr, day);
+          resArr = timeFilter(resArr, day);     //switch case
         }
         if (trigger === 'Per week') {
           resArr = timeFilter(resArr, week);

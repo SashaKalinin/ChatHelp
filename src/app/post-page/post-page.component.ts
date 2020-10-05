@@ -24,8 +24,6 @@ export class PostPageComponent implements OnInit, OnDestroy {
   direction = Constants.dirArr;
   timeFilter = Constants.timeFilter;
   author: string;
-  questCard: Post;
-  editCardPost: Post;
   loadingFlag = true;
   isDes = true;
   arrowUpAndDown = 'arrow_upward';
@@ -62,7 +60,7 @@ export class PostPageComponent implements OnInit, OnDestroy {
     this.postSub = this.postService.getData().subscribe(post => {
       this.author = this.authService.email;
       this.posts = post.filter(p => this.author === p.author || this.authService.isAdminOnline || p.adminApprove);
-      this.displaySelect = this.themeService.getFromLocalStore('display_view') || this.displaySelect;
+      this.displaySelect = this.themeService.get('display_view') || this.displaySelect;
       this.reverseDisplay();
       this.loadingFlag = false;
     });
@@ -71,14 +69,12 @@ export class PostPageComponent implements OnInit, OnDestroy {
   }
 
   getId(post: Post): void {
-    this.questCard = post;
-    this.router.navigate(['post', this.questCard.id]);
+    this.router.navigate(['post', post.id]);
   }
 
   edit(post: Post, $event: Event): void {
     $event.stopPropagation();
-    this.editCardPost = post;
-    this.router.navigate(['post', this.editCardPost.id, 'edit']);
+    this.router.navigate(['post', post.id, 'edit']);
   }
 
   approve(post: Post, $event: MouseEvent): void {
@@ -86,9 +82,8 @@ export class PostPageComponent implements OnInit, OnDestroy {
     this.updateSub = this.postService.update({
       ...post,
       adminApprove: true
-    }).subscribe(() => {
+    }).subscribe(() => {     // вынести в сервис воспользоваться switchMap
       this.postSub = this.postService.getData().subscribe(pos => {
-        this.author = this.authService.email;
         this.posts = pos.filter(p => this.author === p.author || this.authService.isAdminOnline || p.adminApprove);
       });
       this.alertService.success('Question has been approved');
@@ -105,7 +100,7 @@ export class PostPageComponent implements OnInit, OnDestroy {
   }
 
   sort(): void {
-    this.isDes ? this.arrowUpAndDown = 'arrow_downward' : this.arrowUpAndDown = 'arrow_upward';
+    this.arrowUpAndDown = this.isDes ? 'arrow_downward' : 'arrow_upward';
     this.isDes = !this.isDes;
   }
 
@@ -117,8 +112,8 @@ export class PostPageComponent implements OnInit, OnDestroy {
   }
 
   reverseDisplay(): void {
-    this.displaySelect === 'Tiled' ? this.isDisplayTiled = true : this.isDisplayTiled = false;
-    this.themeService.setInLocalStore('display_view', this.displaySelect);
+    this.isDisplayTiled = this.displaySelect === 'Tiled';
+    this.themeService.set('display_view', this.displaySelect);
   }
 
   selectedThemeItem(): void {

@@ -10,10 +10,10 @@ export class ThemeService {
   changeTheme(a: string): void {
     this.selectThemeSource.next(a);
   }
-  setInLocalStore(name: string, variable: string): void {
+  set(name: string, variable: string): void {
     localStorage.setItem(name, variable);
   }
-  getFromLocalStore(name: string): string {
+  get(name: string): string {
     return localStorage.getItem(name);
   }
 }

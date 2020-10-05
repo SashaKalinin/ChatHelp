@@ -72,7 +72,7 @@ export class AnswersComponent implements OnInit, OnDestroy, OnChanges  {
   }
 
   changeFlag(answer: Answers, event?: Event): void {
-    this.answers.map((a) => a === answer ? a.correct = !a.correct : a.correct);
+    this.answers.map((a) => a === answer ? a.correct = !a.correct : a.correct); //исправить на просто тогл ансвера
     this.complete = this.answers.some(a => a.correct);
     this.answersSub = this.postService.update({
       ...this.card,

@@ -108,34 +108,38 @@
             <div class="done" *ngIf="!post.adminApprove">
                 <p class="moderation">Moderation</p>
             </div>
-            <mat-card-header>
+            <mat-card-header class="mat-card-header">
               <mat-card-title>{{post.title}}</mat-card-title>
             </mat-card-header>
             <mat-card-content [ngClass]="{liner : !isDisplayTiled}">
-              <p>
-                {{post.date | date:'short'}}
-              </p>
+              <div class="date">
+                <p>
+                  {{post.date | date:'short'}}
+                </p>
+              </div>
               <div class="directions" >
                 <p class="directions-items" *ngFor="let dir of post.direct">{{dir}}</p>
               </div>
             </mat-card-content>
-            <mat-card-actions class="mat-card-btn" *ngIf="author === post.author; else adminButton">
-              <div>
-                <button mat-button *ngIf="!post.adminApprove" class="btn-card" (click)="edit(post, $event)" >EDIT</button>
-                <button mat-button class="btn-card" (click)="remove(post.id, $event)" >DELETE</button>
-              </div>
-            </mat-card-actions>
-            <ng-template #adminButton>
-              <ng-container *ngIf="this.authService.isAdminOnline ; else userButton">
+            <div class="btn-container">
+              <mat-card-actions class="mat-card-btn lin" *ngIf="author === post.author; else adminButton">
                 <div>
-                  <button mat-button *ngIf="!post.adminApprove" class="btn-card" (click)="approve(post, $event)" >APPROVE</button>
+                  <button mat-button *ngIf="!post.adminApprove" class="btn-card" (click)="edit(post, $event)" >EDIT</button>
                   <button mat-button class="btn-card" (click)="remove(post.id, $event)" >DELETE</button>
                 </div>
-              </ng-container>
-            </ng-template>
-            <ng-template #userButton>
-              <div class="button_emet"></div>
-            </ng-template>
+              </mat-card-actions>
+              <ng-template #adminButton>
+                <ng-container *ngIf="this.authService.isAdminOnline ; else userButton">
+                  <div>
+                    <button mat-button *ngIf="!post.adminApprove" class="btn-card" (click)="approve(post, $event)" >APPROVE</button>
+                    <button mat-button class="btn-card" (click)="remove(post.id, $event)" >DELETE</button>
+                  </div>
+                </ng-container>
+              </ng-template>
+              <ng-template #userButton>
+                <div class="button_emet"></div>
+              </ng-template>
+            </div>
           </mat-card>
         </mat-grid-tile>
       </mat-grid-list>

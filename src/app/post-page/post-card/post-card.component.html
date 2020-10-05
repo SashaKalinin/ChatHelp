@@ -13,6 +13,7 @@
         <button mat-button class="returnBtn" color="accent" (click)="return()"><mat-icon>reply</mat-icon></button>
         <div class="header_item">
           <p class="sub">{{card.author}}</p>
+          <p *ngIf="!card.adminApprove" class="sub moderator">Moderation</p>
           <p class="sub">{{card.date | date:'short'}}</p>
         </div>
         <p class="title">{{card.title}}</p>

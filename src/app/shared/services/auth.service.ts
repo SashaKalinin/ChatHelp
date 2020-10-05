@@ -37,7 +37,7 @@ export class AuthService {
       .then((response) => {
         this.email = this.userEmail(response.user.email);
         response.user.getIdToken()
-          .then((resp: string) => {
+          .then((resp: string) => { //вынести проверку на админа. Добавить во все методы входа
             this.setToken(resp);
           });
       })

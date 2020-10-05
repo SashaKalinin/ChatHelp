@@ -21,7 +21,6 @@ export class PostCardComponent implements OnInit, OnDestroy  {
   deleteSub: Subscription;
   updateSub: Subscription;
   themeSub: Subscription;
-  editCardPost: Post;
   selectedTheme: string;
   constructor(
     private postService: PostService,
@@ -48,12 +47,8 @@ export class PostCardComponent implements OnInit, OnDestroy  {
   }
 
   remove(): void {
-  this.deleteSub = this.rout.params
-    .pipe(
-      switchMap((params: Params) => {
-        return this.postService.remove(params.id);
-      })
-    ).subscribe(() => {
+  this.deleteSub = this.postService.remove(this.card.id)
+    .subscribe(() => {
       this.router.navigate(['posts']);
       this.alertService.warning('The question has been deleted');
     });
@@ -61,8 +56,7 @@ export class PostCardComponent implements OnInit, OnDestroy  {
 
   edit(post: Post, $event: Event): void {
     $event.stopPropagation();
-    this.editCardPost = post;
-    this.router.navigate(['post', this.editCardPost.id, 'edit']);
+    this.router.navigate(['post', post.id, 'edit']);
   }
 
   approve(post: Post, $event: MouseEvent): void {
