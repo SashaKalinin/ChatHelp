@@ -13,7 +13,7 @@ export class SignUpPageComponent implements OnInit {
   form: FormGroup;
   constructor(
     private router: Router,
-    public authSeervice: AuthService,
+    public authService: AuthService,
   ) { }
 
   ngOnInit(): void {
@@ -31,21 +31,23 @@ export class SignUpPageComponent implements OnInit {
 
    register(): any {
     const { email, password } = this.form.value;
-    this.authSeervice.onSignUp(email, password)
+    this.authService.onSignUp(email, password)
       .then(() => {
-        this.router.navigate(['posts']);
+        if (!this.authService.errFlag) {
+          this.router.navigate(['posts']);
+        }
       });
   }
 
   facebookLogIn(): any {
-    this.authSeervice.logInWIthFacebook()
+    this.authService.logInWIthFacebook()
       .then(() => {
         this.router.navigate(['posts']);
       });
   }
 
   googleLogIn(): any {
-    this.authSeervice.logInWIthGoogle()
+    this.authService.logInWIthGoogle()
       .then(() => {
         this.router.navigate(['posts']);
       });

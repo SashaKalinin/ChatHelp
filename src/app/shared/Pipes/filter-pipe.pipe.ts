@@ -13,11 +13,14 @@ export class FilterPipePipe implements PipeTransform {
     const day = 86400000;
     const week = 604800000;
     const msInMonth = (33 - new Date(new Date().getFullYear(), new Date().getMonth(), 33).getDate()) * day;
-    pushTrigger(commentSelect, filterTrigger, direSelect, timeSelect, adminSelect, authorSelect);
-    if (posts.length === 0 || filterTrigger.length === 0) {
+    pushTrigger(commentSelect, filterTrigger, direSelect, adminSelect, authorSelect);
+    if (posts.length === 0 ) {
       return posts;
     }
-    if (resArr) {
+    if (timeSelect) {
+      resArr = time(resArr, timeSelect, day, week, msInMonth);
+    }
+    if (resArr && filterTrigger.length !== 0) {
       filterTrigger.forEach(trigger => {
         if (trigger === 'Comments') {
           resArr = resArr.filter( post => post.answers);
@@ -27,15 +30,6 @@ export class FilterPipePipe implements PipeTransform {
         }
         if (direSelect) {
           direSelect.forEach(dir => resArr = filterDir(resArr, dir));
-        }
-        if (trigger === 'Per day') {
-          resArr = timeFilter(resArr, day);     //switch case
-        }
-        if (trigger === 'Per week') {
-          resArr = timeFilter(resArr, week);
-        }
-        if (trigger === 'Per month') {
-          resArr = timeFilter(resArr, msInMonth);
         }
         if (adminSelect) {
           adminSelect.forEach(adm => resArr = filterAdmin(resArr, adm));
@@ -48,7 +42,20 @@ export class FilterPipePipe implements PipeTransform {
     return resArr;
   }
 }
-
+function time(arr: Post[], timeSelect: string, day: number, week: number, month: number): Post[] {
+  switch (timeSelect) {
+    case 'Per day':
+      arr = timeFilter(arr, day);
+      break;
+    case 'Per week':
+      arr = timeFilter(arr, week);
+      break;
+    case 'Per month':
+      arr = timeFilter(arr, month);
+      break;
+  }
+  return arr;
+}
 function filterAuthor(arr: Post[], trigger: string): Post[] {
     if (trigger === 'My questions') {
       arr = arr.filter( post => localStorage.getItem('user-email') === post.author);
@@ -65,33 +72,26 @@ function filterAdmin(arr: Post[], trigger: string): Post[] {
   }
   return arr;
 }
-function timeFilter(arr: Post[], time: number): Post[] {
+function timeFilter(arr: Post[], timing: number): Post[] {
       const dateNow = new Date().getTime();
       arr = arr.filter(post => {
-        if ((dateNow - post.date) < time) {
+        if ((dateNow - post.date) < timing) {
           return true;
         }
       });
       return arr;
 }
 function filterDir(arr: Post[], trigger: string): Post[] {
-    arr = arr.filter(post => {
-      if (post.direct.includes(trigger)) {
-        return true;
-      }
-    });
+    arr = arr.filter(post => post.direct.includes(trigger));
     return arr;
 }
-function pushTrigger(commentSelect: string[], filterTrigger: string[], direSelect: string[], timeSelect: string, adminSelect: string[], authorSelect: string[]): string[] {
-  if (commentSelect || direSelect || timeSelect || adminSelect || authorSelect) {
+function pushTrigger(commentSelect: string[], filterTrigger: string[], direSelect: string[], adminSelect: string[], authorSelect: string[]): string[] {
+  if (commentSelect || direSelect  || adminSelect || authorSelect) {
     if (commentSelect) {
       commentSelect.forEach(com => filterTrigger.push(com));
     }
     if (direSelect) {
       direSelect.forEach(dir => filterTrigger.push(dir));
-    }
-    if (timeSelect) {
-      filterTrigger.push(timeSelect);
     }
     if (adminSelect) {
       adminSelect.forEach(adm => filterTrigger.push(adm));

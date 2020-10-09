@@ -48,7 +48,7 @@ export class AskQuestionComponent implements OnInit, OnDestroy {
       return;
     }
     this.submitted = true;
-    const post: Post = {
+    let post: Post = {
       title: this.form.value.title,
       text: this.form.value.text,
       date: new Date().getTime(),
@@ -58,6 +58,12 @@ export class AskQuestionComponent implements OnInit, OnDestroy {
       adminApprove: false,
       answers: []
     };
+    if (this.authService.isAdminOnline) {
+        post = {
+          ...post,
+          adminApprove: true,
+      };
+    }
     this.postService.createPostsData(post).subscribe(() => {
       this.submitted = false;
       this.form.reset();

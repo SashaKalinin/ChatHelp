@@ -41,14 +41,6 @@ export class LoginPageComponent implements OnInit {
           this.greeting();
           this.router.navigate(['posts']);
         });
-    this.authService.isAdmin(email)
-      .then(s => {
-        const arr = s.val();
-        for (const adm in arr) {
-          const v = arr[adm];
-          this.authService.isAdminOnline = v.includes(email);
-        }
-    });
   }
 
    facebookLogIn(): void{
@@ -68,8 +60,10 @@ export class LoginPageComponent implements OnInit {
   }
 
   greeting(): void {
-    this.authorOnline = this.authService.email;
-    this.alertService.success(`Hello ${this.authorOnline}`);
+    if (!this.authService.errFlag) {
+      this.authorOnline = this.authService.email;
+      this.alertService.success(`Hello ${this.authorOnline}`);
+    }
   }
 
 }

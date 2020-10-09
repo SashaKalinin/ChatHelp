@@ -53,14 +53,15 @@ export class PostPageComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    if (!localStorage.getItem('adminOnline')) {
-      localStorage.setItem('adminOnline', JSON.stringify(this.authService.isAdminOnline));
+    if (this.postService.getItem('adminOnline')) {
+      this.authService.isAdminOnline = JSON.parse(this.postService.getItem('adminOnline'));
     }
-    this.authService.isAdminOnline = JSON.parse(localStorage.getItem('adminOnline'));
     this.postSub = this.postService.getData().subscribe(post => {
       this.author = this.authService.email;
-      this.posts = post.filter(p => this.author === p.author || this.authService.isAdminOnline || p.adminApprove);
-      this.displaySelect = this.themeService.get('display_view') || this.displaySelect;
+      if (post) {
+        this.posts = post.filter(p => this.author === p.author || this.authService.isAdminOnline || p.adminApprove);
+      }
+      this.displaySelect = this.postService.getItem('display_view') || this.displaySelect;
       this.reverseDisplay();
       this.loadingFlag = false;
     });
@@ -113,7 +114,7 @@ export class PostPageComponent implements OnInit, OnDestroy {
 
   reverseDisplay(): void {
     this.isDisplayTiled = this.displaySelect === 'Tiled';
-    this.themeService.set('display_view', this.displaySelect);
+    this.postService.setItem('display_view', this.displaySelect);
   }
 
   selectedThemeItem(): void {

@@ -6,6 +6,7 @@ import {FormGroup} from '@angular/forms';
 import {Constants} from '../../../environments/constants';
 import {Router} from '@angular/router';
 import * as firebase from 'firebase';
+import {PostService} from './post.service';
 
 @Injectable()
 export class AuthService {
@@ -13,13 +14,15 @@ export class AuthService {
   form: FormGroup;
   public email = localStorage.getItem('user-email');
   public isAdminOnline: boolean;
+  public errFlag = false;
   constructor(
     public af: AngularFireAuth,
-    public router: Router
+    public router: Router,
+    private postService: PostService
     ) {
   }
   get token(): string {
-    const expDate = new Date(localStorage.getItem('fb-token-exp'));
+    const expDate = new Date(this.postService.getItem('fb-token-exp'));
     if (new Date() > expDate) {
       this.logout();
       return null;
@@ -32,17 +35,32 @@ export class AuthService {
       .once('value');
   }
 
+  isAdminOn(email: string): void {
+    this.isAdmin(email)
+      .then(s => {
+        const arr = s.val();
+        for (const adm in arr) {
+          const v = arr[adm];
+          this.isAdminOnline = v.includes(email);
+          this.postService.setItem('adminOnline', JSON.stringify(this.isAdminOnline));
+        }
+      });
+  }
+
   onSignUp(email: string, password: string): Promise<any> {
     return this.af.createUserWithEmailAndPassword(email, password)
       .then((response) => {
         this.email = this.userEmail(response.user.email);
+        this.isAdminOn(response.user.email);
         response.user.getIdToken()
-          .then((resp: string) => { //вынести проверку на админа. Добавить во все методы входа
+          .then((resp: string) => {
             this.setToken(resp);
           });
+        this.errFlag = false;
       })
       .catch((err) => {
-        console.log(err);
+        this.handleError(err.code);
+        this.errFlag = true;
       });
   }
 
@@ -50,14 +68,16 @@ export class AuthService {
     return this.af.signInWithEmailAndPassword(email, password)
       .then((response) => {
         this.email = this.userEmail(response.user.email);
+        this.isAdminOn(response.user.email);
         response.user.getIdToken()
         .then((resp: string) => {
           this.setToken(resp);
         });
-    })
+        this.errFlag = false;
+      })
       .catch((err) => {
-        const error = err;
-        this.handleError(error.code);
+        this.handleError(err.code);
+        this.errFlag = true;
       });
   }
 
@@ -65,13 +85,14 @@ export class AuthService {
    return this.af.signInWithPopup(new auth.FacebookAuthProvider())
      .then( (response) => {
        this.email = this.userEmail(response.user.email);
+       this.isAdminOn(response.user.email);
        response.user.getIdToken()
         .then((resp: string) => {
         this.setToken(resp);
       });
      })
      .catch((err) => {
-       console.log(err);
+       this.handleError(err.code);
      });
   }
 
@@ -79,13 +100,14 @@ export class AuthService {
     return this.af.signInWithPopup(new auth.GoogleAuthProvider())
       .then( (response) => {
         this.email = this.userEmail(response.user.email);
+        this.isAdminOn(response.user.email);
         response.user.getIdToken()
           .then((resp: string) => {
           this.setToken(resp);
         });
       })
       .catch((err) => {
-        console.log(err);
+        this.handleError(err.code);
       });
   }
 
@@ -105,25 +127,27 @@ export class AuthService {
       case 'auth/user-not-found':
         this.error$.next('Email not found');
         break;
+      case 'auth/email-already-in-use':
+        this.error$.next('This email is already registered');
     }
     return throwError(error);
   }
 
   private userEmail(email: string): string {
-    email ? localStorage.setItem('user-email', email) : localStorage.removeItem('user-email');
-    return localStorage.getItem('user-email');
+    email ? this.postService.setItem('user-email', email) : this.postService.removeItem('user-email');
+    return this.postService.getItem('user-email');
   }
 
  private setToken(idToken): void {
     if (idToken) {
       const expDate = Constants.dateToken;
-      localStorage.setItem('fb-token', idToken);
-      localStorage.setItem('fb-token-exp', expDate.toString());
+      this.postService.setItem('fb-token', idToken);
+      this.postService.setItem('fb-token-exp', expDate.toString());
     } else {
-      localStorage.removeItem('fb-token');
-      localStorage.removeItem('fb-token-exp');
-      localStorage.removeItem('display_view');
-      localStorage.removeItem('adminOnline');
+      this.postService.removeItem('fb-token');
+      this.postService.removeItem('fb-token-exp');
+      this.postService.removeItem('display_view');
+      this.postService.removeItem('adminOnline');
     }
   }
 }
