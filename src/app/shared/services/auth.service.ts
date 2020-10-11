@@ -49,9 +49,9 @@ export class AuthService {
 
   onSignUp(email: string, password: string): Promise<any> {
     return this.af.createUserWithEmailAndPassword(email, password)
-      .then((response) => {
+      .then(async (response) => {
         this.email = this.userEmail(response.user.email);
-        this.isAdminOn(response.user.email);
+        await this.isAdminOn(response.user.email);
         response.user.getIdToken()
           .then((resp: string) => {
             this.setToken(resp);
@@ -66,9 +66,9 @@ export class AuthService {
 
   onLogin(email: string, password: string): Promise<any> {
     return this.af.signInWithEmailAndPassword(email, password)
-      .then((response) => {
+      .then(async (response) => {
         this.email = this.userEmail(response.user.email);
-        this.isAdminOn(response.user.email);
+        await this.isAdminOn(response.user.email);
         response.user.getIdToken()
         .then((resp: string) => {
           this.setToken(resp);
@@ -83,9 +83,9 @@ export class AuthService {
 
   logInWIthFacebook(): Promise<any> {
    return this.af.signInWithPopup(new auth.FacebookAuthProvider())
-     .then( (response) => {
+     .then( async (response) => {
        this.email = this.userEmail(response.user.email);
-       this.isAdminOn(response.user.email);
+       await this.isAdminOn(response.user.email);
        response.user.getIdToken()
         .then((resp: string) => {
         this.setToken(resp);
@@ -98,9 +98,9 @@ export class AuthService {
 
   logInWIthGoogle(): Promise<any> {
     return this.af.signInWithPopup(new auth.GoogleAuthProvider())
-      .then( (response) => {
+      .then( async (response) => {
         this.email = this.userEmail(response.user.email);
-        this.isAdminOn(response.user.email);
+        await this.isAdminOn(response.user.email);
         response.user.getIdToken()
           .then((resp: string) => {
           this.setToken(resp);

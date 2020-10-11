@@ -64,9 +64,9 @@ export class PostPageComponent implements OnInit, OnDestroy {
       this.displaySelect = this.postService.getItem('display_view') || this.displaySelect;
       this.reverseDisplay();
       this.loadingFlag = false;
-    });
+    }, err => this.alertService.warning(err.message));
     this.themeSub = this.themeService.selectTheme$
-      .subscribe(item => this.selectedTheme = item);
+      .subscribe(item => this.selectedTheme = item, err => this.alertService.warning(err.message));
   }
 
   getId(post: Post): void {
@@ -78,15 +78,14 @@ export class PostPageComponent implements OnInit, OnDestroy {
     this.router.navigate(['post', post.id, 'edit']);
   }
 
-  approve(post: Post, $event: MouseEvent): void {
-    $event.stopPropagation();
+  approve(post: Post): void {
     this.updateSub = this.postService.update({
       ...post,
       adminApprove: true
     }).subscribe(() => {     // вынести в сервис воспользоваться switchMap
       this.postSub = this.postService.getData().subscribe(pos => {
         this.posts = pos.filter(p => this.author === p.author || this.authService.isAdminOnline || p.adminApprove);
-      });
+      }, err => this.alertService.warning(err.message));
       this.alertService.success('Question has been approved');
       }
     );
@@ -97,7 +96,7 @@ export class PostPageComponent implements OnInit, OnDestroy {
     this.deleteSub = this.postService.remove(id).subscribe(() => {
       this.posts = this.posts.filter(post => post.id !== id);
       this.alertService.warning('The question has been deleted');
-    });
+    }, err => this.alertService.warning(err.message));
   }
 
   sort(): void {

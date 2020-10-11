@@ -3,9 +3,9 @@ import {HttpClient} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {FbCreateResponse, Post} from '../../../environments/interface';
 import {environment} from '../../../environments/environment';
-import {catchError, filter, map, switchMap} from 'rxjs/operators';
+import {catchError, map} from 'rxjs/operators';
 import {AlertService} from './alert.service';
-import {AuthService} from './auth.service';
+
 
 @Injectable({
   providedIn: 'root'

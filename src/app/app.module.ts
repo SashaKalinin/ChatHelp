@@ -37,8 +37,8 @@ import { AnswersComponent } from './post-page/answers/answers.component';
 import { EditPageComponent } from './post-page/edit-page/edit-page.component';
 import {AlertService} from './shared/services/alert.service';
 import {SortingPipePipe} from './shared/Pipes/sorting-pipe.pipe';
-import {FilterPipePipe} from "./shared/Pipes/filter-pipe.pipe";
-import {ThemeService} from "./shared/services/theme.service";
+import {FilterPipePipe} from './shared/Pipes/filter-pipe.pipe';
+import {ThemeService} from './shared/services/theme.service';
 
 @NgModule({
   declarations: [
@@ -52,7 +52,7 @@ import {ThemeService} from "./shared/services/theme.service";
     AnswersComponent,
     EditPageComponent,
     SortingPipePipe,
-    FilterPipePipe
+    FilterPipePipe,
   ],
   imports: [
     BrowserModule,

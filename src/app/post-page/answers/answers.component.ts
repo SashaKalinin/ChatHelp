@@ -83,7 +83,7 @@ export class AnswersComponent implements OnInit, OnDestroy, OnChanges  {
       this.sortingAnswers();
       this.submitted = false;
       this.form.reset();
-    });
+    }, err => this.alertService.warning(err.message));
     this.isLoaded = true;
   }
 

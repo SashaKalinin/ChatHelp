@@ -27,6 +27,7 @@ export class AskQuestionComponent implements OnInit, OnDestroy {
     private postService: PostService,
     public authService: AuthService,
     private alert: AlertService,
+    private alertService: AlertService,
     private themeService: ThemeService
   ) { }
 
@@ -40,7 +41,7 @@ export class AskQuestionComponent implements OnInit, OnDestroy {
       ])
     });
     this.themeSub = this.themeService.selectTheme$
-      .subscribe(item => this.selectedTheme = item);
+      .subscribe(item => this.selectedTheme = item, err => this.alertService.warning(err.message));
   }
 
   submit(): void {
@@ -70,7 +71,7 @@ export class AskQuestionComponent implements OnInit, OnDestroy {
       this.dir.reset();
       this.router.navigate(['posts']);
       this.alert.success('Question asked');
-    });
+    }, err => this.alertService.warning(err.message));
   }
   return(): void {
     this.router.navigate(['posts']);

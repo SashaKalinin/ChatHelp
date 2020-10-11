@@ -41,9 +41,9 @@ export class PostCardComponent implements OnInit, OnDestroy  {
       ).subscribe(post => {
       this.card = post;
       this.isLoaded = true;
-    });
+    }, err => this.alertService.warning(err.message));
     this.themeSub = this.themeService.selectTheme$
-      .subscribe(item => this.selectedTheme = item);
+      .subscribe(item => this.selectedTheme = item, err => this.alertService.warning(err.message));
   }
 
   remove(): void {
@@ -51,7 +51,7 @@ export class PostCardComponent implements OnInit, OnDestroy  {
     .subscribe(() => {
       this.router.navigate(['posts']);
       this.alertService.warning('The question has been deleted');
-    });
+    }, err => this.alertService.warning(err.message));
   }
 
   edit(post: Post, $event: Event): void {
@@ -67,7 +67,7 @@ export class PostCardComponent implements OnInit, OnDestroy  {
     }).subscribe(() => {
       this.router.navigate(['posts']);
       this.alertService.success('Question has been approved');
-      }
+      }, err => this.alertService.warning(err.message)
     );
   }
 
