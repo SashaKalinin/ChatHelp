@@ -35,6 +35,7 @@ describe('PostsPageComponent', () => {
     posts = [{
       title: `asd`,
       text: `asd`,
+      id: '1',
       date: 3,
       complete: false,
       adminApprove: true
@@ -42,6 +43,7 @@ describe('PostsPageComponent', () => {
     post = {
       title: `asd`,
       text: `asd`,
+      id: '1',
       date: 3,
       complete: false,
       adminApprove: true

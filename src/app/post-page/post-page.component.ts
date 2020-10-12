@@ -82,13 +82,10 @@ export class PostPageComponent implements OnInit, OnDestroy {
     this.updateSub = this.postService.update({
       ...post,
       adminApprove: true
-    }).subscribe(() => {     // вынести в сервис воспользоваться switchMap
-      this.postSub = this.postService.getData().subscribe(pos => {
-        this.posts = pos.filter(p => this.author === p.author || this.authService.isAdminOnline || p.adminApprove);
-      }, err => this.alertService.warning(err.message));
-      this.alertService.success('Question has been approved');
-      }
-    );
+    }).subscribe((posts) => {
+        this.posts = posts.filter(p => this.author === p.author || this.authService.isAdminOnline || p.adminApprove);
+        this.alertService.success('Question has been approved');
+        }, err => this.alertService.warning(err.message));
   }
 
   remove(id: string, $event): void {

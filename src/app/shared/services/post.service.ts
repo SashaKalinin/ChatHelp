@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {FbCreateResponse, Post} from '../../../environments/interface';
 import {environment} from '../../../environments/environment';
-import {catchError, map} from 'rxjs/operators';
+import {catchError, map, switchMap} from 'rxjs/operators';
 import {AlertService} from './alert.service';
 
 
@@ -54,9 +54,12 @@ export class PostService {
       );
   }
 
-  remove(id: string): Observable<void> {
-    return this.http.delete<void>(`${environment.fbDbUrl}/posts/${id}.json`)
+  remove(id: string): Observable<string> {
+    return this.http.delete<string>(`${environment.fbDbUrl}/posts/${id}.json`)
       .pipe(
+        map((resp) => {
+          return resp;
+        }),
         catchError(err => {
           this.alertService.warning(err.message);
           return throwError(err);
@@ -80,9 +83,12 @@ export class PostService {
       );
   }
 
-  update(post: Post): Observable<Post> {
+  update(post: Post): Observable<Post[]> {
     return this.http.patch<Post>(`${environment.fbDbUrl}/posts/${post.id}.json`, post)
       .pipe(
+        switchMap(() => {
+          return this.getData();
+        }),
         catchError(err => {
           this.alertService.warning(err.message);
           return throwError(err);
