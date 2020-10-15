@@ -62,7 +62,9 @@ export class AnswersComponent implements OnInit, OnDestroy, OnChanges  {
       ...this.card,
       answers: this.answers
     }).subscribe((card) => {
-      this.card = card;
+      this.card = card.find(post => {
+        return post.id === this.card.id;
+      });
       this.submitted = false;
       this.form.markAsPristine();
       this.form.markAsUntouched();
@@ -72,14 +74,16 @@ export class AnswersComponent implements OnInit, OnDestroy, OnChanges  {
   }
 
   changeFlag(answer: Answers, event?: Event): void {
-    this.answers.map((a) => a === answer ? a.correct = !a.correct : a.correct); //исправить на просто тогл ансвера
+    this.answers.map((a) => a === answer ? a.correct = !a.correct : a.correct);
     this.complete = this.answers.some(a => a.correct);
     this.answersSub = this.postService.update({
       ...this.card,
       answers: this.answers,
       complete: this.complete
     }).subscribe((card) => {
-      this.card = card;
+      this.card = card.find(post => {
+        return post.id === this.card.id;
+      });
       this.sortingAnswers();
       this.submitted = false;
       this.form.reset();

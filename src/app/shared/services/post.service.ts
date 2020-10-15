@@ -54,12 +54,9 @@ export class PostService {
       );
   }
 
-  remove(id: string): Observable<string> {
-    return this.http.delete<string>(`${environment.fbDbUrl}/posts/${id}.json`)
+  remove(id: string): Observable<null> {
+    return this.http.delete<null>(`${environment.fbDbUrl}/posts/${id}.json`)
       .pipe(
-        map((resp) => {
-          return resp;
-        }),
         catchError(err => {
           this.alertService.warning(err.message);
           return throwError(err);

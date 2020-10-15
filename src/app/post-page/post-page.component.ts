@@ -15,12 +15,11 @@ import {ThemeService} from '../shared/services/theme.service';
   styleUrls: ['./post-page.component.less']
 })
 export class PostPageComponent implements OnInit, OnDestroy {
-  public isHello = false;
   posts: Post[] = [];
   postSub: Subscription;
   deleteSub: Subscription;
   updateSub: Subscription;
-  dir: string[];
+  themeSub: Subscription;
   direction = Constants.dirArr;
   timeFilter = Constants.timeFilter;
   author: string;
@@ -42,7 +41,6 @@ export class PostPageComponent implements OnInit, OnDestroy {
   displaySelect = 'Tiled';
   isDisplayTiled = true;
   selectedTheme = '';
-  themeSub: Subscription;
 
   constructor(
     private themeService: ThemeService,
@@ -56,10 +54,10 @@ export class PostPageComponent implements OnInit, OnDestroy {
     if (this.postService.getItem('adminOnline')) {
       this.authService.isAdminOnline = JSON.parse(this.postService.getItem('adminOnline'));
     }
-    this.postSub = this.postService.getData().subscribe(post => {
+    this.postSub = this.postService.getData().subscribe(posts => {
       this.author = this.authService.email;
-      if (post) {
-        this.posts = post.filter(p => this.author === p.author || this.authService.isAdminOnline || p.adminApprove);
+      if (posts) {
+        this.posts = posts.filter(p => this.author === p.author || this.authService.isAdminOnline || p.adminApprove);
       }
       this.displaySelect = this.postService.getItem('display_view') || this.displaySelect;
       this.reverseDisplay();

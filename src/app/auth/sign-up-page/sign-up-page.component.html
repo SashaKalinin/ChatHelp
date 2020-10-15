@@ -52,7 +52,7 @@
       <div class="button">
         <button type="submit"
                 mat-button
-                [disabled]="form.invalid"
+                [disabled]="form.invalid || submitted"
         >Sign Up</button>
       </div>
 

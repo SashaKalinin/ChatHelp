@@ -11,6 +11,7 @@ import {AuthService} from '../../shared/services/auth.service';
 
 export class SignUpPageComponent implements OnInit {
   form: FormGroup;
+  submitted = false;
   constructor(
     private router: Router,
     public authService: AuthService,
@@ -30,26 +31,32 @@ export class SignUpPageComponent implements OnInit {
   }
 
    register(): any {
+    this.submitted = true;
     const { email, password } = this.form.value;
     this.authService.onSignUp(email, password)
       .then(() => {
         if (!this.authService.errFlag) {
           this.router.navigate(['posts']);
         }
+        this.submitted = false;
       });
   }
 
   facebookLogIn(): any {
+    this.submitted = true;
     this.authService.logInWIthFacebook()
       .then(() => {
         this.router.navigate(['posts']);
+        this.submitted = false;
       });
   }
 
   googleLogIn(): any {
+    this.submitted = true;
     this.authService.logInWIthGoogle()
       .then(() => {
         this.router.navigate(['posts']);
+        this.submitted = false;
       });
     }
 

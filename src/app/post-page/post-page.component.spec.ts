@@ -4,11 +4,12 @@ import { PostPageComponent } from './post-page.component';
 import {PostService} from '../shared/services/post.service';
 import {Post} from '../../environments/interface';
 import {of} from 'rxjs';
-import {HttpClientModule} from "@angular/common/http";
-import {ThemeService} from "../shared/services/theme.service";
-import {AuthService} from "../shared/services/auth.service";
-import {AlertService} from "../shared/services/alert.service";
-import {AppModule} from "../app.module";
+import {HttpClientModule} from '@angular/common/http';
+import {ThemeService} from '../shared/services/theme.service';
+import {AuthService} from '../shared/services/auth.service';
+import {AlertService} from '../shared/services/alert.service';
+import {AppModule} from '../app.module';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('PostsPageComponent', () => {
   let component: PostPageComponent;
@@ -16,12 +17,13 @@ describe('PostsPageComponent', () => {
   let postService: PostService;
   let spy: jasmine.Spy;
   let spy2: jasmine.Spy;
+  let spy3: jasmine.Spy;
   let posts: Post[];
   let post: Post;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule, AppModule],
+      imports: [HttpClientModule, AppModule, RouterTestingModule],
       declarations: [ PostPageComponent],
       providers: [PostService, AlertService, AuthService, ThemeService]
     })
@@ -49,31 +51,59 @@ describe('PostsPageComponent', () => {
       adminApprove: true
     };
     spy = spyOn(postService, 'getData').and.returnValue(of(posts));
-    spy2 = spyOn(postService, 'update').and.returnValue(of(post));
+    spy2 = spyOn(postService, 'update').and.returnValue(of(posts));
+    spy3 = spyOn(postService, 'remove').and.returnValue(of(null));
     fixture.detectChanges();
+    const store = {};
+    const mockLocalStorage = {
+      getItem: (key: string): string => {
+        return key in store ? store[key] : null;
+      },
+      setItem: (key: string, value: string) => {
+        store[key] = `${value}`;
+      }
+    };
+    spyOn(localStorage, 'getItem').and.callFake(mockLocalStorage.getItem);
+    spyOn(localStorage, 'setItem').and.callFake(mockLocalStorage.setItem);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call getData from postService', () => {
-    component.ngOnInit();
-    expect(spy.calls.any()).toBeTruthy();
+  describe('ngOnInit', () => {
+    it('should call getData from postService', () => {
+      component.ngOnInit();
+      expect(spy.calls.any()).toBeTruthy();
+    });
+    it('should get Posts', () => {
+      component.ngOnInit();
+      expect(component.posts).toEqual(posts);
+    });
+    it('should get localstorage item', () => {
+      localStorage.setItem('display_view', '1');
+      component.ngOnInit();
+      expect(component.displaySelect).toEqual('1');
+    });
   });
 
-  it('should get Post', () => {
-    component.ngOnInit();
-    expect(component.posts).toEqual(posts);
+  describe('approve', () => {
+    it('should call update from postService', () => {
+      component.approve(post);
+      expect(spy2.calls.any()).toBeTruthy();
+    });
+    it('should get Update and return posts', () => {
+      component.approve(post);
+      expect(component.posts).toEqual(posts);
+    });
   });
 
-  it('should call update from postService', () => {
-    component.approve(post);
-    expect(spy2.calls.any()).toBeTruthy();
+  describe('remove', () => {
+    it('should remove post and return null', () => {
+      postService.remove(post.id).subscribe(resp => expect(resp).toBe(null));
+    });
   });
 
-  it('should get Update and return posts', () => {
-    component.approve(post);
-    expect(component.posts).toEqual(posts);
-  });
+
+
 });

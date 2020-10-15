@@ -44,7 +44,7 @@
         </small>
       </div>
 
-    <div class="icon-social">
+    <div  class="icon-social">
       <a class="fa fa-facebook-official" (click)="facebookLogIn()"></a>
       <a class="fa fa-google" (click)="googleLogIn()"></a>
     </div>
@@ -53,7 +53,7 @@
         <button type="submit"
                 class="loginBtn"
                 mat-button
-                [disabled]="form.invalid"
+                [disabled]="form.invalid || submitted"
         >Login</button>
       </div>
 

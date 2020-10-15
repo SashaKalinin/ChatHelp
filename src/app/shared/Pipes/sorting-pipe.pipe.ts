@@ -6,11 +6,11 @@ import {Post} from '../../../environments/interface';
 })
 export class SortingPipePipe implements PipeTransform {
 
-  transform(posts: Post[], isDes?: boolean): Post[] {
+  transform(posts: Post[], isDesc?: boolean): Post[] {
     if (posts.length === 0) {
       return posts;
     }
-    if (isDes) {
+    if (isDesc) {
       posts.sort((a, b) => {
         return a.date - b.date;
       });
