@@ -5,9 +5,6 @@ import {PostService} from '../shared/services/post.service';
 import {Post} from '../../environments/interface';
 import {of} from 'rxjs';
 import {HttpClientModule} from '@angular/common/http';
-import {ThemeService} from '../shared/services/theme.service';
-import {AuthService} from '../shared/services/auth.service';
-import {AlertService} from '../shared/services/alert.service';
 import {AppModule} from '../app.module';
 import {RouterTestingModule} from '@angular/router/testing';
 
@@ -15,9 +12,9 @@ describe('PostsPageComponent', () => {
   let component: PostPageComponent;
   let fixture: ComponentFixture<PostPageComponent>;
   let postService: PostService;
-  let spy: jasmine.Spy;
-  let spy2: jasmine.Spy;
-  let spy3: jasmine.Spy;
+  let getDataSpy: jasmine.Spy;
+  let updateSpy: jasmine.Spy;
+  let removeSpy: jasmine.Spy;
   let posts: Post[];
   let post: Post;
 
@@ -25,7 +22,7 @@ describe('PostsPageComponent', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule, AppModule, RouterTestingModule],
       declarations: [ PostPageComponent],
-      providers: [PostService, AlertService, AuthService, ThemeService]
+      providers: [PostService]
     })
     .compileComponents();
   }));
@@ -50,9 +47,9 @@ describe('PostsPageComponent', () => {
       complete: false,
       adminApprove: true
     };
-    spy = spyOn(postService, 'getData').and.returnValue(of(posts));
-    spy2 = spyOn(postService, 'update').and.returnValue(of(posts));
-    spy3 = spyOn(postService, 'remove').and.returnValue(of(null));
+    getDataSpy = spyOn(postService, 'getData').and.returnValue(of(posts));
+    updateSpy = spyOn(postService, 'update').and.returnValue(of(posts));
+    removeSpy = spyOn(postService, 'remove').and.returnValue(of(null));
     fixture.detectChanges();
     const store = {};
     const mockLocalStorage = {
@@ -74,7 +71,7 @@ describe('PostsPageComponent', () => {
   describe('ngOnInit', () => {
     it('should call getData from postService', () => {
       component.ngOnInit();
-      expect(spy.calls.any()).toBeTruthy();
+      expect(getDataSpy.calls.any()).toBeTruthy();
     });
     it('should get Posts', () => {
       component.ngOnInit();
@@ -90,7 +87,7 @@ describe('PostsPageComponent', () => {
   describe('approve', () => {
     it('should call update from postService', () => {
       component.approve(post);
-      expect(spy2.calls.any()).toBeTruthy();
+      expect(updateSpy.calls.any()).toBeTruthy();
     });
     it('should get Update and return posts', () => {
       component.approve(post);

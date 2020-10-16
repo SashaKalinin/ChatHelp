@@ -10,7 +10,7 @@ import Spy = jasmine.Spy;
 import {By} from '@angular/platform-browser';
 
 
-xdescribe('LoginPageComponent', () => {
+describe('LoginPageComponent', () => {
   let component: LoginPageComponent;
   let fixture: ComponentFixture<LoginPageComponent>;
   let authService: AuthService;

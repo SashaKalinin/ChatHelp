@@ -52,7 +52,7 @@ import {ThemeService} from './shared/services/theme.service';
     AnswersComponent,
     EditPageComponent,
     SortingPipePipe,
-    FilterPipePipe,
+    FilterPipePipe
   ],
   imports: [
     BrowserModule,

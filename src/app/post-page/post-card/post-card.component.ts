@@ -54,13 +54,11 @@ export class PostCardComponent implements OnInit, OnDestroy  {
     }, err => this.alertService.warning(err.message));
   }
 
-  edit(post: Post, $event: Event): void {
-    $event.stopPropagation();
+  edit(post: Post): void {
     this.router.navigate(['post', post.id, 'edit']);
   }
 
-  approve(post: Post, $event: MouseEvent): void {
-    $event.stopPropagation();
+  approve(post: Post): void {
     this.updateSub = this.postService.update({
       ...post,
       adminApprove: true
