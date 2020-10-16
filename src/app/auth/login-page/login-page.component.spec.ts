@@ -83,7 +83,18 @@ describe('LoginPageComponent', () => {
       loginElement.triggerEventHandler('ngSubmit', null);
       expect(loginSpy).toHaveBeenCalledTimes(1);
     }));
+    it('should call greeting and submitted === false after login', async(() => {
+      spyOn(authService, 'onLogin').and.returnValue(Promise.resolve(undefined));
+      const spy = spyOn(component, 'greeting').and.callThrough();
+      component.submit();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(spy).toHaveBeenCalledTimes(1);
+        expect(component.submitted).toEqual(false);
+      });
+    }));
   });
+
   describe('facebookLogIn', () => {
     it('should cell authService logInWIthFacebook method', async(() => {
       let loginFacebookElement: DebugElement;
@@ -92,7 +103,18 @@ describe('LoginPageComponent', () => {
       loginFacebookElement.triggerEventHandler('click', null);
       expect(loginFacebookSpy).toHaveBeenCalled();
     }));
+    it('should call greeting and submitted === false after logInWIthFacebook', async(() => {
+      spyOn(authService, 'logInWIthFacebook').and.returnValue(Promise.resolve(undefined));
+      const spy = spyOn(component, 'greeting').and.callThrough();
+      component.facebookLogIn();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(spy).toHaveBeenCalledTimes(1);
+        expect(component.submitted).toEqual(false);
+      });
+    }));
   });
+
   describe('googleLogIn', () => {
     it('should cell authService logInWIthGoogle method', async(() => {
       let loginGoogleElement: DebugElement;
@@ -100,6 +122,16 @@ describe('LoginPageComponent', () => {
       loginGoogleElement = fixture.debugElement.query(By.css('.fa-google'));
       loginGoogleElement.triggerEventHandler('click', null);
       expect(loginGoogleSpy).toHaveBeenCalled();
+    }));
+    it('should call greeting and submitted === false after logInWIthGoogle', async(() => {
+      spyOn(authService, 'logInWIthGoogle').and.returnValue(Promise.resolve(undefined));
+      const spy = spyOn(component, 'greeting').and.callThrough();
+      component.googleLogIn();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(spy).toHaveBeenCalledTimes(1);
+        expect(component.submitted).toEqual(false);
+      });
     }));
   });
   describe('greeting', () => {

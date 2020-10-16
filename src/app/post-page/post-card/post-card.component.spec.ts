@@ -60,10 +60,15 @@ describe('PostCardComponent', () => {
       component.ngOnInit();
       expect(getByIdSpy.calls.any()).toBeTruthy();
     });
-    it('should get Post', () => {
+    it('should change isLoaded to true and should get Post', async(() => {
       component.ngOnInit();
-      expect(component.card).toEqual(post);
-    });
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(component.isLoaded).toBeTruthy();
+        expect(component.card).toEqual(post);
+      });
+
+    }));
   });
   describe('remove', () => {
     it('should call remove from postService', () => {
@@ -74,13 +79,15 @@ describe('PostCardComponent', () => {
       postService.remove(component.card.id).subscribe(resp => expect(resp).toBe(null));
     });
   });
+
   describe('approve', () => {
     it('should call update from postService', () => {
       component.approve(component.card);
       expect(updateSpy.calls.any()).toBeTruthy();
     });
     it('should get Update and return posts', () => {
-      postService.update(component.card).subscribe((resp) => expect(resp).toEqual(posts));
+      component.approve(component.card);
+      expect(component.card).toEqual(post);
     });
   });
 });

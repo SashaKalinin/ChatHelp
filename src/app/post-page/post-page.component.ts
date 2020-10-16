@@ -76,7 +76,8 @@ export class PostPageComponent implements OnInit, OnDestroy {
     this.router.navigate(['post', post.id, 'edit']);
   }
 
-  approve(post: Post): void {
+  approve(post: Post, $event: Event): void {
+    $event.stopPropagation();
     this.updateSub = this.postService.update({
       ...post,
       adminApprove: true

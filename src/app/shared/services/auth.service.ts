@@ -7,6 +7,7 @@ import {Constants} from '../../../environments/constants';
 import {Router} from '@angular/router';
 import * as firebase from 'firebase';
 import {PostService} from './post.service';
+import DataSnapshot = firebase.database.DataSnapshot;
 
 @Injectable()
 export class AuthService {
@@ -30,13 +31,13 @@ export class AuthService {
     return localStorage.getItem('fb-token');
   }
 
-  isAdmin(email: string): Promise<firebase.database.DataSnapshot> {
+  isAdmin(): Promise<firebase.database.DataSnapshot> {
     return firebase.database().ref('admin')
       .once('value');
   }
 
-  isAdminOn(email: string): void {
-    this.isAdmin(email)
+  isAdminOn(email: string): Promise<string | void> {
+    return this.isAdmin()
       .then(s => {
         const arr = s.val();
         for (const adm in arr) {
@@ -47,16 +48,18 @@ export class AuthService {
       });
   }
 
-  onSignUp(email: string, password: string): Promise<any> {
-    return this.af.createUserWithEmailAndPassword(email, password)
+  onLogin(email: string, password: string): Promise<any> {
+    return this.af.signInWithEmailAndPassword(email, password)
       .then((response) => {
         this.email = this.userEmail(response.user.email);
-        this.isAdminOn(response.user.email);
-        response.user.getIdToken()
-          .then((resp: string) => {
-            this.setToken(resp);
+        return this.isAdminOn(response.user.email)
+          .then(() => {
+            response.user.getIdToken()
+              .then((resp: string) => {
+                this.setToken(resp);
+              });
+            this.errFlag = false;
           });
-        this.errFlag = false;
       })
       .catch((err) => {
         this.handleError(err.code);
@@ -64,32 +67,38 @@ export class AuthService {
       });
   }
 
-  onLogin(email: string, password: string): Promise<any> {
-    return this.af.signInWithEmailAndPassword(email, password)
+  onSignUp(email: string, password: string): Promise<any> {
+    return this.af.createUserWithEmailAndPassword(email, password)
       .then((response) => {
         this.email = this.userEmail(response.user.email);
-        this.isAdminOn(response.user.email);
-        response.user.getIdToken()
-        .then((resp: string) => {
-          this.setToken(resp);
-        });
-        this.errFlag = false;
+        return this.isAdminOn(response.user.email)
+          .then(() => {
+            response.user.getIdToken()
+              .then((resp: string) => {
+                this.setToken(resp);
+              });
+            this.errFlag = false;
+          });
       })
       .catch((err) => {
         this.handleError(err.code);
         this.errFlag = true;
       });
   }
+
 
   logInWIthFacebook(): Promise<any> {
    return this.af.signInWithPopup(new auth.FacebookAuthProvider())
      .then( (response) => {
        this.email = this.userEmail(response.user.email);
-       this.isAdminOn(response.user.email);
-       response.user.getIdToken()
-        .then((resp: string) => {
-        this.setToken(resp);
-      });
+       return this.isAdminOn(response.user.email)
+         .then(() => {
+           response.user.getIdToken()
+             .then((resp: string) => {
+               this.setToken(resp);
+             });
+           this.errFlag = false;
+         });
      })
      .catch((err) => {
        this.handleError(err.code);
@@ -100,11 +109,14 @@ export class AuthService {
     return this.af.signInWithPopup(new auth.GoogleAuthProvider())
       .then( (response) => {
         this.email = this.userEmail(response.user.email);
-        this.isAdminOn(response.user.email);
-        response.user.getIdToken()
-          .then((resp: string) => {
-          this.setToken(resp);
-        });
+        return this.isAdminOn(response.user.email)
+          .then(() => {
+            response.user.getIdToken()
+              .then((resp: string) => {
+                this.setToken(resp);
+              });
+            this.errFlag = false;
+          });
       })
       .catch((err) => {
         this.handleError(err.code);

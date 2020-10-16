@@ -7,6 +7,7 @@ import {of} from 'rxjs';
 import {HttpClientModule} from '@angular/common/http';
 import {AppModule} from '../app.module';
 import {RouterTestingModule} from '@angular/router/testing';
+import {ThemeService} from '../shared/services/theme.service';
 
 describe('PostsPageComponent', () => {
   let component: PostPageComponent;
@@ -85,22 +86,52 @@ describe('PostsPageComponent', () => {
   });
 
   describe('approve', () => {
+    const event = new MouseEvent('click');
     it('should call update from postService', () => {
-      component.approve(post);
+      spyOn(event, 'preventDefault');
+      component.approve(post, event);
       expect(updateSpy.calls.any()).toBeTruthy();
     });
     it('should get Update and return posts', () => {
-      component.approve(post);
+      spyOn(event, 'preventDefault');
+      component.approve(post, event);
       expect(component.posts).toEqual(posts);
     });
   });
 
   describe('remove', () => {
-    it('should remove post and return null', () => {
-      postService.remove(post.id).subscribe(resp => expect(resp).toBe(null));
+    it('should call remove from postService', () => {
+      const event = new MouseEvent('click');
+      spyOn(event, 'preventDefault');
+      component.remove(post.id, event);
+      expect(removeSpy.calls.any()).toBeTruthy();
     });
   });
 
+  describe('sort', () => {
+    it('arrowUpAndDown should be arrow_downward if isDes false and on the contrary', () => {
+      component.sort();
+      expect(component.arrowUpAndDown).toEqual('arrow_downward');
+      expect(component.isDes).toEqual(false);
+      component.sort();
+      expect(component.arrowUpAndDown).toEqual('arrow_upward');
+      expect(component.isDes).toEqual(true);
+    });
+  });
+
+  describe('reverseDisplay', () => {
+    it('should reverse value of isDisplayTiled', () => {
+      component.ngOnInit();
+      expect(component.isDisplayTiled).toBeTruthy();
+      component.displaySelect = 'Liner';
+      component.reverseDisplay();
+      expect(component.isDisplayTiled).toBeFalse();
+    });
+    it('should set display information to localStorage', () => {
+      component.reverseDisplay();
+      expect(localStorage.getItem('display_view')).toBeTruthy();
+    });
+  });
 
 
 });
