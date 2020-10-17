@@ -101,9 +101,7 @@ describe('PostsPageComponent', () => {
 
   describe('remove', () => {
     it('should call remove from postService', () => {
-      const event = new MouseEvent('click');
-      spyOn(event, 'preventDefault');
-      component.remove(post.id, event);
+      component.remove(post.id);
       expect(removeSpy.calls.any()).toBeTruthy();
     });
   });

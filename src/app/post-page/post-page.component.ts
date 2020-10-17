@@ -8,6 +8,8 @@ import {Router} from '@angular/router';
 import {AlertService} from '../shared/services/alert.service';
 import {FormControl} from '@angular/forms';
 import {ThemeService} from '../shared/services/theme.service';
+import {MatDialog} from '@angular/material/dialog';
+import {DeletePopapComponent} from './delete-popap/delete-popap.component';
 
 @Component({
   selector: 'app-post-page',
@@ -41,8 +43,10 @@ export class PostPageComponent implements OnInit, OnDestroy {
   displaySelect = 'Tiled';
   isDisplayTiled = true;
   selectedTheme = '';
+  removed = false;
 
   constructor(
+    public dialog: MatDialog,
     private themeService: ThemeService,
     public authService: AuthService,
     private postService: PostService,
@@ -67,6 +71,19 @@ export class PostPageComponent implements OnInit, OnDestroy {
       .subscribe(item => this.selectedTheme = item, err => this.alertService.warning(err.message));
   }
 
+  openDialog(id: string, $event: Event): void {
+    $event.stopPropagation();
+    const dialogRef = this.dialog.open(DeletePopapComponent, {
+      data: 'Are you sure?'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.remove(id);
+      }
+    });
+  }
+
   getId(post: Post): void {
     this.router.navigate(['post', post.id]);
   }
@@ -87,8 +104,7 @@ export class PostPageComponent implements OnInit, OnDestroy {
         }, err => this.alertService.warning(err.message));
   }
 
-  remove(id: string, $event): void {
-    $event.stopPropagation();
+  remove(id: string): void {
     this.deleteSub = this.postService.remove(id).subscribe(() => {
       this.posts = this.posts.filter(post => post.id !== id);
       this.alertService.warning('The question has been deleted');

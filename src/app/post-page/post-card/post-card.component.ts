@@ -7,6 +7,8 @@ import {Post} from '../../../environments/interface';
 import {switchMap} from 'rxjs/operators';
 import {AlertService} from '../../shared/services/alert.service';
 import {ThemeService} from '../../shared/services/theme.service';
+import {DeletePopapComponent} from "../delete-popap/delete-popap.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-post-card',
@@ -23,6 +25,7 @@ export class PostCardComponent implements OnInit, OnDestroy  {
   themeSub: Subscription;
   selectedTheme: string;
   constructor(
+    public dialog: MatDialog,
     private postService: PostService,
     private authService: AuthService,
     private router: Router,
@@ -44,6 +47,18 @@ export class PostCardComponent implements OnInit, OnDestroy  {
     }, err => this.alertService.warning(err.message));
     this.themeSub = this.themeService.selectTheme$
       .subscribe(item => this.selectedTheme = item, err => this.alertService.warning(err.message));
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DeletePopapComponent, {
+      data: 'Are you sure?'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.remove();
+      }
+    });
   }
 
   remove(): void {

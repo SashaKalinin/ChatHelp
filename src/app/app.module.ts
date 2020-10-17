@@ -39,6 +39,7 @@ import {AlertService} from './shared/services/alert.service';
 import {SortingPipePipe} from './shared/Pipes/sorting-pipe.pipe';
 import {FilterPipePipe} from './shared/Pipes/filter-pipe.pipe';
 import {ThemeService} from './shared/services/theme.service';
+import { DeletePopapComponent } from './post-page/delete-popap/delete-popap.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import {ThemeService} from './shared/services/theme.service';
     AnswersComponent,
     EditPageComponent,
     SortingPipePipe,
-    FilterPipePipe
+    FilterPipePipe,
+    DeletePopapComponent
   ],
   imports: [
     BrowserModule,
