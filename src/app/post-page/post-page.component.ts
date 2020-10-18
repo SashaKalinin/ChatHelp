@@ -45,6 +45,7 @@ export class PostPageComponent implements OnInit, OnDestroy {
   selectedTheme = '';
   removed = false;
 
+
   constructor(
     public dialog: MatDialog,
     private themeService: ThemeService,

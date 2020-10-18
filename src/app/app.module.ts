@@ -40,6 +40,7 @@ import {SortingPipePipe} from './shared/Pipes/sorting-pipe.pipe';
 import {FilterPipePipe} from './shared/Pipes/filter-pipe.pipe';
 import {ThemeService} from './shared/services/theme.service';
 import { DeletePopapComponent } from './post-page/delete-popap/delete-popap.component';
+import {MatSidenavModule} from "@angular/material/sidenav";
 
 @NgModule({
   declarations: [
@@ -56,32 +57,33 @@ import { DeletePopapComponent } from './post-page/delete-popap/delete-popap.comp
     FilterPipePipe,
     DeletePopapComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatSliderModule,
-    MatButtonModule,
-    MatToolbarModule,
-    MatIconModule,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatExpansionModule,
-    MatInputModule,
-    FormsModule,
-    SharedModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    MatDatepickerModule,
-    MatMenuModule,
-    MatMenuModule,
-    NgbModule,
-    MatDialogModule,
-    MatRadioModule,
-    MatCheckboxModule,
-    MatGridListModule,
-    MatSelectModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatSliderModule,
+        MatButtonModule,
+        MatToolbarModule,
+        MatIconModule,
+        ReactiveFormsModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatExpansionModule,
+        MatInputModule,
+        FormsModule,
+        SharedModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        MatDatepickerModule,
+        MatMenuModule,
+        MatMenuModule,
+        NgbModule,
+        MatDialogModule,
+        MatRadioModule,
+        MatCheckboxModule,
+        MatGridListModule,
+        MatSelectModule,
+        MatSidenavModule
+    ],
   providers: [AuthService, AuthGuard, PostService, AlertService, ThemeService],
   bootstrap: [AppComponent]
 })
