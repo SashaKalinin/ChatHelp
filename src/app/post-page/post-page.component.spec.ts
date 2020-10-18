@@ -3,19 +3,25 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { PostPageComponent } from './post-page.component';
 import {PostService} from '../shared/services/post.service';
 import {Post} from '../../environments/interface';
-import {of} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {HttpClientModule} from '@angular/common/http';
 import {AppModule} from '../app.module';
 import {RouterTestingModule} from '@angular/router/testing';
-import {ThemeService} from '../shared/services/theme.service';
+import {AlertService} from '../shared/services/alert.service';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {DeletePopapComponent} from "./delete-popap/delete-popap.component";
 
 describe('PostsPageComponent', () => {
   let component: PostPageComponent;
   let fixture: ComponentFixture<PostPageComponent>;
   let postService: PostService;
+  let alertService: AlertService;
+  let dialog: MatDialog;
   let getDataSpy: jasmine.Spy;
   let updateSpy: jasmine.Spy;
   let removeSpy: jasmine.Spy;
+  let alertSpy: jasmine.Spy;
+  let dialogSpy: jasmine.Spy;
   let posts: Post[];
   let post: Post;
 
@@ -23,7 +29,7 @@ describe('PostsPageComponent', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule, AppModule, RouterTestingModule],
       declarations: [ PostPageComponent],
-      providers: [PostService]
+      providers: [PostService, AlertService]
     })
     .compileComponents();
   }));
@@ -32,6 +38,8 @@ describe('PostsPageComponent', () => {
     fixture = TestBed.createComponent(PostPageComponent);
     component = fixture.componentInstance;
     postService = fixture.debugElement.injector.get(PostService);
+    alertService = fixture.debugElement.injector.get(AlertService);
+    dialog = fixture.debugElement.injector.get(MatDialog);
     posts = [{
       title: `asd`,
       text: `asd`,
@@ -51,6 +59,7 @@ describe('PostsPageComponent', () => {
     getDataSpy = spyOn(postService, 'getData').and.returnValue(of(posts));
     updateSpy = spyOn(postService, 'update').and.returnValue(of(posts));
     removeSpy = spyOn(postService, 'remove').and.returnValue(of(null));
+    alertSpy = spyOn(alertService, 'warning').and.callThrough();
     fixture.detectChanges();
     const store = {};
     const mockLocalStorage = {
@@ -85,25 +94,71 @@ describe('PostsPageComponent', () => {
     });
   });
 
+  describe('openDialog', () => {
+    const event = new MouseEvent('click');
+    it('should call dialog open and argument is a component and obj', async(() => {
+      dialogSpy = spyOn(dialog, 'open').and.returnValue(
+        {afterClosed: () => of(true)} as MatDialogRef<any>
+      );
+      spyOn(event, 'preventDefault');
+      component.openDialog(post.id, event);
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(dialogSpy.calls.any()).toBeTruthy();
+        expect(removeSpy).toHaveBeenCalled();
+        expect(dialogSpy).toHaveBeenCalledWith( DeletePopapComponent, {data: 'Are you sure?'});
+      });
+    }));
+    it('should do not call remove() if return false from dialog', async(() => {
+      dialogSpy = spyOn(dialog, 'open').and.returnValue(
+        {afterClosed: () => of(undefined)} as MatDialogRef<any>
+      );
+      spyOn(event, 'preventDefault');
+      component.openDialog(post.id, event);
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(dialogSpy.calls.any()).toBeTruthy();
+        expect(removeSpy).toHaveBeenCalledTimes(0);
+      });
+    }));
+  });
+
   describe('approve', () => {
     const event = new MouseEvent('click');
-    it('should call update from postService', () => {
+    it('should call update from postService', async (() => {
       spyOn(event, 'preventDefault');
       component.approve(post, event);
-      expect(updateSpy.calls.any()).toBeTruthy();
-    });
-    it('should get Update and return posts', () => {
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(updateSpy.calls.any()).toBeTruthy();
+      });
+    }));
+    it('should get Update and return posts', async (() => {
       spyOn(event, 'preventDefault');
       component.approve(post, event);
-      expect(component.posts).toEqual(posts);
-    });
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(component.posts).toEqual(posts);
+      });
+    }));
   });
 
   describe('remove', () => {
-    it('should call remove from postService', () => {
+    it('should call remove from postService', async (() => {
       component.remove(post.id);
-      expect(removeSpy.calls.any()).toBeTruthy();
-    });
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(removeSpy.calls.any()).toBeTruthy();
+      });
+    }));
+    it('should delete post and alertService has been called', async (() => {
+      component.remove(post.id);
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(component.posts.includes(post)).toBeFalse();
+        expect(alertSpy.calls.any()).toBeTruthy();
+      });
+    }));
   });
 
   describe('sort', () => {

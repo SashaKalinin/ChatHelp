@@ -135,7 +135,7 @@
                 <ng-container *ngIf="this.authService.isAdminOnline ; else userButton">
                   <div>
                     <button mat-button *ngIf="!post.adminApprove" class="btn-card" (click)="approve(post, $event)" >APPROVE</button>
-                    <button mat-button class="btn-card" (click)="openDialog($event)">DELETE</button>
+                    <button mat-button class="btn-card" (click)="openDialog(post.id, $event)">DELETE</button>
                   </div>
                 </ng-container>
               </ng-template>

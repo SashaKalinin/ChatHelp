@@ -7,8 +7,8 @@ import {Post} from '../../../environments/interface';
 import {switchMap} from 'rxjs/operators';
 import {AlertService} from '../../shared/services/alert.service';
 import {ThemeService} from '../../shared/services/theme.service';
-import {DeletePopapComponent} from "../delete-popap/delete-popap.component";
-import {MatDialog} from "@angular/material/dialog";
+import {DeletePopapComponent} from '../delete-popap/delete-popap.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-post-card',
