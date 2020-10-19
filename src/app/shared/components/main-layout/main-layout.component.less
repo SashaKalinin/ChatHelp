@@ -56,6 +56,7 @@ body {
 }
 mat-toolbar {
   position: relative;
+  min-width: 320px;
   a {
     text-decoration: none;
     color: #fff;
@@ -68,6 +69,12 @@ mat-toolbar {
 .logIn-logOut-btn {
   display: inline-flex;
 
+}
+
+@media  screen and (max-width : 480px) {
+  .btn-log2 {
+    display: none;
+  }
 }
 
 

@@ -44,6 +44,7 @@ export class PostPageComponent implements OnInit, OnDestroy {
   isDisplayTiled = true;
   selectedTheme = '';
   removed = false;
+  breakpoint = 1;
 
 
   constructor(

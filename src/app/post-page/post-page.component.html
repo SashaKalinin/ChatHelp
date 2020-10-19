@@ -68,9 +68,9 @@
   <div class=" wrapper2 {{selectedTheme}}">
     <div class="wrapper-toolbar " >
       <mat-toolbar-row class="mat-tool">
-        <button type="button" mat-button color="accent" (click)="drawer.toggle()"> Show filters </button>
-        <button (click)="sort()" mat-stroked-button color="accent" >Sort <mat-icon class="arrow">{{this.arrowUpAndDown}}</mat-icon></button>
-        <button mat-button class="setting_menu" id="setting_menu" [matMenuTriggerFor]="menu" color="accent">Settings<mat-icon class="settings_icon">settings</mat-icon></button>
+        <button type="button" class="toolBtn" mat-button color="accent" (click)="drawer.toggle()"> Show filters </button>
+        <button (click)="sort()" class="toolBtn" mat-stroked-button color="accent" >Sort <mat-icon class="arrow ">{{this.arrowUpAndDown}}</mat-icon></button>
+        <button mat-button class="setting_menu toolBtn" id="setting_menu" [matMenuTriggerFor]="menu" color="accent">Settings<mat-icon class="settings_icon">settings</mat-icon></button>
       </mat-toolbar-row>
     </div>
     <div class="mat-grid-cont " >
@@ -95,7 +95,7 @@
           </mat-form-field>
         </button>
       </mat-menu>
-      <mat-grid-list  cols="{{isDisplayTiled ? 3 : 1}}" rowHeight="{{isDisplayTiled ? 180 : 80}}px" >
+      <mat-grid-list  cols="{{isDisplayTiled ? breakpoint : 1}}" rowHeight="{{isDisplayTiled ? 180 : 80}}px" >
         <div class="wrapper-empty" >
           <p *ngIf="!posts.length" class="emptyPostsArray" > The list of questions is empty</p>
         </div>
@@ -152,11 +152,12 @@
     </div>
 
   </div>
+    <button class="circleButtonAsk"
+            color="accent"
+            mat-raised-button
+            routerLink="/ask"><mat-icon>add</mat-icon></button>
   </mat-drawer-container>
 </ng-template>
-<button class="circleButtonAsk"
-        color="accent"
-        mat-raised-button
-        routerLink="/ask"><mat-icon>add</mat-icon></button>
+
 
 

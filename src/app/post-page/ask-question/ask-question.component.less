@@ -25,7 +25,8 @@ input:-webkit-autofill {
   height: 100%;
 }
 mat-card {
-  height: 74%;
+  height: 450px;
+  min-width: 256px;
   position: relative;
 }
 .mat-form-field {
@@ -73,7 +74,14 @@ small {
 }
 
 
-
+@media screen and (max-width: 400px) {
+  mat-card {
+    height: 400px;
+  }
+  textarea {
+    min-height: 145px;
+  }
+}
 
 
 

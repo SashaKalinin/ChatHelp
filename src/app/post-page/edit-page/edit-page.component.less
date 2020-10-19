@@ -20,7 +20,8 @@
   height: 100%;
 }
 mat-card {
-  height: 74%;
+  height: 450px;
+  min-width: 256px;
   position: relative;
 }
 mat-form-field {
@@ -80,13 +81,9 @@ small {
 }
 
 .container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  align-items: center;
   display: flex;
   justify-content: center;
-
 }
 
 .dash {
@@ -221,5 +218,14 @@ small {
   }
   100% {
     transform: rotate(-360deg);
+  }
+}
+
+@media screen and (max-width: 400px) {
+  mat-card {
+    height: 400px;
+  }
+  textarea {
+    min-height: 145px;
   }
 }

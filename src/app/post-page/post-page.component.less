@@ -171,13 +171,9 @@ mat-grid-tile {
   margin: 0 auto;
 }
 .container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  align-items: center;
   display: flex;
   justify-content: center;
-
 }
 
 .dash {
@@ -401,6 +397,20 @@ button {
 }
 .example-container {
   min-height: 100vh;
+  min-width: 320px;
+}
+.toolBtn {
+  margin: 0 2px 0 2px;
+  min-width: 93px;
+}
+.mat-select-panel {
+  min-width: 132px;
+}
+
+@media  screen and (max-width : 343px) {
+.mat-button {
+  font-size: 12px;
+}
 }
 
 

@@ -86,13 +86,10 @@ mat-card-content {
 
 
 .container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  height: 100%;
+  align-items: center;
   display: flex;
   justify-content: center;
-
 }
 .dash {
   margin: 0 15px;
@@ -228,4 +225,10 @@ mat-card-content {
     transform: rotate(-360deg);
   }
 }
-
+@media  screen and (max-width : 343px) {
+  .returnBtn {
+    position: absolute;
+    top: 0%;
+    left: -2%;
+  }
+}
