@@ -144,10 +144,9 @@ mat-card-content {
   display: none;
 }
 .userName {
-  text-overflow: ellipsis; /* will make [...] at the end */
+  text-overflow: ellipsis;
   overflow:hidden;
-  word-wrap: break-word;
-  width: 40px;
+  white-space: nowrap;
 }
 
 .container {
@@ -173,4 +172,14 @@ mat-card-content {
   color: #c2185b;
   font-size: 16px;
   font-weight: bold;
+}
+@media  screen and (max-width : 534px) {
+  .userName {
+    width: 100px;
+  }
+}
+@media  screen and (max-width : 396px) {
+  .userName {
+    width: 40px;
+  }
 }
