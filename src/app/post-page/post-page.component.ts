@@ -44,7 +44,7 @@ export class PostPageComponent implements OnInit, OnDestroy {
   isDisplayTiled = true;
   selectedTheme = '';
   removed = false;
-  breakpoint = 1;
+  breakpoint: number;
 
 
   constructor(
@@ -67,10 +67,25 @@ export class PostPageComponent implements OnInit, OnDestroy {
       }
       this.displaySelect = this.postService.getItem('display_view') || this.displaySelect;
       this.reverseDisplay();
+      this.displaySelect === 'Tiled' ?  this.onResize() : null;
       this.loadingFlag = false;
     }, err => this.alertService.warning(err.message));
     this.themeSub = this.themeService.selectTheme$
       .subscribe(item => this.selectedTheme = item, err => this.alertService.warning(err.message));
+  }
+
+  onResize(): void {
+    switch (true) {
+      case window.innerWidth <= 400:
+        this.breakpoint = 1;
+        break;
+      case window.innerWidth <= 984:
+        this.breakpoint = 2;
+        break;
+      case window.innerWidth > 984:
+        this.breakpoint = 3;
+        break;
+    }
   }
 
   openDialog(id: string, $event: Event): void {

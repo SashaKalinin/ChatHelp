@@ -94,6 +94,45 @@ describe('PostsPageComponent', () => {
     });
   });
 
+  describe('onResize', () => {
+    let breakpoint: number;
+    const size1 = 398;
+    const size2 = 400;
+    const size3 = 401;
+    const size4 = 984;
+    const size5 = 985;
+    function resize(size): number {
+      switch (true) {
+        case size <= 400:
+          return 1;
+        case size <= 984:
+          return 2;
+        case size > 984:
+          return 3;
+      }
+    }
+    it('breakpoint with window size 398 should be equal 1', () => {
+      breakpoint = resize(size1);
+      expect(breakpoint).toEqual(1);
+    });
+    it('breakpoint with window size 400 should be equal 1', () => {
+      breakpoint = resize(size2);
+      expect(breakpoint).toEqual(1);
+    });
+    it('breakpoint with window size 401 should be equal 2', () => {
+      breakpoint = resize(size3);
+      expect(breakpoint).toEqual(2);
+    });
+    it('breakpoint with window size 984 should be equal 2', () => {
+      breakpoint = resize(size4);
+      expect(breakpoint).toEqual(2);
+    });
+    it('breakpoint with window size 985 should be equal 3', () => {
+      breakpoint = resize(size5);
+      expect(breakpoint).toEqual(3);
+    });
+  });
+
   describe('openDialog', () => {
     const event = new MouseEvent('click');
     it('should call dialog open and argument is a component and obj', async(() => {
