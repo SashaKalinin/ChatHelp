@@ -41,6 +41,7 @@ import {FilterPipePipe} from './shared/Pipes/filter-pipe.pipe';
 import {ThemeService} from './shared/services/theme.service';
 import { DeletePopapComponent } from './post-page/delete-popap/delete-popap.component';
 import {MatSidenavModule} from "@angular/material/sidenav";
+import {LogInGuard} from "./shared/services/log-in.guard";
 
 @NgModule({
   declarations: [
@@ -84,7 +85,7 @@ import {MatSidenavModule} from "@angular/material/sidenav";
         MatSelectModule,
         MatSidenavModule
     ],
-  providers: [AuthService, AuthGuard, PostService, AlertService, ThemeService],
+  providers: [AuthService, AuthGuard, PostService, AlertService, ThemeService, LogInGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
