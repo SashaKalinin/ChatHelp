@@ -75,16 +75,18 @@ export class PostPageComponent implements OnInit, OnDestroy {
   }
 
   onResize(): void {
-    switch (true) {
-      case window.innerWidth <= 400:
-        this.breakpoint = 1;
-        break;
-      case window.innerWidth <= 984:
-        this.breakpoint = 2;
-        break;
-      case window.innerWidth > 984:
-        this.breakpoint = 3;
-        break;
+    if (this.isDisplayTiled) {
+      switch (true) {
+        case window.innerWidth <= 400:
+          this.breakpoint = 1;
+          break;
+        case window.innerWidth <= 984:
+          this.breakpoint = 2;
+          break;
+        case window.innerWidth > 984:
+          this.breakpoint = 3;
+          break;
+      }
     }
   }
 
@@ -143,6 +145,7 @@ export class PostPageComponent implements OnInit, OnDestroy {
   reverseDisplay(): void {
     this.isDisplayTiled = this.displaySelect === 'Tiled';
     this.postService.setItem('display_view', this.displaySelect);
+    this.onResize();
   }
 
   selectedThemeItem(): void {
