@@ -1,27 +1,17 @@
-# ChatHelp
+# **ChatHelp**
+***
+#### ChatHelp is a SPA which helps users find solutions to their questions.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.6.
+_After the registration procedure, the user can go to the application (the password must be more than 6 characters). The user can ask a question on a topic of interest to him. After the user has asked a question, he gets moderated by the administrator, until the administrator has approved the question, it is visible only to the administrator and the author of the question (the author can edit the question). When the administrator has approved the issue, users can leave comments on the issue, if the comment is a solution, the author marks the comment as correct. The comment is highlighted for all users with a green checkmark and the comment is placed in the first position (the check mark can be removed, several correct comments can be marked).
+The application also contains a filter block, sorting by date and settings. In the settings, you can change the display of questions and change the color of the theme._
 
-## Development server
+***Technology stack :***
+* HTML5
+* Less
+* JavaScript Es6
+* TypeScript
+* Angular 
+* RxJs
+* Firebase
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+***Link to the project:*** [ChatHelp](https://chathelp-990b0.firebaseapp.com/login)
