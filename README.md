@@ -13,6 +13,7 @@ The application is responsive for mobile devices._
 * TypeScript
 * Angular 
 * RxJs
+* Angular Material
 * Firebase
 
 ***Link to the project:*** [ChatHelp](https://chathelp-990b0.firebaseapp.com/login)
